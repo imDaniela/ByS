@@ -28,7 +28,7 @@ class _NavigationBar extends State<NavigationBar> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.home,
+            Icons.monitor,
           ),
           label: 'Ventas',
         ),
@@ -37,11 +37,11 @@ class _NavigationBar extends State<NavigationBar> {
           label: 'Buscar',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
+          icon: Icon(Icons.euro),
           label: 'Favoritos',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
+          icon: Icon(Icons.info),
           label: 'Info',
         ),
       ],
