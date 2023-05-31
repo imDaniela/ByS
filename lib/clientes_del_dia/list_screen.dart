@@ -8,7 +8,7 @@ class View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      bottomNavigationBar: NavigationBar(),
+      //bottomNavigationBar: NavigationBar(),
       body: Center(
         child: ListScreen(),
       ),
