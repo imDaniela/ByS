@@ -2,7 +2,7 @@ import 'package:bys_app/inicio_sesion/model/login_resp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GlobalConstants {
-  static String apiEndPoint = "https://classkun.airis.work/api/";
+  static String apiEndPoint = "192.168.18.5:8000/";
   static String? token;
   static String? id;
   static String? email;
