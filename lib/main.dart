@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bys_app/inicio_sesion/login_screen.dart';
+import 'package:bys_app/inicio_sesion/screen/login_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = ThemeData(
       bottomNavigationBarTheme:
-          BottomNavigationBarThemeData(backgroundColor: Colors.black),
+          const BottomNavigationBarThemeData(backgroundColor: Colors.black),
     );
 
     return MaterialApp(
