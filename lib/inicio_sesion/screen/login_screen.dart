@@ -1,3 +1,4 @@
+import 'package:bys_app/inicio_sesion/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/clientes_del_dia/list_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,10 +17,15 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  String dropdownValue = list.first;
+  User? dropdownValue;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
+    return BlocConsumer<LoginBloc, LoginState>(
+        listener: ((context, state) {
+          if (state is LogedIn) {
+            Navigator.of(context).pushReplacementNamed('dias');
+          }
+        }),
         builder: (context, state) => Padding(
             padding: const EdgeInsets.all(10),
             child: ListView(
@@ -44,29 +50,41 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      DropdownButton<String>(
-                        value: dropdownValue,
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            dropdownValue = value!;
-                          });
-                        },
-                        items:
-                            list.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )
-                      // TextField(
+                      Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.0),
+                            color: const Color.fromRGBO(
+                                212, 212, 212, 1), // Set the background color
+                          ),
+                          child: DropdownButton<User>(
+                            isExpanded: true,
+                            value: dropdownValue,
+                            elevation: 16,
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0)),
+                            underline: Container(
+                              width: double.infinity,
+                              height: 0,
+                              color: Colors.transparent,
+                            ),
+                            onChanged: (User? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                dropdownValue = value!;
+                              });
+                            },
+                            items: state is LoginInitial
+                                ? state.usuarios
+                                    ?.map<DropdownMenuItem<User>>((User value) {
+                                    return DropdownMenuItem<User>(
+                                      value: value,
+                                      child: Text(value.NOM),
+                                    );
+                                  }).toList()
+                                : [],
+                          )), // TextField(
                       //     controller: nameController,
                       //     cursorColor: const Color.fromRGBO(142, 11, 44, 1),
                       //     decoration: InputDecoration(
@@ -137,7 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text('Ingresar'),
                       onPressed: () {
                         context.read<LoginBloc>().add(AuthenticateCredentias(
-                            username: '1', password: passwordController.text));
+                            username: dropdownValue?.CODREP.toString(),
+                            password: passwordController.text));
                         // print(nameController.text);
                         // print(passwordController.text);
                         /*Navigator.push(

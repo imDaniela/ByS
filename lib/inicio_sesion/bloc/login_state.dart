@@ -4,14 +4,8 @@ part of 'login_bloc.dart';
 abstract class LoginState {}
 
 class LoginInitial extends LoginState {
-  String? username;
-  String? password;
-  LoginInitial({this.username, this.password}) : super();
-  LoginInitial CopyWith({String? username, String? password}) {
-    return LoginInitial(
-        password: password ?? this.password,
-        username: username ?? this.username);
-  }
+  List<User>? usuarios;
+  LoginInitial({this.usuarios}) : super();
 }
 
 class LogInLoading extends LoginState {

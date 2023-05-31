@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:bys_app/inicio_sesion/model/user.dart';
+import 'package:bys_app/inicio_sesion/screen/login_screen.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:bys_app/general/const.dart';
@@ -50,7 +52,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (await GlobalConstants.LoadSharedPreferences()) {
         emit(LogedIn());
       } else {
-        emit(LoginInitial());
+        List<User>? usuarios = null;
+        http.Response? resp = await LoginApi.Users();
+        if (resp != null) {
+          if (resp.statusCode == 200) {
+            usuarios = await User.fromJsonList(resp.body);
+          }
+        }
+        emit(LoginInitial(usuarios: usuarios));
       }
     });
     on<LogOut>((event, emit) async {

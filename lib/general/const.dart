@@ -7,18 +7,21 @@ class GlobalConstants {
   static String? id;
   static String? email;
   static String? name;
+  static int getHoy() {
+    DateTime now = DateTime.now();
+
+    // Get the day of the week as a number (1-7)
+    int dayOfWeek = now.weekday;
+    return dayOfWeek;
+  }
+
   static Map<String, String> header() {
-    return {
-      'Authorization': "Bearer ${token}",
-      'Content-Type': "application/json"
-    };
+    return {'x-access-token': "${token}", 'Content-Type': "application/json"};
   }
 
   static void storeInSharedPreferenced(LoginResp resp) async {
     token = resp.token;
-    id = resp.user?.id;
-    name = resp.user?.name;
-    email = resp.user?.email;
+
     final shar = await SharedPreferences.getInstance();
     if (token != null) {
       shar.setString('token', token!);

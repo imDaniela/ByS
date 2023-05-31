@@ -1,48 +1,43 @@
 import 'dart:convert';
 
 class User {
-  String? id;
-  String? name;
-  String? email;
+  int CODREP;
+  String NOM;
   User({
-    this.id,
-    this.name,
-    this.email,
+    required this.CODREP,
+    required this.NOM,
   });
 
   User copyWith({
-    String? id,
-    String? name,
-    String? email,
+    int? CODREP,
+    String? NOM,
   }) {
     return User(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      email: email ?? this.email,
+      CODREP: CODREP ?? this.CODREP,
+      NOM: NOM ?? this.NOM,
     );
+  }
+
+  static List<User>? fromJsonList(String source) {
+    List<dynamic> elementos = jsonDecode(source);
+    return List<User>.from(elementos.map((e) {
+      return User.fromMap(e);
+    }));
   }
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    if (id != null) {
-      result.addAll({'id': id});
-    }
-    if (name != null) {
-      result.addAll({'name': name});
-    }
-    if (email != null) {
-      result.addAll({'email': email});
-    }
+    result.addAll({'CODREP': CODREP});
+    result.addAll({'NOM': NOM});
 
     return result;
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['_id'] ?? map['id'],
-      name: map['name'],
-      email: map['email'],
+      CODREP: map['CODREP']?.toInt() ?? 0,
+      NOM: map['NOM'] ?? '',
     );
   }
 
@@ -51,18 +46,15 @@ class User {
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 
   @override
-  String toString() => 'User(id: $id, name: $name, email: $email)';
+  String toString() => 'User(CODREP: $CODREP, NOM: $NOM)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is User &&
-        other.id == id &&
-        other.name == name &&
-        other.email == email;
+    return other is User && other.CODREP == CODREP && other.NOM == NOM;
   }
 
   @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ email.hashCode;
+  int get hashCode => CODREP.hashCode ^ NOM.hashCode;
 }

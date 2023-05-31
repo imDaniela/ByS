@@ -1,3 +1,4 @@
+import 'package:bys_app/general/const.dart';
 import 'package:flutter/material.dart';
 
 class DaySelector extends StatefulWidget {
@@ -15,6 +16,14 @@ class _DaySelectorState extends State<DaySelector> {
     setState(() {
       selected_index = cambio;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selected_index = GlobalConstants.getHoy();
+    if (widget.onChanged != null) widget.onChanged!(selected_index);
   }
 
   @override
