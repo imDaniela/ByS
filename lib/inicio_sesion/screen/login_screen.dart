@@ -136,12 +136,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ElevatedButton(
                       child: const Text('Ingresar'),
                       onPressed: () {
+                        context.read<LoginBloc>().add(AuthenticateCredentias(
+                            username: '1', password: passwordController.text));
                         // print(nameController.text);
                         // print(passwordController.text);
-                        Navigator.push(
+                        /*Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => View()),
-                        );
+                        );*/
                       },
                       style: ElevatedButton.styleFrom(
                           primary: const Color.fromRGBO(142, 11, 44,
