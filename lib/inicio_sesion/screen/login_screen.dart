@@ -107,12 +107,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ElevatedButton(
                   child: const Text('Ingresar'),
                   onPressed: () {
-                    // print(nameController.text);
-                    // print(passwordController.text);
-                    Navigator.push(
+                    print(nameController.text);
+                    print(passwordController.text);
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => View()),
-                    );
+                    );*/
                   },
                   style: ElevatedButton.styleFrom(
                       primary: const Color.fromRGBO(142, 11, 44,
