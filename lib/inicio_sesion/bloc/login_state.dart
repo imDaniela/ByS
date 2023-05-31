@@ -26,3 +26,7 @@ class LoginError extends LoginState {
 class LogedIn extends LoginState {
   LogedIn() : super();
 }
+
+class Users extends LoginState {
+  List<String>? list;
+}

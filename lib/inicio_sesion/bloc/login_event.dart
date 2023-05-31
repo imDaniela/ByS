@@ -18,3 +18,5 @@ class LoginAddData extends LoginEvent {
   String? password;
   LoginAddData({this.username, this.password});
 }
+
+class getUsersList extends LoginEvent {}

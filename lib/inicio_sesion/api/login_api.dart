@@ -10,4 +10,11 @@ class LoginApi {
         .post(Uri.parse('${GlobalConstants.apiEndPoint}login'), body: body);
     return result;
   }
+
+  static Future<http.Response> Users() async {
+    print('get users');
+    http.Response result =
+        await http.get(Uri.parse('${GlobalConstants.apiEndPoint}get-users'));
+    return result;
+  }
 }

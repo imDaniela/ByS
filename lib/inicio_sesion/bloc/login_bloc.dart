@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -64,5 +65,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginInitial());
       GlobalConstants.cleanSharedPreferences();
     });
+    on<getUsersList>((event, emit) {});
   }
 }
