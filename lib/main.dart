@@ -1,5 +1,6 @@
 import 'package:bys_app/clientes_del_dia/day_selector.dart';
 import 'package:bys_app/clientes_del_dia/list_screen.dart';
+import 'package:bys_app/clientes_del_dia/client_screen.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
           theme: theme,
           routes: {
             'login': (context) => LoginScreen(),
-            'dias': (context) => DayScreen()
+            'dias': (context) => DayScreen(),
+            'client': (context) => ClientScreen(),
           },
           home: const Scaffold(
             // appBar: AppBar(

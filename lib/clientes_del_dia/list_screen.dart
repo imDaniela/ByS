@@ -175,17 +175,20 @@ class _ListScreen extends State<ListScreen> {
     if (clientes == null) return [];
     clientes.forEach((cliente) {
       resultado.add(DataRow(
-        cells: <DataCell>[
-          DataCell(Text(cliente.codcli.toString())),
-          DataCell(Text(cliente.cal2)),
-          DataCell(Text(cliente.ordenvisit)),
-          DataCell(Text(cliente.ampm)),
-          DataCell(Text('')),
-          DataCell(Text(cliente.nom))
-        ],
-      ));
+          cells: <DataCell>[
+            DataCell(Text(cliente.codcli.toString())),
+            DataCell(Text(cliente.cal2)),
+            DataCell(Text(cliente.ordenvisit)),
+            DataCell(Text(cliente.ampm)),
+            DataCell(Text('')),
+            DataCell(Text(cliente.nom))
+          ],
+          onSelectChanged: (bool? selected) {
+            if (selected != null && selected) {
+              Navigator.of(context).pushReplacementNamed('client');
+            }
+          }));
     });
-    for (int i = 0; i < 100; i++) {}
     return resultado;
   }
 }
