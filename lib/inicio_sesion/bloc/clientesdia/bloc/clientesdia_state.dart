@@ -16,5 +16,6 @@ class ClientesdiaLoading extends ClientesdiaState {}
 
 class ClientesdiaLoaded extends ClientesdiaState {
   List<ClientesDia>? clientes;
+  ClientesDia? cliente;
   ClientesdiaLoaded({this.clientes}) : super();
 }

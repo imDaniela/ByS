@@ -4,6 +4,8 @@ import 'package:bys_app/clientes_del_dia/client_screen.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
+import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
+import 'package:bys_app/pedidos/pedidos.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/inicio_sesion/screen/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +27,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => LoginBloc()..add(LoadToken())),
-          BlocProvider(create: (context) => ClientesdiaBloc())
+          BlocProvider(create: (context) => ClientesdiaBloc()),
+          BlocProvider(create: (context) => PedidosBloc())
         ],
         child: MaterialApp(
           title: title,
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
             'login': (context) => LoginScreen(),
             'dias': (context) => DayScreen(),
             'client': (context) => ClientScreen(),
+            'pedidos': (context) => PedidosScreen(),
           },
           home: const Scaffold(
             // appBar: AppBar(

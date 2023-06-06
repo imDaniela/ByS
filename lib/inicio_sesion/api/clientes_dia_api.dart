@@ -15,5 +15,6 @@ class ClientesDiaApi {
     } catch (ex) {
       print(ex);
     }
+    return null;
   }
 }

@@ -24,5 +24,12 @@ class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
         }
       }
     });
+    on<SelectClienteDia>((event, emit) {
+      if (state is ClientesdiaLoaded) {
+        ClientesdiaLoaded esta = state as ClientesdiaLoaded;
+        esta.cliente = event.cliente;
+        emit(esta);
+      }
+    });
   }
 }

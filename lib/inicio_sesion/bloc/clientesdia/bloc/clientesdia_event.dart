@@ -11,3 +11,8 @@ class LoadClientesDia extends ClientesdiaEvent {
   int? dia;
   LoadClientesDia({this.dia});
 }
+
+class SelectClienteDia extends ClientesdiaEvent {
+  ClientesDia cliente;
+  SelectClienteDia(this.cliente);
+}

@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'package:bys_app/general/const.dart';
-import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
 
 class LoginApi {
   static Future<http.Response?> LogAuth(
@@ -17,10 +16,12 @@ class LoginApi {
     } catch (ex) {
       print(ex);
     }
+    return null;
   }
 
   static Future<http.Response> Users() async {
     print('get users');
+    print('${GlobalConstants.apiEndPoint}get-users');
     http.Response result =
         await http.get(Uri.parse('${GlobalConstants.apiEndPoint}get-users'));
     return result;

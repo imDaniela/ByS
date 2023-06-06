@@ -1,12 +1,15 @@
 import 'package:bys_app/inicio_sesion/model/login_resp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class GlobalConstants {
-  static String apiEndPoint = "http://192.168.18.5:8000/";
+  static String apiEndPoint = "http://192.168.18.9:3000/";
   static String? token;
   static String? id;
   static String? email;
   static String? name;
+  static DateFormat format = DateFormat('d-M-y');
+
   static int getHoy() {
     DateTime now = DateTime.now();
 
