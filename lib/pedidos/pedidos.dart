@@ -2,7 +2,9 @@ import 'package:bys_app/clientes_del_dia/bloc/cliente_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/pedidos/deudaDialog.dart';
+import 'package:bys_app/pedidos/lineapedidoDialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PedidosScreen extends StatelessWidget {
@@ -26,7 +28,8 @@ class _PedidosScreenState extends State<_PedidosScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    openDeudaDialog(context.read<PedidosBloc>().state);
+    SchedulerBinding.instance.addPostFrameCallback(
+        (_) => openDeudaDialog(context.read<PedidosBloc>().state));
   }
 
   void openDeudaDialog(PedidosState state) {
@@ -34,6 +37,7 @@ class _PedidosScreenState extends State<_PedidosScreen> {
     if (state is PedidosDeuda) {
       DialogHelper.openDialogWithData(
           context, state.deuda.deuda, state.deuda.detalles);
+      context.read<PedidosBloc>().add(InitPedidoBuild());
     }
   }
 
@@ -47,182 +51,139 @@ class _PedidosScreenState extends State<_PedidosScreen> {
         return Scaffold(
             floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.add),
-                onPressed: () {},
+                onPressed: () {
+                  LineaPedidoDialog.openDialogWithData(context);
+                },
                 backgroundColor: Color.fromRGBO(142, 11, 44, 1)),
-            body: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+            body: Container(
                 child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: 60, bottom: 40),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(bottom: 10),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Nombre Cliente", // Add your label text here
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize: 30, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                              width: 10000000,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: TextField(
-                                  cursorColor:
-                                      const Color.fromRGBO(142, 11, 44, 1),
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(50.0),
-                                    ),
-                                    prefixIcon: const Icon(
-                                      Icons.search,
-                                      color: Colors.grey,
-                                    ), // Ícono antes del texto
-                                    filled:
-                                        true, // Enable filling the TextField background
-                                    fillColor: const Color.fromRGBO(212, 212,
-                                        212, 1), // Set the background color
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          color: Color.fromRGBO(142, 11, 44,
-                                              1)), // Set the border color when focused
-                                      borderRadius: BorderRadius.circular(50.0),
-                                    ),
-                                  ))),
-                        ],
-                      ),
-                    ),
-                    Expanded(
+              children: <Widget>[
+                Expanded(
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
                         child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: DataTable(
-                                  headingRowColor: MaterialStateProperty
-                                      .resolveWith<Color>((states) =>
+                          scrollDirection: Axis.vertical,
+                          child: DataTable(
+                              headingRowColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                      (states) =>
                                           const Color.fromRGBO(142, 11, 44, 1)),
-                                  columns: const <DataColumn>[
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Código',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                              columns: const <DataColumn>[
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Código',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Cod. Art',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Cod. Art',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Descripcion',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Descripcion',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Unid. Hoy',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Unid. Hoy',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Total año',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Total año',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Mes 1',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Mes 1',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Mes 2',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Mes 2',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Mes 3',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Mes 3',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Mes 4',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Mes 4',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Mes 5',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Mes 5',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Mes 6',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
-                                        ),
-                                      ),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Expanded(
+                                    child: Text(
+                                      'Mes 6',
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white),
                                     ),
-                                  ],
-                                  rows: []),
-                            ))),
-                  ],
-                )));
+                                  ),
+                                ),
+                              ],
+                              rows: []),
+                        ))),
+              ],
+            )));
       },
     );
   }

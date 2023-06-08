@@ -7,6 +7,8 @@ abstract class PedidosEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitPedidoBuild extends PedidosEvent {}
+
 class CheckDeudaEvent extends PedidosEvent {
   final int codcli;
   const CheckDeudaEvent(this.codcli);

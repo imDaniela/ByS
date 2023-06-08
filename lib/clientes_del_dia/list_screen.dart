@@ -190,7 +190,7 @@ class _ListScreen extends State<ListScreen> {
             if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<PedidosBloc>().add(CheckDeudaEvent(cliente.codcli));
-              Navigator.of(context).pushNamed('pedidos');
+              Navigator.of(context).pushNamed('zona_clientes');
             }
           }));
     });

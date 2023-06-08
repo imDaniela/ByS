@@ -6,6 +6,8 @@ import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/pedidos/pedidos.dart';
+import 'package:bys_app/pedidos/zonacliente.dart';
+import 'package:bys_app/productos/bloc/productos_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/inicio_sesion/screen/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => LoginBloc()..add(LoadToken())),
           BlocProvider(create: (context) => ClientesdiaBloc()),
-          BlocProvider(create: (context) => PedidosBloc())
+          BlocProvider(create: (context) => PedidosBloc()),
+          BlocProvider(create: (context) => ProductosBloc())
         ],
         child: MaterialApp(
           title: title,
@@ -38,6 +41,7 @@ class MyApp extends StatelessWidget {
             'dias': (context) => DayScreen(),
             'client': (context) => ClientScreen(),
             'pedidos': (context) => PedidosScreen(),
+            'zona_clientes': (context) => ZonaCliente(),
           },
           home: const Scaffold(
             // appBar: AppBar(

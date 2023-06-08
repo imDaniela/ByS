@@ -20,4 +20,9 @@ class PedidosDeuda extends PedidosState {
   const PedidosDeuda(this.deuda) : super();
 }
 
+class PedidoBuilding extends PedidosState {
+  final List<PedidoLinea> lineas;
+  const PedidoBuilding({this.lineas = const []}) : super();
+}
+
 class PedidosInitial extends PedidosState {}
