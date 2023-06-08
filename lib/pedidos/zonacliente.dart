@@ -23,7 +23,7 @@ class _ZonaClienteState extends State<ZonaCliente> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color.fromRGBO(142, 11, 44, 1),
@@ -39,10 +39,13 @@ class _ZonaClienteState extends State<ZonaCliente> {
                   icon: Text('Pedido'),
                 ),
                 Tab(
-                  icon: Icon(Icons.beach_access_sharp),
+                  icon: Text('Histórico Ventas'),
                 ),
                 Tab(
-                  icon: Icon(Icons.brightness_5_sharp),
+                  icon: Text('Alb. Pdte. Facturar'),
+                ),
+                Tab(
+                  icon: Text('Fact. Últimos meses'),
                 ),
               ],
             ),
@@ -51,10 +54,13 @@ class _ZonaClienteState extends State<ZonaCliente> {
             children: <Widget>[
               PedidosScreen(),
               Center(
-                child: Text("It's rainy here"),
+                child: Text("WIP"),
               ),
               Center(
-                child: Text("It's sunny here"),
+                child: Text("WIP"),
+              ),
+              Center(
+                child: Text("WIP"),
               ),
             ],
           ),

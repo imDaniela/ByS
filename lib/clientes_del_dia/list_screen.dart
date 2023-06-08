@@ -28,6 +28,7 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreen extends State<ListScreen> {
+  TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,7 +39,7 @@ class _ListScreen extends State<ListScreen> {
                     Container(
                       padding: const EdgeInsets.only(top: 60, bottom: 40),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Container(
                             padding: EdgeInsets.only(bottom: 10),
@@ -55,6 +56,12 @@ class _ListScreen extends State<ListScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: TextField(
+                                  controller: _controller,
+                                  onChanged: (val) {
+                                    context
+                                        .read<ClientesdiaBloc>()
+                                        .add(SearchCliente(val));
+                                  },
                                   cursorColor:
                                       const Color.fromRGBO(142, 11, 44, 1),
                                   decoration: InputDecoration(
@@ -83,9 +90,8 @@ class _ListScreen extends State<ListScreen> {
                     ),
                     DaySelector(
                       onChanged: (index) {
-                        context
-                            .read<ClientesdiaBloc>()
-                            .add(LoadClientesDia(dia: index));
+                        context.read<ClientesdiaBloc>().add(LoadClientesDia(
+                            dia: index, search: _controller.text));
                       },
                     ),
                     Expanded(
@@ -150,7 +156,8 @@ class _ListScreen extends State<ListScreen> {
                                       ),
                                     ),
                                     DataColumn(
-                                      label: Expanded(
+                                      label: SizedBox(
+                                        width: 700,
                                         child: Text(
                                           'Nombre fiscal',
                                           style: TextStyle(
@@ -161,7 +168,9 @@ class _ListScreen extends State<ListScreen> {
                                     ),
                                   ],
                                   rows: state is ClientesdiaLoaded
-                                      ? listado(state.clientes)
+                                      ? listado(_controller.text != ''
+                                          ? state.clientes
+                                          : state.clientes_all)
                                       : []),
                             ))),
                     state is ClientesdiaLoading

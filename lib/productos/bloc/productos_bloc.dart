@@ -20,7 +20,26 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
           temp.forEach((element) {
             productos.add(Producto.fromMap(element));
           });
-          emit(ProductosInitial(productos: productos));
+          emit(
+              ProductosInitial(productos: productos, productos_all: productos));
+        }
+      }
+    });
+    on<SearchProductos>((event, emit) {
+      if (state is ProductosInitial) {
+        ProductosInitial estado = state as ProductosInitial;
+        emit(ProductosLoading());
+        if (event.search == '') {
+          emit(ProductosInitial(
+              productos: estado.productos_all,
+              productos_all: estado.productos_all));
+        } else {
+          List<Producto> productos = estado.productos_all.toList();
+          productos.removeWhere((element) =>
+              element.des.toUpperCase().contains(event.search.toUpperCase()) ==
+              false);
+          emit(ProductosInitial(
+              productos: productos, productos_all: estado.productos_all));
         }
       }
     });

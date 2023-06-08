@@ -37,7 +37,7 @@ class ClienteSaldoPendiente {
           (x) => FacturaPendiente.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      deuda: map['deuda'] as double,
+      deuda: double.tryParse(map['deuda'].toString()) ?? 0,
     );
   }
 

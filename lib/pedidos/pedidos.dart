@@ -3,6 +3,8 @@ import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dar
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/pedidos/deudaDialog.dart';
 import 'package:bys_app/pedidos/lineapedidoDialog.dart';
+import 'package:bys_app/pedidos/models/PedidoLinea.dart';
+import 'package:bys_app/productos/models/producto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,155 +57,137 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                   LineaPedidoDialog.openDialogWithData(context);
                 },
                 backgroundColor: Color.fromRGBO(142, 11, 44, 1)),
-            body: Container(
-                child: Column(
-              children: <Widget>[
-                Expanded(
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: DataTable(
-                              headingRowColor:
-                                  MaterialStateProperty.resolveWith<Color>(
-                                      (states) =>
-                                          const Color.fromRGBO(142, 11, 44, 1)),
-                              columns: const <DataColumn>[
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Código',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Cod. Art',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Descripcion',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Unid. Hoy',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Total año',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Mes 1',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Mes 2',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Mes 3',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Mes 4',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Mes 5',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Expanded(
-                                    child: Text(
-                                      'Mes 6',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                              rows: []),
-                        ))),
-              ],
-            )));
+            body: BlocBuilder<PedidosBloc, PedidosState>(
+                builder: (context, state) => Container(
+                        child: Column(
+                      children: <Widget>[
+                        Expanded(
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: DataTable(
+                                      showCheckboxColumn: false,
+                                      headingRowColor: MaterialStateProperty
+                                          .resolveWith<Color>((states) =>
+                                              const Color.fromRGBO(
+                                                  142, 11, 44, 1)),
+                                      columns: const <DataColumn>[
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Cod. Art',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Descripción',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Cantidad',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Precio',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              '% Dto',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'SubTotal',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: SizedBox(
+                                            width: 1000,
+                                            child: Text(
+                                              'Accion',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                      rows: state is PedidoBuilding
+                                          ? listado(state.lineas)
+                                          : []),
+                                ))),
+                      ],
+                    ))));
       },
     );
   }
 
-  // List<DataRow> listado(List<ClientesDia>? clientes) {
-  //   List<DataRow> resultado = [];
-  //   if (clientes == null) return [];
-  //   clientes.forEach((cliente) {
-  //     resultado.add(DataRow(
-  //       cells: <DataCell>[
-  //         DataCell(Text(cliente.codcli.toString())),
-  //         DataCell(Text(cliente.cal2)),
-  //         DataCell(Text(cliente.ordenvisit)),
-  //         DataCell(Text(cliente.ampm)),
-  //         DataCell(Text('')),
-  //         DataCell(Text(cliente.nom))
-  //       ],
-  //     ));
-  //   });
-  //   for (int i = 0; i < 100; i++) {}
-  //   return resultado;
-  // }
+  List<DataRow> listado(List<PedidoLinea>? lineas) {
+    List<DataRow> resultado = [];
+    if (lineas == null) return [];
+    for (int index = 0; index < lineas.length; index++) {
+      PedidoLinea linea = lineas[index];
+
+      double subtotal = linea.cantidad * linea.precio;
+      resultado.add(DataRow(
+          cells: <DataCell>[
+            DataCell(Text(linea.codart.toString())),
+            DataCell(Text(linea.nombre ?? '')),
+            DataCell(Text(linea.cantidad.toString())),
+            DataCell(Text(linea.precio.toString())),
+            DataCell(Text('0')),
+            DataCell(Text(subtotal.toStringAsFixed(2))),
+            DataCell(Text(''))
+          ],
+          onSelectChanged: (value) => {
+                if (value == true)
+                  {
+                    LineaPedido2Dialog.openDialogWithData(
+                        context,
+                        Producto(
+                            codart: linea.codart,
+                            des: linea.nombre ?? '',
+                            sto: linea.sto,
+                            prevena: linea.precio),
+                        index: int.parse(index.toString()),
+                        cantidad: linea.cantidad)
+                  }
+              }));
+    }
+
+    return resultado;
+  }
 }

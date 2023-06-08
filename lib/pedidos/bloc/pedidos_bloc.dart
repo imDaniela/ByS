@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bys_app/pedidos/api/pedidos_api.dart';
 import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
 import 'package:bys_app/pedidos/models/PedidoLinea.dart';
+import 'package:bys_app/productos/models/producto.dart';
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,40 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
   PedidosBloc() : super(PedidosInitial()) {
     on<InitPedidoBuild>((event, emit) async {
       emit(PedidoBuilding());
+    });
+    on<PedidosAddLinea>((event, emit) async {
+      List<PedidoLinea> lineas;
+
+      if (state is PedidoBuilding) {
+        lineas = (state as PedidoBuilding).lineas;
+      } else {
+        lineas = [];
+      }
+      emit(PedidoLoading());
+      lineas.add(PedidoLinea(
+          codart: event.producto.codart,
+          cantidad: event.cantidad,
+          nombre: event.producto.des,
+          precio: event.producto.prevena,
+          sto: event.producto.sto));
+      print(lineas);
+      emit(PedidoBuilding(lineas: lineas));
+    });
+    on<PedidosUpdateLinea>((event, emit) async {
+      List<PedidoLinea> lineas;
+
+      if (state is PedidoBuilding) {
+        lineas = (state as PedidoBuilding).lineas;
+        emit(PedidoLoading());
+        lineas[event.index] = (PedidoLinea(
+            codart: event.producto.codart,
+            cantidad: event.cantidad,
+            nombre: event.producto.des,
+            precio: event.producto.prevena,
+            sto: event.producto.sto));
+        print(lineas);
+        emit(PedidoBuilding(lineas: lineas));
+      }
     });
 
     on<CheckDeudaEvent>((event, emit) async {

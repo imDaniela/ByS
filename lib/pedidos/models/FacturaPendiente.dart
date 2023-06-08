@@ -71,7 +71,9 @@ class FacturaPendiente {
           map['imprec'] != null ? double.parse(map['imprec'].toString()) : null,
       impcob:
           map['impcob'] != null ? double.parse(map['impcob'].toString()) : null,
-      restofactura: map['restofactura'] != null ? map['restofactura'] : null,
+      restofactura: map['restofactura'] != null
+          ? double.parse(map['restofactura'].toString())
+          : null,
     );
   }
 

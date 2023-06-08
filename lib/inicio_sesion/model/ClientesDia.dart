@@ -74,6 +74,10 @@ class ClientesDia {
     return 'ClientesDia(codcli: $codcli, ordenvisit: $ordenvisit, ampm: $ampm, Ordgeo2: $Ordgeo2, Ordgeo1: $Ordgeo1, cal2: $cal2, nom: $nom)';
   }
 
+  String toStringSearch() {
+    return '$codcli $ordenvisit $ampm $Ordgeo2 $Ordgeo1 $cal2 $nom';
+  }
+
   static List<ClientesDia>? fromJsonList(String source) {
     List<dynamic> elementos = jsonDecode(source);
     return List<ClientesDia>.from(elementos.map((e) {

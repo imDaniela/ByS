@@ -7,9 +7,15 @@ abstract class ClientesdiaEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class SearchCliente extends ClientesdiaEvent {
+  final String search;
+  const SearchCliente(this.search);
+}
+
 class LoadClientesDia extends ClientesdiaEvent {
   int? dia;
-  LoadClientesDia({this.dia});
+  String? search;
+  LoadClientesDia({this.dia, this.search});
 }
 
 class SelectClienteDia extends ClientesdiaEvent {

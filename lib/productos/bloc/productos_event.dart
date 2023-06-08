@@ -7,4 +7,9 @@ abstract class ProductosEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class SearchProductos extends ProductosEvent {
+  final String search;
+  SearchProductos(this.search);
+}
+
 class LoadProductos extends ProductosEvent {}

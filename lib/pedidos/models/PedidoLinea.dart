@@ -7,13 +7,14 @@ class PedidoLinea {
   int cantidad;
   double precio;
   double? descuento;
-  PedidoLinea({
-    required this.codart,
-    this.nombre,
-    required this.cantidad,
-    required this.precio,
-    this.descuento,
-  });
+  int sto;
+  PedidoLinea(
+      {required this.codart,
+      this.nombre,
+      required this.cantidad,
+      required this.precio,
+      this.descuento,
+      this.sto = 0});
 
   PedidoLinea copyWith({
     int? codart,
@@ -21,14 +22,15 @@ class PedidoLinea {
     int? cantidad,
     double? precio,
     double? descuento,
+    int sto = 0,
   }) {
     return PedidoLinea(
-      codart: codart ?? this.codart,
-      nombre: nombre ?? this.nombre,
-      cantidad: cantidad ?? this.cantidad,
-      precio: precio ?? this.precio,
-      descuento: descuento ?? this.descuento,
-    );
+        codart: codart ?? this.codart,
+        nombre: nombre ?? this.nombre,
+        cantidad: cantidad ?? this.cantidad,
+        precio: precio ?? this.precio,
+        descuento: descuento ?? this.descuento,
+        sto: sto ?? this.sto);
   }
 
   Map<String, dynamic> toMap() {
@@ -38,6 +40,7 @@ class PedidoLinea {
       'cantidad': cantidad,
       'precio': precio,
       'descuento': descuento,
+      'sto': sto,
     };
   }
 
@@ -48,6 +51,7 @@ class PedidoLinea {
       cantidad: map['cantidad'] as int,
       precio: map['precio'] as double,
       descuento: map['descuento'] != null ? map['descuento'] as double : null,
+      sto: map['sto'] as int,
     );
   }
 
@@ -58,7 +62,7 @@ class PedidoLinea {
 
   @override
   String toString() {
-    return 'PedidoLinea(codart: $codart, nombre: $nombre, cantidad: $cantidad, precio: $precio, descuento: $descuento)';
+    return 'PedidoLinea(codart: $codart, nombre: $nombre, cantidad: $cantidad, precio: $precio, descuento: $descuento,stock: ${sto})';
   }
 
   @override
@@ -69,7 +73,8 @@ class PedidoLinea {
         other.nombre == nombre &&
         other.cantidad == cantidad &&
         other.precio == precio &&
-        other.descuento == descuento;
+        other.descuento == descuento &&
+        other.sto == sto;
   }
 
   @override
@@ -78,6 +83,7 @@ class PedidoLinea {
         nombre.hashCode ^
         cantidad.hashCode ^
         precio.hashCode ^
-        descuento.hashCode;
+        descuento.hashCode ^
+        sto.hashCode;
   }
 }
