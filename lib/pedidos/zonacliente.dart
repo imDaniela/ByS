@@ -1,3 +1,5 @@
+import 'package:bys_app/clientes_del_dia/client_screen.dart';
+import 'package:bys_app/clientes_del_dia/list_screen.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos/pedidos.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
@@ -53,9 +55,7 @@ class _ZonaClienteState extends State<ZonaCliente> {
           body: const TabBarView(
             children: <Widget>[
               PedidosScreen(),
-              Center(
-                child: Text("WIP"),
-              ),
+              ClienteHistorial(),
               Center(
                 child: Text("WIP"),
               ),

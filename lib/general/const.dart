@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class GlobalConstants {
-  static String apiEndPoint = "http://192.168.18.5:3000/";
+  static String apiEndPoint = "http://192.168.18.7:3000/";
   static String? token;
   static String? id;
   static String? email;

@@ -12,81 +12,29 @@ class ClientScreen extends StatelessWidget {
       //bottomNavigationBar: NavigationBar(),
       appBar: AppBar(),
       body: Center(
-        child: ListScreen(),
+        child: ClienteHistorial(),
       ),
     );
   }
 }
 
-class ListScreen extends StatefulWidget {
-  const ListScreen({Key? key}) : super(key: key);
+class ClienteHistorial extends StatefulWidget {
+  const ClienteHistorial({Key? key}) : super(key: key);
 
   @override
-  State<ListScreen> createState() => _ListScreen();
+  State<ClienteHistorial> createState() => _ClienteHistorial();
 }
 
-class _ListScreen extends State<ListScreen> {
+class _ClienteHistorial extends State<ClienteHistorial> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HistoryBloc, HistoryState>(builder: (context, state) {
       if (state is HistoryLoaded) {
         context.read<HistoryBloc>();
-        return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+        return Container(
             child: BlocBuilder<HistoryBloc, HistoryState>(
                 builder: (context, state) => Column(
                       children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(top: 60, bottom: 40),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(bottom: 10),
-                                alignment: Alignment.center,
-                                child: const Text(
-                                  'Nombre Cliente', // Add your label text here
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Container(
-                                  width: 10000000,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: TextField(
-                                      cursorColor:
-                                          const Color.fromRGBO(142, 11, 44, 1),
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                          borderRadius:
-                                              BorderRadius.circular(50.0),
-                                        ),
-                                        prefixIcon: const Icon(
-                                          Icons.search,
-                                          color: Colors.grey,
-                                        ), // Ícono antes del texto
-                                        filled:
-                                            true, // Enable filling the TextField background
-                                        fillColor: const Color.fromRGBO(
-                                            212,
-                                            212,
-                                            212,
-                                            1), // Set the background color
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color.fromRGBO(142, 11, 44,
-                                                  1)), // Set the border color when focused
-                                          borderRadius:
-                                              BorderRadius.circular(50.0),
-                                        ),
-                                      ))),
-                            ],
-                          ),
-                        ),
                         Expanded(
                             child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
