@@ -134,8 +134,7 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                                           ),
                                         ),
                                         DataColumn(
-                                          label: SizedBox(
-                                            width: 1000,
+                                          label: Expanded(
                                             child: Text(
                                               'Accion',
                                               style: TextStyle(
@@ -170,7 +169,16 @@ class _PedidosScreenState extends State<_PedidosScreen> {
             DataCell(Text(linea.precio.toString())),
             DataCell(Text('0')),
             DataCell(Text(subtotal.toStringAsFixed(2))),
-            DataCell(Text(''))
+            DataCell(InkWell(
+                onTap: () {
+                  context.read<PedidosBloc>().add(DeleteLinea(index: index));
+                },
+                child: Container(
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                )))
           ],
           onSelectChanged: (value) => {
                 if (value == true)

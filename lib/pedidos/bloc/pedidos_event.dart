@@ -15,6 +15,12 @@ class PedidosAddLinea extends PedidosEvent {
   const PedidosAddLinea({required this.cantidad, required this.producto});
 }
 
+class DeleteLinea extends PedidosEvent {
+  final int index;
+
+  const DeleteLinea({required this.index});
+}
+
 class PedidosUpdateLinea extends PedidosEvent {
   final Producto producto;
   final int cantidad;

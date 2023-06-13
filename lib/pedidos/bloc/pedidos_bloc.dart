@@ -18,7 +18,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       List<PedidoLinea> lineas;
 
       if (state is PedidoBuilding) {
-        lineas = (state as PedidoBuilding).lineas;
+        lineas = (state as PedidoBuilding).lineas.toList();
       } else {
         lineas = [];
       }
@@ -32,6 +32,15 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       print(lineas);
       emit(PedidoBuilding(lineas: lineas));
     });
+    on<DeleteLinea>((event, emit) async {
+      if (state is PedidoBuilding) {
+        List<PedidoLinea> lineas = (state as PedidoBuilding).lineas;
+        emit(PedidoLoading());
+        lineas.removeAt(event.index);
+        emit(PedidoBuilding(lineas: lineas));
+      }
+    });
+
     on<PedidosUpdateLinea>((event, emit) async {
       List<PedidoLinea> lineas;
 
