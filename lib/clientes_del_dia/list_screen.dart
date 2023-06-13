@@ -1,4 +1,5 @@
 import 'package:bys_app/clientes_del_dia/day_selector.dart';
+import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
@@ -199,6 +200,9 @@ class _ListScreen extends State<ListScreen> {
             if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<PedidosBloc>().add(CheckDeudaEvent(cliente.codcli));
+              context
+                  .read<HistoryBloc>()
+                  .add(LoadHistory(codcli: cliente.codcli));
               Navigator.of(context).pushNamed('zona_clientes');
             }
           }));
