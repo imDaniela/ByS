@@ -1,6 +1,7 @@
 import 'package:bys_app/inicio_sesion/model/login_resp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:bys_app/productos/models/producto.dart';
 
 class GlobalConstants {
   static String apiEndPoint = "http://192.168.18.7:3000/";
@@ -9,6 +10,14 @@ class GlobalConstants {
   static String? email;
   static String? name;
   static DateFormat format = DateFormat('d-M-y');
+  static List<Producto> productos = [];
+  static Producto? findProducto(int codart) {
+    try {
+      return productos.firstWhere((element) => element.codart == codart);
+    } catch (ex) {
+      return null;
+    }
+  }
 
   static int getHoy() {
     DateTime now = DateTime.now();

@@ -191,7 +191,7 @@ class LineaPedido2Dialog {
                 if (index == null) {
                   context.read<PedidosBloc>().add(PedidosAddLinea(
                       cantidad: int.parse(_controller.text),
-                      producto: producto));
+                      codart: producto.codart));
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 } else {

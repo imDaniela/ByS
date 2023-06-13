@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bys_app/general/const.dart';
 import 'package:bys_app/pedidos/api/pedidos_api.dart';
 import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
 import 'package:bys_app/pedidos/models/PedidoLinea.dart';
@@ -23,12 +24,17 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
         lineas = [];
       }
       emit(PedidoLoading());
-      lineas.add(PedidoLinea(
-          codart: event.producto.codart,
-          cantidad: event.cantidad,
-          nombre: event.producto.des,
-          precio: event.producto.prevena,
-          sto: event.producto.sto));
+      Producto? producto = GlobalConstants.findProducto(event.codart);
+      if (producto != null) {
+        lineas.add(PedidoLinea(
+            codart: event.codart,
+            cantidad: event.cantidad,
+            nombre: producto.des,
+            precio: producto.prevena,
+            sto: producto.sto,
+            descuento: producto.desc));
+      }
+
       print(lineas);
       emit(PedidoBuilding(lineas: lineas));
     });
@@ -52,6 +58,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
             cantidad: event.cantidad,
             nombre: event.producto.des,
             precio: event.producto.prevena,
+            descuento: event.producto.desc,
             sto: event.producto.sto));
         print(lineas);
         emit(PedidoBuilding(lineas: lineas));

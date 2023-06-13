@@ -1,4 +1,5 @@
 import 'package:bys_app/clientes_del_dia/bloc/cliente_bloc.dart';
+import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/pedidos/deudaDialog.dart';
@@ -160,14 +161,15 @@ class _PedidosScreenState extends State<_PedidosScreen> {
     for (int index = 0; index < lineas.length; index++) {
       PedidoLinea linea = lineas[index];
 
-      double subtotal = linea.cantidad * linea.precio;
+      double subtotal =
+          linea.cantidad * linea.precio * (1 - (linea.descuento ?? 0) / 100);
       resultado.add(DataRow(
           cells: <DataCell>[
             DataCell(Text(linea.codart.toString())),
             DataCell(Text(linea.nombre ?? '')),
             DataCell(Text(linea.cantidad.toString())),
             DataCell(Text(linea.precio.toString())),
-            DataCell(Text('0')),
+            DataCell(Text(linea.descuento.toString())),
             DataCell(Text(subtotal.toStringAsFixed(2))),
             DataCell(InkWell(
                 onTap: () {
@@ -184,12 +186,7 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                 if (value == true)
                   {
                     LineaPedido2Dialog.openDialogWithData(
-                        context,
-                        Producto(
-                            codart: linea.codart,
-                            des: linea.nombre ?? '',
-                            sto: linea.sto,
-                            prevena: linea.precio),
+                        context, GlobalConstants.findProducto(linea.codart)!,
                         index: int.parse(index.toString()),
                         cantidad: linea.cantidad)
                   }

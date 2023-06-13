@@ -19,7 +19,6 @@ class _ZonaClienteState extends State<ZonaCliente> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<ProductosBloc>().add(LoadProductos());
   }
 
   @override

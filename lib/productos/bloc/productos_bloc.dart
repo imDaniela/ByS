@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:bys_app/general/const.dart';
 import 'package:bys_app/productos/api/productos_api.dart';
 import 'package:bys_app/productos/models/producto.dart';
 import 'package:equatable/equatable.dart';
@@ -12,7 +13,7 @@ part 'productos_state.dart';
 class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   ProductosBloc() : super(ProductosInitial()) {
     on<LoadProductos>((event, emit) async {
-      http.Response resp = await ProductosApi.getProductos();
+      http.Response resp = await ProductosApi.getProductos(event.codcli);
       if (resp != null) {
         if (resp.statusCode == 200) {
           List<Producto> productos = [];
@@ -20,6 +21,7 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
           temp.forEach((element) {
             productos.add(Producto.fromMap(element));
           });
+          GlobalConstants.productos = productos;
           emit(
               ProductosInitial(productos: productos, productos_all: productos));
         }

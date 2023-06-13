@@ -12,4 +12,7 @@ class SearchProductos extends ProductosEvent {
   SearchProductos(this.search);
 }
 
-class LoadProductos extends ProductosEvent {}
+class LoadProductos extends ProductosEvent {
+  final int codcli;
+  LoadProductos(this.codcli);
+}

@@ -4,19 +4,21 @@ import 'dart:convert';
 class Producto {
   int codart;
   String des;
+  double desc;
   int sto;
   double prevena;
-  Producto({
-    required this.codart,
-    required this.des,
-    required this.sto,
-    required this.prevena,
-  });
+  Producto(
+      {required this.codart,
+      required this.des,
+      required this.sto,
+      required this.prevena,
+      required this.desc});
 
   Producto copyWith({
     int? codart,
     String? des,
     int? sto,
+    double? desc,
     double? prevena,
   }) {
     return Producto(
@@ -24,6 +26,7 @@ class Producto {
       des: des ?? this.des,
       sto: sto ?? this.sto,
       prevena: prevena ?? this.prevena,
+      desc: desc ?? this.desc,
     );
   }
 
@@ -33,6 +36,7 @@ class Producto {
       'des': des,
       'sto': sto,
       'prevena': prevena,
+      'desc': des,
     };
   }
 
@@ -42,6 +46,7 @@ class Producto {
       des: map['des'] as String,
       sto: map['sto'] == null ? 0 : map['sto'] as int,
       prevena: double.parse(map['prevena'].toString()),
+      desc: double.tryParse(map['desc'].toString()) ?? 0,
     );
   }
 
@@ -52,7 +57,7 @@ class Producto {
 
   @override
   String toString() {
-    return 'Producto(codart: $codart, des: $des, sto: $sto, prevena: $prevena)';
+    return 'Producto(codart: $codart, des: $des, sto: $sto, prevena: $prevena, desc:$desc)';
   }
 
   @override

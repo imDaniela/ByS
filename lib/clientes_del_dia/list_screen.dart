@@ -3,6 +3,7 @@ import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dar
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
+import 'package:bys_app/productos/bloc/productos_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -200,6 +201,7 @@ class _ListScreen extends State<ListScreen> {
             if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<PedidosBloc>().add(CheckDeudaEvent(cliente.codcli));
+              context.read<ProductosBloc>().add(LoadProductos(cliente.codcli));
               context
                   .read<HistoryBloc>()
                   .add(LoadHistory(codcli: cliente.codcli));

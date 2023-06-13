@@ -10,9 +10,9 @@ abstract class PedidosEvent extends Equatable {
 class InitPedidoBuild extends PedidosEvent {}
 
 class PedidosAddLinea extends PedidosEvent {
-  final Producto producto;
+  final int codart;
   final int cantidad;
-  const PedidosAddLinea({required this.cantidad, required this.producto});
+  const PedidosAddLinea({required this.cantidad, required this.codart});
 }
 
 class DeleteLinea extends PedidosEvent {
