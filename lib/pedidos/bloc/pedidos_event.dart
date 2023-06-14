@@ -15,6 +15,11 @@ class PedidosAddLinea extends PedidosEvent {
   const PedidosAddLinea({required this.cantidad, required this.codart});
 }
 
+class SavePedidoEvent extends PedidosEvent {
+  final int codcli;
+  const SavePedidoEvent({required this.codcli});
+}
+
 class DeleteLinea extends PedidosEvent {
   final int index;
 

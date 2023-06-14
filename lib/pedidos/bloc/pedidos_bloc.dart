@@ -46,6 +46,14 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
         emit(PedidoBuilding(lineas: lineas));
       }
     });
+    on<SavePedidoEvent>((event, emit) async {
+      if (state is PedidoBuilding) {
+        PedidoBuilding estado = state as PedidoBuilding;
+        if (estado.lineas.length > 0) {
+          PedidosApi.SavePedido(event.codcli, estado.lineas);
+        }
+      }
+    });
 
     on<PedidosUpdateLinea>((event, emit) async {
       List<PedidoLinea> lineas;
