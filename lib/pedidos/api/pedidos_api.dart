@@ -17,7 +17,7 @@ class PedidosApi {
 
   static Future<http.Response> SavePedido(
       int codcli, List<PedidoLinea> linea) async {
-    String url = '${GlobalConstants.apiEndPoint}/save-pedido';
+    String url = '${GlobalConstants.apiEndPoint}save-pedido';
     print(url);
     http.Response result = await http.post(Uri.parse(url),
         headers: GlobalConstants.header(),

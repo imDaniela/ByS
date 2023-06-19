@@ -1,4 +1,5 @@
 import 'package:bys_app/clientes_del_dia/bloc/cliente_bloc.dart';
+import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:bys_app/productos/models/producto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PedidosScreen extends StatelessWidget {
   const PedidosScreen({Key? key}) : super(key: key);
@@ -32,12 +34,12 @@ class _PedidosScreenState extends State<_PedidosScreen> {
     // TODO: implement initState
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback(
-        (_) => openDeudaDialog(context.read<PedidosBloc>().state));
+        (_) => openDeudaDialog(context.read<CobrosBloc>().state));
   }
 
-  void openDeudaDialog(PedidosState state) {
+  void openDeudaDialog(CobrosState state) {
     print('a');
-    if (state is PedidosDeuda) {
+    if (state is CobrosPendientes) {
       DialogHelper.openDialogWithData(
           context, state.deuda.deuda, state.deuda.detalles);
       context.read<PedidosBloc>().add(InitPedidoBuild());
@@ -46,137 +48,158 @@ class _PedidosScreenState extends State<_PedidosScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PedidosBloc, PedidosState>(
-      listener: (context, state) {
-        openDeudaDialog(state);
-      },
-      builder: (context, state) {
-        return BlocBuilder<PedidosBloc, PedidosState>(
-            builder: (context, state) => Scaffold(
-                floatingActionButton: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      FloatingActionButton(
-                          child: Icon(Icons.add),
-                          onPressed: () {
-                            LineaPedidoDialog.openDialogWithData(context);
-                          },
-                          backgroundColor: Color.fromRGBO(142, 11, 44, 1)),
-                      SizedBox(
-                        height: 20,
+    return BlocListener<CobrosBloc, CobrosState>(
+        listener: (context, state_cobros) {
+          openDeudaDialog(state_cobros);
+        },
+        child: BlocConsumer<PedidosBloc, PedidosState>(
+          listener: (context, state) {
+            if (state is PedidosSuccess) {
+              Fluttertoast.showToast(
+                  msg: "Se ha guardado el pedido con éxito",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Color.fromARGB(255, 0, 155, 0),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            }
+          },
+          builder: (context, state) {
+            return BlocBuilder<ClientesdiaBloc, ClientesdiaState>(
+                builder: (context, state_cliente) => Scaffold(
+                    floatingActionButton: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          FloatingActionButton(
+                              child: Icon(Icons.add),
+                              onPressed: () {
+                                LineaPedidoDialog.openDialogWithData(context);
+                              },
+                              backgroundColor: Color.fromRGBO(142, 11, 44, 1)),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          state is PedidoBuilding
+                              ? Container(
+                                  child: state.lineas.length > 0
+                                      ? FloatingActionButton(
+                                          child: Icon(Icons.save),
+                                          onPressed: () {
+                                            if (state_cliente
+                                                is ClientesdiaLoaded) {
+                                              ClientesdiaLoaded esta =
+                                                  state_cliente
+                                                      as ClientesdiaLoaded;
+                                              context.read<PedidosBloc>().add(
+                                                  SavePedidoEvent(
+                                                      codcli: esta
+                                                          .cliente!.codcli));
+                                            }
+                                          },
+                                          backgroundColor:
+                                              Color.fromRGBO(2, 136, 31, 1))
+                                      : Container())
+                              : Container(),
+                        ],
                       ),
-                      state is PedidoBuilding
-                          ? Container(
-                              child: state.lineas.length > 0
-                                  ? FloatingActionButton(
-                                      child: Icon(Icons.save),
-                                      onPressed: () {
-                                        context
-                                            .read<PedidosBloc>()
-                                            .add(SavePedidoEvent());
-                                      },
-                                      backgroundColor:
-                                          Color.fromRGBO(2, 136, 31, 1))
-                                  : Container())
-                          : Container(),
-                    ],
-                  ),
-                ),
-                body: Container(
-                    child: Column(
-                  children: <Widget>[
-                    Expanded(
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
+                    ),
+                    body: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Expanded(
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: DataTable(
-                                  showCheckboxColumn: false,
-                                  headingRowColor: MaterialStateProperty
-                                      .resolveWith<Color>((states) =>
-                                          const Color.fromRGBO(142, 11, 44, 1)),
-                                  columns: const <DataColumn>[
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Cod. Art',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                scrollDirection: Axis.horizontal,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: DataTable(
+                                      showCheckboxColumn: false,
+                                      headingRowColor: MaterialStateProperty
+                                          .resolveWith<Color>((states) =>
+                                              const Color.fromRGBO(
+                                                  142, 11, 44, 1)),
+                                      columns: const <DataColumn>[
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Cod. Art',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Descripción',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Descripción',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Cantidad',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Cantidad',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Precio',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Precio',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          '% Dto',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              '% Dto',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'SubTotal',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'SubTotal',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Accion',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Accion',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                  rows: state is PedidoBuilding
-                                      ? listado(state.lineas)
-                                      : []),
-                            ))),
-                  ],
-                ))));
-      },
-    );
+                                      ],
+                                      rows: state is PedidoBuilding
+                                          ? listado(state.lineas)
+                                          : []),
+                                ))),
+                      ],
+                    ))));
+          },
+        ));
   }
 
   List<DataRow> listado(List<PedidoLinea>? lineas) {

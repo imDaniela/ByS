@@ -15,14 +15,11 @@ class PedidosError extends PedidosState {
   const PedidosError(this.msg) : super();
 }
 
-class PedidosDeuda extends PedidosState {
-  final ClienteSaldoPendiente deuda;
-  const PedidosDeuda(this.deuda) : super();
-}
-
 class PedidoBuilding extends PedidosState {
   final List<PedidoLinea> lineas;
   const PedidoBuilding({this.lineas = const []}) : super();
 }
+
+class PedidosSuccess extends PedidosState {}
 
 class PedidosInitial extends PedidosState {}
