@@ -4,6 +4,7 @@ import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dar
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
+import 'package:bys_app/albaran_pendiente_por_facturar/bloc/albaran_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -206,6 +207,9 @@ class _ListScreen extends State<ListScreen> {
                   .read<HistoryBloc>()
                   .add(LoadHistory(codcli: cliente.codcli));
               Navigator.of(context).pushNamed('zona_clientes');
+              context
+                  .read<AlbaranBloc>()
+                  .add(LoadAlbaran(codcli: cliente.codcli));
             }
           }));
     });

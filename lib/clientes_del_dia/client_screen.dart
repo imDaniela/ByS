@@ -156,6 +156,66 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                             ),
                                           ),
                                         ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Mes 7',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Mes 8',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Mes 9',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Mes 10',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Mes 11',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Mes 12',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                       rows: state is HistoryLoaded
                                           ? listado(state.historial)
@@ -176,23 +236,60 @@ class _ClienteHistorial extends State<ClienteHistorial> {
   List<DataRow> listado(List<Historial>? historial) {
     List<DataRow> resultado = [];
     if (historial == null) return [];
+    num total_year = 0;
     historial.forEach((historial) {
+      total_year = historial.mes_1 +
+          historial.mes_2 +
+          historial.mes_3 +
+          historial.mes_4 +
+          historial.mes_5 +
+          historial.mes_6 +
+          historial.mes_7 +
+          historial.mes_8 +
+          historial.mes_9 +
+          historial.mes_10 +
+          historial.mes_11 +
+          historial.mes_12;
       resultado.add(DataRow(
         cells: <DataCell>[
           DataCell(Text(historial.codcli.toString())),
           DataCell(Text(historial.codart.toString())),
           DataCell(Text(historial.desmod.toString())),
-          DataCell(Text('')),
-          DataCell(Text('')),
+          DataCell(TextField(
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              if (value.isNotEmpty && !isNumeric(value)) {
+                // Remove non-numeric characters from the input
+                setState(() {
+                  value = value.replaceAll(RegExp('[^0-9]'), '');
+                });
+              }
+            },
+            decoration: InputDecoration(hintText: '0'),
+          )),
+          DataCell(Text(total_year.toString())),
           DataCell(Text(historial.mes_1.toString())),
           DataCell(Text(historial.mes_2.toString())),
           DataCell(Text(historial.mes_3.toString())),
           DataCell(Text(historial.mes_4.toString())),
           DataCell(Text(historial.mes_5.toString())),
           DataCell(Text(historial.mes_6.toString())),
+          DataCell(Text(historial.mes_7.toString())),
+          DataCell(Text(historial.mes_8.toString())),
+          DataCell(Text(historial.mes_9.toString())),
+          DataCell(Text(historial.mes_10.toString())),
+          DataCell(Text(historial.mes_11.toString())),
+          DataCell(Text(historial.mes_12.toString())),
         ],
       ));
     });
     return resultado;
+  }
+
+  bool isNumeric(String value) {
+    if (value == null) {
+      return false;
+    }
+    return double.tryParse(value) != null;
   }
 }

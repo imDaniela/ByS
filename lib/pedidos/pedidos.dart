@@ -73,9 +73,9 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                                   ? FloatingActionButton(
                                       child: Icon(Icons.save),
                                       onPressed: () {
-                                        context
-                                            .read<PedidosBloc>()
-                                            .add(SavePedidoEvent());
+                                        context.read<PedidosBloc>().add(
+                                            SavePedidoEvent(
+                                                codcli: state.codcli!));
                                       },
                                       backgroundColor:
                                           Color.fromRGBO(2, 136, 31, 1))
