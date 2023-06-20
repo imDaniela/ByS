@@ -30,7 +30,7 @@ class _CobrosScreen extends State<CobrosScreen> {
             listener: (context, state) {
               if (state is CobrosSuccess) {
                 Fluttertoast.showToast(
-                    msg: "Se ha realizado el cobro con éxito",
+                    msg: "Se ha rehow alizado el cobro con éxito",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 1,
@@ -42,6 +42,7 @@ class _CobrosScreen extends State<CobrosScreen> {
             builder: (context, state) => Column(
                   children: <Widget>[
                     Container(
+                        width: 1000000,
                         child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: SingleChildScrollView(
@@ -113,7 +114,7 @@ class _CobrosScreen extends State<CobrosScreen> {
                                       ),
                                     ),
                                     DataColumn(
-                                      label: SizedBox(
+                                      label: Expanded(
                                         child: Text(
                                           'FP',
                                           style: TextStyle(
@@ -132,7 +133,7 @@ class _CobrosScreen extends State<CobrosScreen> {
                         ? Expanded(
                             flex: 5,
                             child: Center(child: CircularProgressIndicator()))
-                        : Container()
+                        : Container(),
                   ],
                 )));
   }
@@ -142,6 +143,9 @@ class _CobrosScreen extends State<CobrosScreen> {
     if (clientes == null) return [];
     clientes.detalles.forEach((saldo) {
       resultado.add(DataRow(
+          color: (saldo.restofactura ?? 0) > 0
+              ? null
+              : MaterialStateColor.resolveWith((states) => Colors.red),
           cells: <DataCell>[
             DataCell(Text(saldo.numfac.toString())),
             DataCell(Text(GlobalConstants.format.format(saldo.fecfac!))),
