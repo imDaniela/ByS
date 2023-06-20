@@ -19,6 +19,11 @@ class GlobalConstants {
     }
   }
 
+  static String getHoyString() {
+    DateTime now = DateTime.now();
+    return format.format(now);
+  }
+
   static int getHoy() {
     DateTime now = DateTime.now();
 

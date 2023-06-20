@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 enum PaymentMethod { contado, datafono, cheque, transferencia }
 
 class SelectMetodo extends StatefulWidget {
-  const SelectMetodo({Key? key}) : super(key: key);
+  final Function(String value) onChanged;
+  const SelectMetodo({Key? key, required this.onChanged}) : super(key: key);
 
   @override
   State<SelectMetodo> createState() => _SelectMetodoState();
@@ -26,6 +27,21 @@ class _SelectMetodoState extends State<SelectMetodo> {
     }
   }
 
+  String _getValue(PaymentMethod method) {
+    switch (method) {
+      case PaymentMethod.contado:
+        return 'PV';
+      case PaymentMethod.datafono:
+        return 'TC';
+      case PaymentMethod.cheque:
+        return 'CH';
+      case PaymentMethod.transferencia:
+        return 'TF';
+      default:
+        return '';
+    }
+  }
+
   PaymentMethod? selectedPaymentMethod = PaymentMethod.contado;
   @override
   Widget build(BuildContext context) {
@@ -36,7 +52,7 @@ class _SelectMetodoState extends State<SelectMetodo> {
         children: [
           InputDecorator(
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 0),
+              contentPadding: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
               isDense: true,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
@@ -55,6 +71,7 @@ class _SelectMetodoState extends State<SelectMetodo> {
               child: DropdownButton<PaymentMethod>(
                 value: selectedPaymentMethod,
                 onChanged: (PaymentMethod? newValue) {
+                  if (newValue != null) widget.onChanged(_getValue(newValue));
                   setState(() {
                     selectedPaymentMethod = newValue;
                   });
@@ -66,15 +83,6 @@ class _SelectMetodoState extends State<SelectMetodo> {
                   );
                 }).toList(),
               ),
-            ),
-          ),
-          Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: IconButton(
-              icon: Icon(Icons.arrow_drop_down),
-              onPressed: () {},
             ),
           ),
         ],

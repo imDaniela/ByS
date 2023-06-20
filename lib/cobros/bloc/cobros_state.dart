@@ -14,4 +14,6 @@ class CobrosPendientes extends CobrosState {
   const CobrosPendientes(this.deuda) : super();
 }
 
+class CobrosSuccess extends CobrosState {}
+
 class CobrosInitial extends CobrosState {}

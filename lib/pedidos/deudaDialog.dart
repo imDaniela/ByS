@@ -9,14 +9,16 @@ class DialogHelper {
     List<DataRow> elementos(List<FacturaPendiente> detalles) {
       List<DataRow> result = [];
       detalles.forEach((element) {
-        result.add(DataRow(cells: [
-          DataCell(Text(element.numfac.toString())),
-          DataCell(Text(GlobalConstants.format.format(element.fecfac!))),
-          DataCell(Text(GlobalConstants.format.format(element.fecven!))),
-          DataCell(Text(element.impcob.toString())),
-          DataCell(Text(element.imprec.toString())),
-          DataCell(Text('0')),
-        ]));
+        if ((element.impcob ?? 0) < (element.imprec ?? 0)) {
+          result.add(DataRow(cells: [
+            DataCell(Text(element.numfac.toString())),
+            DataCell(Text(GlobalConstants.format.format(element.fecfac!))),
+            DataCell(Text(GlobalConstants.format.format(element.fecven!))),
+            DataCell(Text(element.imprec.toString())),
+            DataCell(Text(element.restofactura.toString())),
+            DataCell(Text(element.cobrohoy.toString())),
+          ]));
+        }
       });
       return result;
     }

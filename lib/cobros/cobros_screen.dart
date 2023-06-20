@@ -7,10 +7,12 @@ import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dar
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
+import 'package:bys_app/pedidos/models/FacturaPendiente.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CobrosScreen extends StatefulWidget {
   const CobrosScreen({Key? key}) : super(key: key);
@@ -24,7 +26,19 @@ class _CobrosScreen extends State<CobrosScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: BlocBuilder<CobrosBloc, CobrosState>(
+        child: BlocConsumer<CobrosBloc, CobrosState>(
+            listener: (context, state) {
+              if (state is CobrosSuccess) {
+                Fluttertoast.showToast(
+                    msg: "Se ha realizado el cobro con éxito",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.TOP,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Color.fromARGB(255, 0, 155, 0),
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              }
+            },
             builder: (context, state) => Column(
                   children: <Widget>[
                     Container(
@@ -132,14 +146,14 @@ class _CobrosScreen extends State<CobrosScreen> {
             DataCell(Text(saldo.numfac.toString())),
             DataCell(Text(GlobalConstants.format.format(saldo.fecfac!))),
             DataCell(Text(GlobalConstants.format.format(saldo.fecven!))),
-            DataCell(Text(saldo.impcob.toString())),
             DataCell(Text(saldo.imprec.toString())),
-            DataCell(Text('0')),
+            DataCell(Text(saldo.restofactura.toString())),
+            DataCell(Text(saldo.cobrohoy.toString())),
             DataCell(Text('PV'))
           ],
           onSelectChanged: (bool? selected) {
             CobroDialog.openDialogWithData(
-                context, saldo.imprec ?? 0, saldo.numfac!);
+                context, saldo.restofactura ?? 0, saldo.numfac!);
             /*if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<CobrosBloc>().add(CheckDeudaEvent(cliente.codcli));

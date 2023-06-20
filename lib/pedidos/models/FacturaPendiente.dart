@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
+import 'package:bys_app/pedidos/models/FacturaAlbaran.dart';
+
 class FacturaPendiente {
   String? Can;
   int? numfac;
@@ -10,6 +14,8 @@ class FacturaPendiente {
   double? imprec;
   double? impcob;
   double? restofactura;
+  List<FacturaAlbaran>? albfaclis;
+  double? cobrohoy;
   FacturaPendiente({
     this.Can,
     this.numfac,
@@ -19,6 +25,8 @@ class FacturaPendiente {
     this.imprec,
     this.impcob,
     this.restofactura,
+    this.albfaclis,
+    this.cobrohoy,
   });
 
   FacturaPendiente copyWith({
@@ -30,6 +38,8 @@ class FacturaPendiente {
     double? imprec,
     double? impcob,
     double? restofactura,
+    List<FacturaAlbaran>? albfaclis,
+    double? cobrohoy,
   }) {
     return FacturaPendiente(
       Can: Can ?? this.Can,
@@ -40,6 +50,8 @@ class FacturaPendiente {
       imprec: imprec ?? this.imprec,
       impcob: impcob ?? this.impcob,
       restofactura: restofactura ?? this.restofactura,
+      albfaclis: albfaclis ?? this.albfaclis,
+      cobrohoy: cobrohoy ?? this.cobrohoy,
     );
   }
 
@@ -53,6 +65,9 @@ class FacturaPendiente {
       'imprec': imprec,
       'impcob': impcob,
       'restofactura': restofactura,
+      'albfaclis':
+          albfaclis == null ? [] : albfaclis!.map((x) => x?.toMap()).toList(),
+      'cobrohoy': cobrohoy,
     };
   }
 
@@ -62,10 +77,10 @@ class FacturaPendiente {
       numfac: map['numfac'] != null ? map['numfac'] as int : null,
       ejefac: map['ejefac'] != null ? map['ejefac'] as int : null,
       fecfac: map['fecfac'] != null
-          ? DateTime.tryParse(map['fecfac'] as String)
+          ? DateTime.parse(map['fecfac'] as String)
           : null,
       fecven: map['fecven'] != null
-          ? DateTime.tryParse(map['fecven'] as String)
+          ? DateTime.parse(map['fecven'] as String)
           : null,
       imprec:
           map['imprec'] != null ? double.parse(map['imprec'].toString()) : null,
@@ -73,6 +88,16 @@ class FacturaPendiente {
           map['impcob'] != null ? double.parse(map['impcob'].toString()) : null,
       restofactura: map['restofactura'] != null
           ? double.parse(map['restofactura'].toString())
+          : null,
+      albfaclis: map['albfaclis'] != null
+          ? List<FacturaAlbaran>.from(
+              (map['albfaclis'] as List<dynamic>).map<FacturaAlbaran?>(
+                (x) => FacturaAlbaran.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      cobrohoy: map['cobrohoy'] != null
+          ? double.parse(map['cobrohoy'].toString())
           : null,
     );
   }
@@ -84,7 +109,7 @@ class FacturaPendiente {
 
   @override
   String toString() {
-    return 'FacturaPendiente(Can: $Can, numfac: $numfac, ejefac: $ejefac, fecfac: $fecfac, fecven: $fecven, imprec: $imprec, impcob: $impcob, restofactura: $restofactura)';
+    return 'FacturaPendiente(Can: $Can, numfac: $numfac, ejefac: $ejefac, fecfac: $fecfac, fecven: $fecven, imprec: $imprec, impcob: $impcob, restofactura: $restofactura, albfaclis: $albfaclis, cobrohoy: $cobrohoy)';
   }
 
   @override
@@ -98,7 +123,9 @@ class FacturaPendiente {
         other.fecven == fecven &&
         other.imprec == imprec &&
         other.impcob == impcob &&
-        other.restofactura == restofactura;
+        other.restofactura == restofactura &&
+        listEquals(other.albfaclis, albfaclis) &&
+        other.cobrohoy == cobrohoy;
   }
 
   @override
@@ -110,6 +137,8 @@ class FacturaPendiente {
         fecven.hashCode ^
         imprec.hashCode ^
         impcob.hashCode ^
-        restofactura.hashCode;
+        restofactura.hashCode ^
+        albfaclis.hashCode ^
+        cobrohoy.hashCode;
   }
 }

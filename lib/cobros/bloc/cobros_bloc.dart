@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bys_app/cobros/api/cobros_api.dart';
 import 'package:bys_app/pedidos/api/pedidos_api.dart';
 import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
 import 'package:equatable/equatable.dart';
@@ -21,6 +22,36 @@ class CobrosBloc extends Bloc<CobrosEvent, CobrosState> {
             emit(CobrosPendientes(saldo));
           }
         }
+      }
+    });
+    on<SaveCobroEvent>((event, emit) async {
+      CobrosState estado = state;
+      emit(CobroLoading());
+      try {
+        http.Response? resp = await CobrosApi.saveCobro(
+            codcli: event.codcli,
+            forma_pago: event.forma_pago,
+            numfac: event.numfac,
+            cobro: event.cobro,
+            fecha: event.fecha);
+        emit(CobrosSuccess());
+        this.add(CheckDeudaEvent(event.codcli));
+      } catch (ex) {
+        emit(estado);
+      }
+    });
+    on<DeleteCobroEvent>((event, emit) async {
+      CobrosState estado = state;
+      emit(CobroLoading());
+      try {
+        http.Response? resp = await CobrosApi.deleteCobro(
+          codcli: event.codcli,
+          numfac: event.numfac,
+        );
+        emit(CobrosSuccess());
+        this.add(CheckDeudaEvent(event.codcli));
+      } catch (ex) {
+        emit(estado);
       }
     });
   }
