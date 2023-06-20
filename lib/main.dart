@@ -1,3 +1,5 @@
+import 'package:bys_app/albaran_pendiente_por_facturar/albaran_screen.dart';
+import 'package:bys_app/albaran_pendiente_por_facturar/bloc/albaran_bloc.dart';
 import 'package:bys_app/clientes_del_dia/day_selector.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/clientes_del_dia/list_screen.dart';
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => PedidosBloc()),
           BlocProvider(create: (context) => ProductosBloc()),
           BlocProvider(create: (context) => HistoryBloc()),
+          BlocProvider(create: (context) => AlbaranBloc()),
           BlocProvider(create: (context) => CobrosBloc())
         ],
         child: MaterialApp(
