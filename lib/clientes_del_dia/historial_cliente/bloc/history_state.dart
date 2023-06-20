@@ -8,8 +8,8 @@ abstract class HistoryState extends Equatable {
 }
 
 class HistoryStateInitial extends HistoryState {
-  List<Historial>? historial;
-  HistoryStateInitial({this.historial}) : super();
+  List<Historial> historial;
+  HistoryStateInitial({this.historial = const []}) : super();
 }
 
 class HistoryLoading extends HistoryState {}

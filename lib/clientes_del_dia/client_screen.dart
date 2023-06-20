@@ -33,196 +33,235 @@ class _ClienteHistorial extends State<ClienteHistorial> {
         context.read<HistoryBloc>();
         return Container(
             child: BlocBuilder<HistoryBloc, HistoryState>(
-                builder: (context, state) => Column(
-                      children: <Widget>[
-                        Expanded(
-                            child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: DataTable(
-                                      headingRowColor: MaterialStateProperty
-                                          .resolveWith<Color>((states) =>
-                                              const Color.fromRGBO(
-                                                  142, 11, 44, 1)),
-                                      columns: const <DataColumn>[
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Código',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                builder: (context, state) => Scaffold(
+                    floatingActionButton: Container(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            FloatingActionButton(
+                                child: Icon(Icons.add),
+                                onPressed: () {
+                                  // LineaPedidoDialog.openDialogWithData(context);
+                                },
+                                backgroundColor:
+                                    Color.fromRGBO(142, 11, 44, 1)),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            state is HistoryStateInitial
+                                ? Container(
+                                    child: state.historial.length > 0
+                                        ? FloatingActionButton(
+                                            child: Icon(Icons.save),
+                                            onPressed: () {
+                                              // if (state is HistoryLoaded) {
+                                              //   HistoryLoaded esta =
+                                              //       state as HistoryLoaded;
+                                              //   context.read<HistoryBloc>().add(
+                                              //       SavePedidoEvent(
+                                              //           codcli: esta
+                                              //               .cliente!.codcli));
+                                              // }
+                                            },
+                                            backgroundColor:
+                                                Color.fromRGBO(2, 136, 31, 1))
+                                        : Container())
+                                : Container(),
+                          ]),
+                    ),
+                    body: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                              child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: DataTable(
+                                        headingRowColor: MaterialStateProperty
+                                            .resolveWith<Color>((states) =>
+                                                const Color.fromRGBO(
+                                                    142, 11, 44, 1)),
+                                        columns: const <DataColumn>[
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Código',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Cod. Art',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Cod. Art',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Descripcion',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Descripcion',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Unid. Hoy',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Unid. Hoy',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Total año',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Total año',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 1',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 1',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 2',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 2',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 3',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 3',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 4',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 4',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 5',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 5',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 6',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 6',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 7',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 7',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 8',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 8',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 9',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 9',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 10',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 10',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 11',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 11',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        DataColumn(
-                                          label: Expanded(
-                                            child: Text(
-                                              'Mes 12',
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Colors.white),
+                                          DataColumn(
+                                            label: Expanded(
+                                              child: Text(
+                                                'Mes 12',
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                      rows: state is HistoryLoaded
-                                          ? listado(state.historial)
-                                          : []),
-                                ))),
-                      ],
-                    )));
+                                        ],
+                                        rows: state is HistoryLoaded
+                                            ? listado(state.historial)
+                                            : []),
+                                  ))),
+                        ],
+                      ),
+                    ))));
       } else if (state is HistoryLoading) {
         return Center(
           child: CircularProgressIndicator(),
