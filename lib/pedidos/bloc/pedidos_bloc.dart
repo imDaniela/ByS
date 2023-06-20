@@ -34,7 +34,6 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
             sto: producto.sto,
             descuento: producto.desc));
       }
-
       print(lineas);
       emit(PedidoBuilding(lineas: lineas));
     });
@@ -50,7 +49,11 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       if (state is PedidoBuilding) {
         PedidoBuilding estado = state as PedidoBuilding;
         if (estado.lineas.length > 0) {
-          PedidosApi.SavePedido(event.codcli, estado.lineas);
+          try {
+            PedidosApi.SavePedido(event.codcli, estado.lineas);
+            emit(PedidosSuccess());
+            emit(estado);
+          } catch (exception) {}
         }
       }
     });
@@ -70,22 +73,6 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
             sto: event.producto.sto));
         print(lineas);
         emit(PedidoBuilding(lineas: lineas));
-      }
-    });
-
-    on<CheckDeudaEvent>((event, emit) async {
-      emit(PedidoLoading());
-
-      http.Response? resp = await PedidosApi.Saldo(event.codcli);
-      if (resp != null) {
-        if (resp.statusCode == 200) {
-          ClienteSaldoPendiente saldo =
-              ClienteSaldoPendiente.fromJson(resp.body);
-          if (saldo.deuda > 0) {
-            print('object');
-            emit(PedidosDeuda(saldo));
-          }
-        }
       }
     });
   }

@@ -4,6 +4,7 @@ import 'package:bys_app/clientes_del_dia/day_selector.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/clientes_del_dia/list_screen.dart';
 import 'package:bys_app/clientes_del_dia/client_screen.dart';
+import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => PedidosBloc()),
           BlocProvider(create: (context) => ProductosBloc()),
           BlocProvider(create: (context) => HistoryBloc()),
-          BlocProvider(create: (context) => AlbaranBloc())
+          BlocProvider(create: (context) => AlbaranBloc()),
+          BlocProvider(create: (context) => CobrosBloc())
         ],
         child: MaterialApp(
           title: title,

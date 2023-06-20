@@ -1,104 +1,33 @@
 import 'package:bys_app/clientes_del_dia/day_selector.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros/saveCobroDialog.dart';
+import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
+import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
-import 'package:bys_app/albaran_pendiente_por_facturar/bloc/albaran_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DayScreen extends StatelessWidget {
-  const DayScreen({Key? key}) : super(key: key);
+class CobrosScreen extends StatefulWidget {
+  const CobrosScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      //bottomNavigationBar: NavigationBar(),
-      body: Center(
-        child: ListScreen(),
-      ),
-    );
-  }
+  State<CobrosScreen> createState() => _CobrosScreen();
 }
 
-class ListScreen extends StatefulWidget {
-  const ListScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ListScreen> createState() => _ListScreen();
-}
-
-class _ListScreen extends State<ListScreen> {
+class _CobrosScreen extends State<CobrosScreen> {
   TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: BlocBuilder<ClientesdiaBloc, ClientesdiaState>(
+    return Container(
+        child: BlocBuilder<CobrosBloc, CobrosState>(
             builder: (context, state) => Column(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(top: 60, bottom: 40),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(bottom: 10),
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Relación Cliente', // Add your label text here
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                              width: 10000000,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: TextField(
-                                  controller: _controller,
-                                  onChanged: (val) {
-                                    context
-                                        .read<ClientesdiaBloc>()
-                                        .add(SearchCliente(val));
-                                  },
-                                  cursorColor:
-                                      const Color.fromRGBO(142, 11, 44, 1),
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(50.0),
-                                    ),
-                                    prefixIcon: const Icon(
-                                      Icons.search,
-                                      color: Colors.grey,
-                                    ), // Ícono antes del texto
-                                    filled:
-                                        true, // Enable filling the TextField background
-                                    fillColor: const Color.fromRGBO(212, 212,
-                                        212, 1), // Set the background color
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          color: Color.fromRGBO(142, 11, 44,
-                                              1)), // Set the border color when focused
-                                      borderRadius: BorderRadius.circular(50.0),
-                                    ),
-                                  ))),
-                        ],
-                      ),
-                    ),
-                    DaySelector(
-                      onChanged: (index) {
-                        context.read<ClientesdiaBloc>().add(LoadClientesDia(
-                            dia: index, search: _controller.text));
-                      },
-                    ),
-                    Expanded(
                         child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: SingleChildScrollView(
@@ -112,7 +41,7 @@ class _ListScreen extends State<ListScreen> {
                                     DataColumn(
                                       label: Expanded(
                                         child: Text(
-                                          'Código',
+                                          'Nº Factura',
                                           style: TextStyle(
                                               fontStyle: FontStyle.italic,
                                               color: Colors.white),
@@ -122,7 +51,7 @@ class _ListScreen extends State<ListScreen> {
                                     DataColumn(
                                       label: Expanded(
                                         child: Text(
-                                          'Nombre comercial',
+                                          'F. Factura',
                                           style: TextStyle(
                                               fontStyle: FontStyle.italic,
                                               color: Colors.white),
@@ -132,7 +61,7 @@ class _ListScreen extends State<ListScreen> {
                                     DataColumn(
                                       label: Expanded(
                                         child: Text(
-                                          'Ord',
+                                          'F. Venc',
                                           style: TextStyle(
                                               fontStyle: FontStyle.italic,
                                               color: Colors.white),
@@ -142,7 +71,7 @@ class _ListScreen extends State<ListScreen> {
                                     DataColumn(
                                       label: Expanded(
                                         child: Text(
-                                          'Am-Pm',
+                                          'Importe',
                                           style: TextStyle(
                                               fontStyle: FontStyle.italic,
                                               color: Colors.white),
@@ -152,7 +81,7 @@ class _ListScreen extends State<ListScreen> {
                                     DataColumn(
                                       label: Expanded(
                                         child: Text(
-                                          'Rep',
+                                          'Pendiente',
                                           style: TextStyle(
                                               fontStyle: FontStyle.italic,
                                               color: Colors.white),
@@ -161,9 +90,18 @@ class _ListScreen extends State<ListScreen> {
                                     ),
                                     DataColumn(
                                       label: SizedBox(
-                                        width: 700,
                                         child: Text(
-                                          'Nombre fiscal',
+                                          'C. Hoy',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: SizedBox(
+                                        child: Text(
+                                          'FP',
                                           style: TextStyle(
                                               fontStyle: FontStyle.italic,
                                               color: Colors.white),
@@ -171,10 +109,9 @@ class _ListScreen extends State<ListScreen> {
                                       ),
                                     ),
                                   ],
-                                  rows: state is ClientesdiaLoaded
-                                      ? listado(_controller.text != ''
-                                          ? state.clientes
-                                          : state.clientes_all)
+                                  rows: state is CobrosPendientes
+                                      ? listado(
+                                          (state as CobrosPendientes).deuda)
                                       : []),
                             ))),
                     state is ClientesdiaLoading
@@ -186,21 +123,24 @@ class _ListScreen extends State<ListScreen> {
                 )));
   }
 
-  List<DataRow> listado(List<ClientesDia>? clientes) {
+  List<DataRow> listado(ClienteSaldoPendiente? clientes) {
     List<DataRow> resultado = [];
     if (clientes == null) return [];
-    clientes.forEach((cliente) {
+    clientes.detalles.forEach((saldo) {
       resultado.add(DataRow(
           cells: <DataCell>[
-            DataCell(Text(cliente.codcli.toString())),
-            DataCell(Text(cliente.cal2)),
-            DataCell(Text(cliente.ordenvisit)),
-            DataCell(Text(cliente.ampm)),
-            DataCell(Text('')),
-            DataCell(Text(cliente.nom))
+            DataCell(Text(saldo.numfac.toString())),
+            DataCell(Text(GlobalConstants.format.format(saldo.fecfac!))),
+            DataCell(Text(GlobalConstants.format.format(saldo.fecven!))),
+            DataCell(Text(saldo.impcob.toString())),
+            DataCell(Text(saldo.imprec.toString())),
+            DataCell(Text('0')),
+            DataCell(Text('PV'))
           ],
           onSelectChanged: (bool? selected) {
-            if (selected != null && selected) {
+            CobroDialog.openDialogWithData(
+                context, saldo.imprec ?? 0, saldo.numfac!);
+            /*if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<CobrosBloc>().add(CheckDeudaEvent(cliente.codcli));
               context.read<ProductosBloc>().add(LoadProductos(cliente.codcli));
@@ -208,10 +148,7 @@ class _ListScreen extends State<ListScreen> {
                   .read<HistoryBloc>()
                   .add(LoadHistory(codcli: cliente.codcli));
               Navigator.of(context).pushNamed('zona_clientes');
-              context
-                  .read<AlbaranBloc>()
-                  .add(LoadAlbaran(codcli: cliente.codcli));
-            }
+            }*/
           }));
     });
     return resultado;

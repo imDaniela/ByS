@@ -34,8 +34,3 @@ class PedidosUpdateLinea extends PedidosEvent {
   const PedidosUpdateLinea(
       {required this.cantidad, required this.producto, required this.index});
 }
-
-class CheckDeudaEvent extends PedidosEvent {
-  final int codcli;
-  const CheckDeudaEvent(this.codcli);
-}
