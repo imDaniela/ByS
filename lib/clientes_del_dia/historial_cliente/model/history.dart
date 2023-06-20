@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class Historial {
+  int? canped;
   int codcli;
   int codart;
   String desmod;

@@ -1,10 +1,13 @@
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/model/history.dart';
+import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientScreen extends StatelessWidget {
-  const ClientScreen({Key? key}) : super(key: key);
+  const ClientScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +22,16 @@ class ClientScreen extends StatelessWidget {
 }
 
 class ClienteHistorial extends StatefulWidget {
-  const ClienteHistorial({Key? key}) : super(key: key);
+  final TabController? tabcontroller;
+
+  const ClienteHistorial({Key? key, this.tabcontroller}) : super(key: key);
 
   @override
   State<ClienteHistorial> createState() => _ClienteHistorial();
 }
 
 class _ClienteHistorial extends State<ClienteHistorial> {
+  List<Historial> elementos = [];
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HistoryBloc, HistoryState>(builder: (context, state) {
@@ -42,7 +48,17 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                             FloatingActionButton(
                                 child: Icon(Icons.add),
                                 onPressed: () {
-                                  // LineaPedidoDialog.openDialogWithData(context);
+                                  print(elementos);
+                                  elementos.forEach((element) {
+                                    print(element.codart);
+                                    context.read<PedidosBloc>().add(
+                                        PedidosAddLinea(
+                                            cantidad: element.canped ?? 0,
+                                            codart: element.codart));
+                                  });
+                                  if (widget.tabcontroller != null) {
+                                    widget.tabcontroller!.animateTo(0);
+                                  }
                                 },
                                 backgroundColor:
                                     Color.fromRGBO(142, 11, 44, 1)),
@@ -302,6 +318,21 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                 setState(() {
                   value = value.replaceAll(RegExp('[^0-9]'), '');
                 });
+              } else {
+                int index = elementos.indexWhere(
+                    (element) => element.codart == historial.codart);
+                historial.canped = int.tryParse(value) ?? 0;
+                print(index);
+                if (index >= 0) {
+                  if (historial.canped == 0) {
+                    elementos.removeAt(index);
+                  } else {
+                    elementos[index] = historial;
+                  }
+                } else {
+                  elementos.add(historial);
+                  print('added');
+                }
               }
             },
             decoration: InputDecoration(hintText: '0'),

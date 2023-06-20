@@ -14,51 +14,62 @@ class ZonaCliente extends StatefulWidget {
   State<ZonaCliente> createState() => _ZonaClienteState();
 }
 
-class _ZonaClienteState extends State<ZonaCliente> {
+class _ZonaClienteState extends State<ZonaCliente>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _tabController = TabController(length: 4, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 4,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color.fromRGBO(142, 11, 44, 1),
-            title: BlocBuilder<ClientesdiaBloc, ClientesdiaState>(
-              builder: (context, state) => Text(state is ClientesdiaLoaded
-                  ? state.cliente?.cal2 ?? ''
-                  : 'TabBar Sample'),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(142, 11, 44, 1),
+        title: BlocBuilder<ClientesdiaBloc, ClientesdiaState>(
+          builder: (context, state) => Text(state is ClientesdiaLoaded
+              ? state.cliente?.cal2 ?? ''
+              : 'TabBar Sample'),
+        ),
+        bottom: TabBar(
+          controller: _tabController,
+          indicatorColor: Colors.white,
+          tabs: <Widget>[
+            Tab(
+              icon: Text('Pedido'),
             ),
-            bottom: const TabBar(
-              indicatorColor: Colors.white,
-              tabs: <Widget>[
-                Tab(
-                  icon: Text('Pedido'),
-                ),
-                Tab(
-                  icon: Text('Histórico Ventas'),
-                ),
-                Tab(
-                  icon: Text('Alb. Pdte. Facturar'),
-                ),
-                Tab(
-                  icon: Text('Fact. Últimos meses'),
-                ),
-              ],
+            Tab(
+              icon: Text('Histórico Ventas'),
             ),
+            Tab(
+              icon: Text('Alb. Pdte. Facturar'),
+            ),
+            Tab(
+              icon: Text('Fact. Últimos meses'),
+            ),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          PedidosScreen(),
+          ClienteHistorial(
+            tabcontroller: _tabController,
           ),
-          body: const TabBarView(
-            children: <Widget>[
-              PedidosScreen(),
-              ClienteHistorial(),
-              AlbaranPendientePorFacturar(),
-              CobrosScreen()
-            ],
-          ),
-        ));
+          AlbaranPendientePorFacturar(),
+          CobrosScreen()
+        ],
+      ),
+    );
   }
 }
