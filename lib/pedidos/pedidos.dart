@@ -33,16 +33,20 @@ class _PedidosScreenState extends State<_PedidosScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback(
-        (_) => openDeudaDialog(context.read<CobrosBloc>().state));
+    /*SchedulerBinding.instance.addPostFrameCallback(
+        (_) => openDeudaDialog(context.read<CobrosBloc>().state));*/
   }
 
   void openDeudaDialog(CobrosState state) {
     print('a');
     if (state is CobrosPendientes) {
-      DialogHelper.openDialogWithData(
-          context, state.deuda.deuda, state.deuda.detalles);
-      context.read<PedidosBloc>().add(InitPedidoBuild());
+      if ((state as CobrosPendientes).showDialog) {
+        print((state as CobrosPendientes).showDialog);
+        DialogHelper.openDialogWithData(
+            context, state.deuda.deuda, state.deuda.detalles);
+        context.read<PedidosBloc>().add(InitPedidoBuild());
+        context.read<CobrosBloc>().add(toggleDialogEvent(false));
+      }
     }
   }
 
@@ -73,12 +77,24 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          FloatingActionButton(
-                              child: Icon(Icons.add),
-                              onPressed: () {
-                                LineaPedidoDialog.openDialogWithData(context);
-                              },
-                              backgroundColor: Color.fromRGBO(142, 11, 44, 1)),
+                          Container(
+                              width: 52,
+                              height: 52,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  boxShadow: [BoxShadow()],
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5000)),
+                                  color: Color.fromRGBO(142, 11, 44, 1)),
+                              child: InkWell(
+                                onTap: () {
+                                  LineaPedidoDialog.openDialogWithData(context);
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              )),
                           SizedBox(
                             height: 20,
                           ),

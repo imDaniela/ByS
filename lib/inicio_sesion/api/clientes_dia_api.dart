@@ -17,4 +17,20 @@ class ClientesDiaApi {
     }
     return null;
   }
+
+  static Future<http.Response?> SearchClientes(String search) async {
+    print(GlobalConstants.header());
+
+    print('${GlobalConstants.apiEndPoint}search-clientes/${search}');
+    try {
+      http.Response result = await http.get(
+          Uri.parse('${GlobalConstants.apiEndPoint}search-clientes/${search}'),
+          headers: GlobalConstants.header());
+
+      return result;
+    } catch (ex) {
+      print(ex);
+    }
+    return null;
+  }
 }

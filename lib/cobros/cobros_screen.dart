@@ -156,8 +156,8 @@ class _CobrosScreen extends State<CobrosScreen> {
             DataCell(Text('PV'))
           ],
           onSelectChanged: (bool? selected) {
-            CobroDialog.openDialogWithData(
-                context, saldo.restofactura ?? 0, saldo.numfac!);
+            CobroDialog.openDialogWithData(context, saldo.restofactura ?? 0,
+                saldo.numfac!, saldo.albfaclis ?? []);
             /*if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<CobrosBloc>().add(CheckDeudaEvent(cliente.codcli));

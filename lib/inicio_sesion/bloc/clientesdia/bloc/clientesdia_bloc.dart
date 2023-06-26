@@ -35,9 +35,9 @@ class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
         emit(esta);
       }
     });
-    on<SearchCliente>((event, emit) {
+    on<SearchCliente>((event, emit) async {
       if (state is ClientesdiaLoaded) {
-        ClientesdiaLoaded estado = state as ClientesdiaLoaded;
+        /*ClientesdiaLoaded estado = state as ClientesdiaLoaded;
         emit(ClientesdiaLoading());
         if (event.search == '') {
           emit(ClientesdiaLoaded(
@@ -52,6 +52,21 @@ class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
               false);
           emit(ClientesdiaLoaded(
               clientes: clientes, clientes_all: estado.clientes_all));
+        }*/
+        if (event.search != '') {
+          emit(ClientesdiaLoading());
+          http.Response? resp =
+              await ClientesDiaApi.SearchClientes(event.search);
+          if (resp != null) {
+            if (resp.statusCode == 200) {
+              List<ClientesDia>? clientes = ClientesDia.fromJsonList(resp.body);
+              print(clientes);
+              if (clientes != null) {
+                emit(ClientesdiaLoaded(
+                    clientes: clientes, clientes_all: clientes));
+              }
+            }
+          }
         }
       }
     });

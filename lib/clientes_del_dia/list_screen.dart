@@ -9,6 +9,7 @@ import 'package:bys_app/albaran_pendiente_por_facturar/bloc/albaran_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
 class DayScreen extends StatelessWidget {
   const DayScreen({Key? key}) : super(key: key);
@@ -33,6 +34,7 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreen extends State<ListScreen> {
   TextEditingController _controller = TextEditingController();
+  Timer? _debounce;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -62,9 +64,15 @@ class _ListScreen extends State<ListScreen> {
                               child: TextField(
                                   controller: _controller,
                                   onChanged: (val) {
-                                    context
-                                        .read<ClientesdiaBloc>()
-                                        .add(SearchCliente(val));
+                                    if (_debounce?.isActive ?? false)
+                                      _debounce!.cancel();
+                                    _debounce = Timer(
+                                        const Duration(milliseconds: 500), () {
+                                      // do something with query
+                                      context
+                                          .read<ClientesdiaBloc>()
+                                          .add(SearchCliente(val));
+                                    });
                                   },
                                   cursorColor:
                                       const Color.fromRGBO(142, 11, 44, 1),
@@ -204,6 +212,8 @@ class _ListScreen extends State<ListScreen> {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<CobrosBloc>().add(CheckDeudaEvent(cliente.codcli));
               context.read<ProductosBloc>().add(LoadProductos(cliente.codcli));
+              context.read<PedidosBloc>().add(GetPedidoCliente(cliente.codcli));
+
               context
                   .read<HistoryBloc>()
                   .add(LoadHistory(codcli: cliente.codcli));

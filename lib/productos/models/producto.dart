@@ -7,12 +7,15 @@ class Producto {
   double desc;
   int sto;
   double prevena;
-  Producto(
-      {required this.codart,
-      required this.des,
-      required this.sto,
-      required this.prevena,
-      required this.desc});
+  int? rel;
+  Producto({
+    required this.codart,
+    required this.des,
+    required this.sto,
+    required this.prevena,
+    required this.desc,
+    this.rel,
+  });
 
   Producto copyWith({
     int? codart,
@@ -20,6 +23,7 @@ class Producto {
     int? sto,
     double? desc,
     double? prevena,
+    int? rel,
   }) {
     return Producto(
       codart: codart ?? this.codart,
@@ -27,6 +31,7 @@ class Producto {
       sto: sto ?? this.sto,
       prevena: prevena ?? this.prevena,
       desc: desc ?? this.desc,
+      rel: rel ?? this.rel,
     );
   }
 
@@ -37,6 +42,7 @@ class Producto {
       'sto': sto,
       'prevena': prevena,
       'desc': des,
+      'rel': rel,
     };
   }
 
@@ -47,6 +53,7 @@ class Producto {
       sto: map['sto'] == null ? 0 : map['sto'] as int,
       prevena: double.parse(map['prevena'].toString()),
       desc: double.tryParse(map['desc'].toString()) ?? 0,
+      rel: map['rel'] != null ? map['rel'] as int : null,
     );
   }
 
@@ -57,7 +64,7 @@ class Producto {
 
   @override
   String toString() {
-    return 'Producto(codart: $codart, des: $des, sto: $sto, prevena: $prevena, desc:$desc)';
+    return 'Producto(codart: $codart, des: $des, sto: $sto, prevena: $prevena, desc:$desc,rel: $rel)';
   }
 
   @override

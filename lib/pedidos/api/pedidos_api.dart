@@ -8,6 +8,15 @@ class PedidosApi {
   static Future<http.Response> Saldo(int codcli) async {
     String url =
         '${GlobalConstants.apiEndPoint}get-cliente-saldo-pendiente/${codcli}';
+
+    http.Response result =
+        await http.get(Uri.parse(url), headers: GlobalConstants.header());
+
+    return result;
+  }
+
+  static Future<http.Response> gePedido(int codcli) async {
+    String url = '${GlobalConstants.apiEndPoint}get-pedido/${codcli}';
     print(url);
     http.Response result =
         await http.get(Uri.parse(url), headers: GlobalConstants.header());

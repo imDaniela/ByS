@@ -1,3 +1,4 @@
+import 'package:bys_app/cobros/AlbaranesDialog.dart';
 import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
 import 'package:bys_app/cobros/datepicker.dart';
 import 'package:bys_app/cobros/select.dart';
@@ -7,12 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:bys_app/pedidos/models/FacturaPendiente.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:bys_app/pedidos/models/FacturaAlbaran.dart';
 
 enum PaymentMethod { contado, datafono, cheque, transferencia }
 
 class CobroDialog {
-  static void openDialogWithData(
-      BuildContext context, double pendiente, int numfac) {
+  static void openDialogWithData(BuildContext context, double pendiente,
+      int numfac, List<FacturaAlbaran> albaranes) {
     TextEditingController _controller = TextEditingController();
     TextEditingController _datecontroller = TextEditingController();
     String metodo = '';
@@ -22,7 +24,18 @@ class CobroDialog {
         _controller.text = pendiente.toString();
         _datecontroller.text = GlobalConstants.getHoyString();
         return AlertDialog(
-          title: Text('Cobros Pendientes'),
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text('Cobros Pendientes'),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromRGBO(142, 11, 44, 1)),
+              child: Icon(Icons.local_shipping),
+              onPressed: () {
+                AlbaranesDialog.openAlbaranesDialogWithData(context, albaranes);
+              },
+            ),
+          ]),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

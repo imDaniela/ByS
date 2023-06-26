@@ -9,6 +9,14 @@ part 'cobros_state.dart';
 
 class CobrosBloc extends Bloc<CobrosEvent, CobrosState> {
   CobrosBloc() : super(CobrosInitial()) {
+    on<toggleDialogEvent>((event, emit) {
+      if (state is CobrosPendientes) {
+        CobrosPendientes estado = state as CobrosPendientes;
+        print((estado));
+        emit(CobrosPendientes(estado.deuda, showDialog: false));
+      }
+    });
+
     on<CheckDeudaEvent>((event, emit) async {
       emit(CobroLoading());
 
@@ -19,7 +27,7 @@ class CobrosBloc extends Bloc<CobrosEvent, CobrosState> {
               ClienteSaldoPendiente.fromJson(resp.body);
           if (saldo.deuda > 0) {
             print('object');
-            emit(CobrosPendientes(saldo));
+            emit(CobrosPendientes(saldo, showDialog: event.showDialog));
           }
         }
       }
@@ -49,7 +57,7 @@ class CobrosBloc extends Bloc<CobrosEvent, CobrosState> {
           numfac: event.numfac,
         );
         emit(CobrosSuccess());
-        this.add(CheckDeudaEvent(event.codcli));
+        this.add(CheckDeudaEvent(event.codcli, showDialog: false));
       } catch (ex) {
         emit(estado);
       }

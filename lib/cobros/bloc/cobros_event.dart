@@ -9,7 +9,13 @@ abstract class CobrosEvent extends Equatable {
 
 class CheckDeudaEvent extends CobrosEvent {
   final int codcli;
-  const CheckDeudaEvent(this.codcli);
+  final bool showDialog;
+  const CheckDeudaEvent(this.codcli, {this.showDialog = true});
+}
+
+class toggleDialogEvent extends CobrosEvent {
+  final bool toggle;
+  const toggleDialogEvent(this.toggle);
 }
 
 class DeleteCobroEvent extends CobrosEvent {

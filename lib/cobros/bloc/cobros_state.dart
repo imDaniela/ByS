@@ -11,7 +11,8 @@ class CobroLoading extends CobrosState {}
 
 class CobrosPendientes extends CobrosState {
   final ClienteSaldoPendiente deuda;
-  const CobrosPendientes(this.deuda) : super();
+  final bool showDialog;
+  const CobrosPendientes(this.deuda, {required this.showDialog}) : super();
 }
 
 class CobrosSuccess extends CobrosState {}

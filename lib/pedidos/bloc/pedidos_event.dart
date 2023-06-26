@@ -26,6 +26,11 @@ class DeleteLinea extends PedidosEvent {
   const DeleteLinea({required this.index});
 }
 
+class GetPedidoCliente extends PedidosEvent {
+  final int codcli;
+  const GetPedidoCliente(this.codcli);
+}
+
 class PedidosUpdateLinea extends PedidosEvent {
   final Producto producto;
   final int cantidad;

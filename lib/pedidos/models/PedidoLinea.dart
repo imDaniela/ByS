@@ -49,9 +49,11 @@ class PedidoLinea {
       codart: map['codart'] as int,
       nombre: map['nombre'] != null ? map['nombre'] as String : null,
       cantidad: map['cantidad'] as int,
-      precio: map['precio'] as double,
-      descuento: map['descuento'] != null ? map['descuento'] as double : null,
-      sto: map['sto'] as int,
+      precio: double.tryParse(map['precio'].toString()) ?? 0.00,
+      descuento: map['descuento'] != null
+          ? double.tryParse(map['descuento'].toString())
+          : null,
+      sto: map['sto'] != null ? map['sto'] as int : 0,
     );
   }
 

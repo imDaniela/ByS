@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/pedidos/api/pedidos_api.dart';
@@ -25,6 +27,9 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       }
       emit(PedidoLoading());
       Producto? producto = GlobalConstants.findProducto(event.codart);
+      print('producto');
+      print(producto);
+
       if (producto != null) {
         lineas.add(PedidoLinea(
             codart: event.codart,
@@ -36,14 +41,48 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       }
       print(lineas);
       emit(PedidoBuilding(lineas: lineas));
+      if (producto?.rel != null) {
+        Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
+        print(producto_rel);
+        if (producto_rel != null) {
+          addRel(producto.rel!, event.cantidad);
+        }
+      }
     });
     on<DeleteLinea>((event, emit) async {
       if (state is PedidoBuilding) {
         List<PedidoLinea> lineas = (state as PedidoBuilding).lineas;
         emit(PedidoLoading());
+        int codart = lineas[event.index].codart;
+        int canped = lineas[event.index].cantidad;
         lineas.removeAt(event.index);
         emit(PedidoBuilding(lineas: lineas));
+        Producto? producto = GlobalConstants.findProducto(codart);
+        if (producto?.rel != null) {
+          Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
+          if (producto_rel != null) {
+            addRel(producto.rel!, -canped);
+          }
+        }
       }
+    });
+    on<GetPedidoCliente>((event, emit) async {
+      List<PedidoLinea> lineas = [];
+      emit(PedidoLoading());
+      // try {
+      http.Response resp = await PedidosApi.gePedido(event.codcli);
+      if (resp.statusCode == 200) {
+        if (resp.body != 'null') {
+          List<dynamic> _temp = jsonDecode(resp.body)['temppedclilis'];
+
+          _temp.forEach((element) {
+            PedidoLinea linea = PedidoLinea.fromMap(element);
+            lineas.add(linea);
+          });
+        }
+      }
+      //} catch (exception) {}
+      emit(PedidoBuilding(lineas: lineas));
     });
     on<SavePedidoEvent>((event, emit) async {
       if (state is PedidoBuilding) {
@@ -64,6 +103,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       if (state is PedidoBuilding) {
         lineas = (state as PedidoBuilding).lineas;
         emit(PedidoLoading());
+        int mount = (event.cantidad - lineas[event.index].cantidad);
         lineas[event.index] = (PedidoLinea(
             codart: event.producto.codart,
             cantidad: event.cantidad,
@@ -73,7 +113,43 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
             sto: event.producto.sto));
         print(lineas);
         emit(PedidoBuilding(lineas: lineas));
+        Producto? producto =
+            GlobalConstants.findProducto(event.producto.codart);
+        if (producto?.rel != null) {
+          Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
+          if (producto_rel != null) {
+            addRel(producto.rel!, mount);
+          }
+        }
       }
     });
+  }
+  void addRel(int rel, int amount) {
+    List<PedidoLinea> lineas;
+    if (state is PedidoBuilding) {
+      lineas = (state as PedidoBuilding).lineas.toList();
+      int index = lineas.indexWhere((element) {
+        return element.codart == rel;
+      });
+      if (index < 0) {
+        add(PedidosAddLinea(cantidad: amount, codart: rel));
+      } else {
+        PedidoLinea linea = lineas[index];
+        print('amount: ${amount}');
+        print('linea: ${linea.cantidad}');
+
+        if ((linea.cantidad + amount) <= 0) {
+          add(DeleteLinea(index: index));
+        } else {
+          Producto? producto = GlobalConstants.findProducto(rel);
+          add(PedidosUpdateLinea(
+              index: index,
+              cantidad: linea.cantidad + amount,
+              producto: producto!));
+        }
+      }
+
+      print(lineas);
+    }
   }
 }
