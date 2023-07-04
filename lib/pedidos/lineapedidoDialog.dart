@@ -47,7 +47,6 @@ class LineaPedidoDialog {
                         context
                             .read<ProductosBloc>()
                             .add(SearchProductos(value));
-                        print('asdsadasd');
                       },
                       cursorColor: const Color.fromRGBO(142, 11, 44, 1),
                       decoration: InputDecoration(
@@ -107,7 +106,6 @@ class LineaPedido2Dialog {
       {int? index, int? cantidad}) {
     TextEditingController _controller = TextEditingController();
     if (cantidad != null) _controller.text = cantidad.toString();
-    print(cantidad);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -231,7 +229,6 @@ class _ProductosDataSource extends DataTableSource {
         ],
         onSelectChanged: (bool? selected) {
           if (selected != null && selected) {
-            print(producto);
             LineaPedido2Dialog.openDialogWithData(context, producto);
           }
         });

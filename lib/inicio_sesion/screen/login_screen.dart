@@ -157,8 +157,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         context.read<LoginBloc>().add(AuthenticateCredentias(
                             username: dropdownValue?.CODREP.toString(),
                             password: passwordController.text));
-                        // print(nameController.text);
-                        // print(passwordController.text);
                         /*Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => View()),

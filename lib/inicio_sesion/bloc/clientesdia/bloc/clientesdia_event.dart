@@ -22,3 +22,7 @@ class SelectClienteDia extends ClientesdiaEvent {
   ClientesDia cliente;
   SelectClienteDia(this.cliente);
 }
+class SelectClienteDiaById extends ClientesdiaEvent {
+  int cliente;
+  SelectClienteDiaById(this.cliente);
+}

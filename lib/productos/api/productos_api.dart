@@ -7,7 +7,6 @@ class ProductosApi {
 
     http.Response result =
         await http.get(Uri.parse(url), headers: GlobalConstants.header());
-    print(result.body);
     return result;
   }
 }

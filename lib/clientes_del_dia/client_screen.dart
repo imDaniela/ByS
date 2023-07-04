@@ -48,9 +48,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                             FloatingActionButton(
                                 child: Icon(Icons.add),
                                 onPressed: () {
-                                  print(elementos);
                                   elementos.forEach((element) {
-                                    print(element.codart);
                                     context.read<PedidosBloc>().add(
                                         PedidosAddLinea(
                                             cantidad: element.canped ?? 0,
@@ -322,7 +320,6 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                 int index = elementos.indexWhere(
                     (element) => element.codart == historial.codart);
                 historial.canped = int.tryParse(value) ?? 0;
-                print(index);
                 if (index >= 0) {
                   if (historial.canped == 0) {
                     elementos.removeAt(index);
@@ -331,7 +328,6 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                   }
                 } else {
                   elementos.add(historial);
-                  print('added');
                 }
               }
             },

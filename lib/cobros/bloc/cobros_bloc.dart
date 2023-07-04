@@ -12,7 +12,6 @@ class CobrosBloc extends Bloc<CobrosEvent, CobrosState> {
     on<toggleDialogEvent>((event, emit) {
       if (state is CobrosPendientes) {
         CobrosPendientes estado = state as CobrosPendientes;
-        print((estado));
         emit(CobrosPendientes(estado.deuda, showDialog: false));
       }
     });
@@ -26,7 +25,6 @@ class CobrosBloc extends Bloc<CobrosEvent, CobrosState> {
           ClienteSaldoPendiente saldo =
               ClienteSaldoPendiente.fromJson(resp.body);
           if (saldo.deuda > 0) {
-            print('object');
             emit(CobrosPendientes(saldo, showDialog: event.showDialog));
           }
         }

@@ -38,10 +38,8 @@ class _PedidosScreenState extends State<_PedidosScreen> {
   }
 
   void openDeudaDialog(CobrosState state) {
-    print('a');
     if (state is CobrosPendientes) {
       if ((state as CobrosPendientes).showDialog) {
-        print((state as CobrosPendientes).showDialog);
         DialogHelper.openDialogWithData(
             context, state.deuda.deuda, state.deuda.detalles);
         context.read<PedidosBloc>().add(InitPedidoBuild());

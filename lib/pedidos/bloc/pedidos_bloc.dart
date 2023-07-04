@@ -27,8 +27,6 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       }
       emit(PedidoLoading());
       Producto? producto = GlobalConstants.findProducto(event.codart);
-      print('producto');
-      print(producto);
 
       if (producto != null) {
         lineas.add(PedidoLinea(
@@ -39,11 +37,9 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
             sto: producto.sto,
             descuento: producto.desc));
       }
-      print(lineas);
       emit(PedidoBuilding(lineas: lineas));
       if (producto?.rel != null) {
         Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
-        print(producto_rel);
         if (producto_rel != null) {
           addRel(producto.rel!, event.cantidad);
         }
@@ -111,7 +107,6 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
             precio: event.producto.prevena,
             descuento: event.producto.desc,
             sto: event.producto.sto));
-        print(lineas);
         emit(PedidoBuilding(lineas: lineas));
         Producto? producto =
             GlobalConstants.findProducto(event.producto.codart);
@@ -135,8 +130,6 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
         add(PedidosAddLinea(cantidad: amount, codart: rel));
       } else {
         PedidoLinea linea = lineas[index];
-        print('amount: ${amount}');
-        print('linea: ${linea.cantidad}');
 
         if ((linea.cantidad + amount) <= 0) {
           add(DeleteLinea(index: index));
@@ -148,8 +141,6 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
               producto: producto!));
         }
       }
-
-      print(lineas);
     }
   }
 }

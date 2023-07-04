@@ -20,7 +20,6 @@ class CobrosApi {
     });
     http.Response result = await http.post(Uri.parse(url),
         headers: GlobalConstants.header(), body: _body);
-    print(result.body);
     return result;
   }
 
@@ -35,7 +34,6 @@ class CobrosApi {
     });
     http.Response result = await http.post(Uri.parse(url),
         headers: GlobalConstants.header(), body: _body);
-    print(result.body);
     return result;
   }
 }

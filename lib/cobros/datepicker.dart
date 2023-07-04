@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 class DatePicker extends StatefulWidget {
   final TextEditingController controller;
-  const DatePicker({Key? key, required this.controller}) : super(key: key);
+  final bool show_time;
+  const DatePicker({Key? key, required this.controller, this.show_time = false})
+      : super(key: key);
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -14,18 +16,31 @@ class _DatePickerState extends State<DatePicker> {
   DateTime? selectedDate;
 
   void _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
     );
-
+    if (widget.show_time) {
+      TimeOfDay? time =
+          await showTimePicker(context: context, initialTime: TimeOfDay.now());
+      if (time != null && picked != null) {
+        picked = DateTime.parse(
+            '${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')} ${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:00');
+      }
+    }
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
         if (selectedDate != null) {
-          widget.controller.text = GlobalConstants.format.format(selectedDate!);
+          if (!widget.show_time) {
+            widget.controller.text =
+                GlobalConstants.format.format(selectedDate!);
+          } else {
+            widget.controller.text =
+                GlobalConstants.format_with_time.format(selectedDate!);
+          }
         }
       });
     }

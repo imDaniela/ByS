@@ -28,7 +28,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         } else {
           emit(LogInLoading());
           http.Response? resp = await LoginApi.LogAuth(username, password);
-          print('code: ${resp?.statusCode}');
           if (resp?.statusCode == 200 || resp?.statusCode == 201) {
             LoginResp json_resp = LoginResp.fromJson(resp?.body ?? '');
             GlobalConstants.storeInSharedPreferenced(json_resp);

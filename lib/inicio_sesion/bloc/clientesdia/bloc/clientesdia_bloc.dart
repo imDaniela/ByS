@@ -16,7 +16,6 @@ class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
         if (resp != null) {
           if (resp.statusCode == 200) {
             List<ClientesDia>? clientes = ClientesDia.fromJsonList(resp.body);
-            print(clientes);
             if (clientes != null) {
               emit(ClientesdiaLoaded(
                   clientes: clientes, clientes_all: clientes));
@@ -35,6 +34,7 @@ class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
         emit(esta);
       }
     });
+  
     on<SearchCliente>((event, emit) async {
       if (state is ClientesdiaLoaded) {
         /*ClientesdiaLoaded estado = state as ClientesdiaLoaded;
@@ -60,7 +60,6 @@ class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
           if (resp != null) {
             if (resp.statusCode == 200) {
               List<ClientesDia>? clientes = ClientesDia.fromJsonList(resp.body);
-              print(clientes);
               if (clientes != null) {
                 emit(ClientesdiaLoaded(
                     clientes: clientes, clientes_all: clientes));

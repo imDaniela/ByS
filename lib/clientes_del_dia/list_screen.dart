@@ -1,6 +1,8 @@
 import 'package:bys_app/clientes_del_dia/day_selector.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
+import 'package:bys_app/clientes_del_dia/saveAlertadialog.dart';
 import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
@@ -50,11 +52,67 @@ class _ListScreen extends State<ListScreen> {
                           Container(
                             padding: EdgeInsets.only(bottom: 10),
                             alignment: Alignment.center,
-                            child: const Text(
-                              'Relación Cliente', // Add your label text here
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                    flex: 1,
+                                    fit: FlexFit.tight,
+                                    child: Container(
+                                        child: Center(
+                                            child: Container(
+                                                width: 40,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            500),
+                                                    color: Color.fromRGBO(
+                                                        142, 11, 44, 1)),
+                                                child: InkWell(
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                          .pushNamed(
+                                                              'pedidos_dia');
+                                                    },
+                                                    child: Icon(
+                                                      Icons.calendar_today,
+                                                      color: Colors.white,
+                                                    )))))),
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    'Relación Cliente', // Add your label text here
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Flexible(
+                                    flex: 1,
+                                    fit: FlexFit.tight,
+                                    child: Container(
+                                        child: Center(
+                                            child: Container(
+                                                width: 40,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            500),
+                                                    color: Color.fromRGBO(
+                                                        142, 11, 44, 1)),
+                                                child: InkWell(
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                          .pushNamed('alertas');
+                                                    },
+                                                    child: Icon(
+                                                      Icons.alarm,
+                                                      color: Colors.white,
+                                                    ))))))
+                              ],
                             ),
                           ),
                           Container(
@@ -169,9 +227,18 @@ class _ListScreen extends State<ListScreen> {
                                     ),
                                     DataColumn(
                                       label: SizedBox(
-                                        width: 700,
                                         child: Text(
                                           'Nombre fiscal',
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                    DataColumn(
+                                      label: SizedBox(
+                                        child: Text(
+                                          'Accion',
                                           style: TextStyle(
                                               fontStyle: FontStyle.italic,
                                               color: Colors.white),
@@ -205,7 +272,14 @@ class _ListScreen extends State<ListScreen> {
             DataCell(Text(cliente.ordenvisit)),
             DataCell(Text(cliente.ampm)),
             DataCell(Text('')),
-            DataCell(Text(cliente.nom))
+            DataCell(Text(cliente.nom)),
+            DataCell(Container(
+                child: InkWell(
+              onTap: () {
+                SaveAlertaDialog.openDialogWithData(context, cliente: cliente);
+              },
+              child: Icon(Icons.alarm),
+            )))
           ],
           onSelectChanged: (bool? selected) {
             if (selected != null && selected) {
