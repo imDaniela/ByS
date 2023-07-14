@@ -16,6 +16,7 @@ class LoginApi {
   static Future<http.Response> Users() async {
     http.Response result =
         await http.get(Uri.parse('${GlobalConstants.apiEndPoint}get-users'));
+    print(result.body);
     return result;
   }
 }

@@ -6,7 +6,7 @@ import 'package:bys_app/productos/models/producto.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class GlobalConstants {
-  static String apiEndPoint = "http://192.168.18.7:3000/";
+  static String apiEndPoint = "http://192.168.0.200:3000/";
   static String? token;
   static String? id;
   static String? email;
