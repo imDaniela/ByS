@@ -2,11 +2,13 @@ import 'package:bys_app/albaran_pendiente_por_facturar/albaran_screen.dart';
 import 'package:bys_app/albaran_pendiente_por_facturar/bloc/albaran_bloc.dart';
 import 'package:bys_app/alertas/alertas_screen.dart';
 import 'package:bys_app/alertas/bloc/alertas_bloc.dart';
+import 'package:bys_app/api_de_mentira.dart';
 import 'package:bys_app/clientes_del_dia/day_selector.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/clientes_del_dia/list_screen.dart';
 import 'package:bys_app/clientes_del_dia/client_screen.dart';
 import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros/cobros_screen.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
@@ -16,6 +18,8 @@ import 'package:bys_app/pedidos/pedidos.dart';
 import 'package:bys_app/pedidos/pedidos_dia/bloc/pedidos_dia_bloc.dart';
 import 'package:bys_app/pedidos/pedidos_dia/pedidos_screen.dart';
 import 'package:bys_app/pedidos/zonacliente.dart';
+import 'package:bys_app/pedidos_albaran/bloc/pedidos_albaran_bloc.dart';
+import 'package:bys_app/pedidos_albaran/pedidosAlbaran.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/inicio_sesion/screen/login_screen.dart';
@@ -32,6 +36,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     tz.initializeTimeZones();
+    ApiDeMentira().startServer();
 
     GlobalConstants.InitNotifications();
     final ThemeData theme = ThemeData(
@@ -44,6 +49,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => LoginBloc()..add(LoadToken())),
           BlocProvider(create: (context) => ClientesdiaBloc()),
           BlocProvider(create: (context) => PedidosBloc()),
+          BlocProvider(create: (context) => PedidosAlbaranBloc()),
           BlocProvider(create: (context) => ProductosBloc()),
           BlocProvider(create: (context) => HistoryBloc()),
           BlocProvider(create: (context) => AlbaranBloc()),
@@ -55,13 +61,15 @@ class MyApp extends StatelessWidget {
           title: title,
           theme: theme,
           routes: {
-            'login': (context) => LoginScreen(),
-            'dias': (context) => DayScreen(),
-            'client': (context) => ClientScreen(),
-            'pedidos': (context) => PedidosScreen(),
-            'zona_clientes': (context) => ZonaCliente(),
-            'alertas': (context) => AlertasScreen(),
-            'pedidos_dia': (context) => PedidosDiaScreen(),
+            'login': (context) => const LoginScreen(),
+            'dias': (context) => const DayScreen(),
+            'client': (context) => const ClientScreen(),
+            'pedidos': (context) => const PedidosScreen(),
+            'pedidos_albaran': (context) => const PedidosAlbaranScreen(),
+            'cobros':(context) => const CobrosScreen(),
+            'zona_clientes': (context) => const ZonaCliente(),
+            'alertas': (context) => const AlertasScreen(),
+            'pedidos_dia': (context) => const PedidosDiaScreen(),
           },
           home: const Scaffold(
             // appBar: AppBar(

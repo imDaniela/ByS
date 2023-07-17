@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bys_app/inicio_sesion/model/User.dart';
+import 'package:bys_app/inicio_sesion/model/user.dart';
 
 class LoginResp {
   String? token;

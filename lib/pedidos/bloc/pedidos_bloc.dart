@@ -7,6 +7,7 @@ import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
 import 'package:bys_app/pedidos/models/PedidoLinea.dart';
 import 'package:bys_app/productos/models/producto.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 part 'pedidos_event.dart';
