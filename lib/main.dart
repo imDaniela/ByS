@@ -21,6 +21,7 @@ import 'package:bys_app/pedidos/zonacliente.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albaran_bloc.dart';
 import 'package:bys_app/pedidos_albaran/pedidosAlbaran.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/inicio_sesion/screen/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     tz.initializeTimeZones();
-    ApiDeMentira().startServer();
+    if (kDebugMode) {
+      ApiDeMentira().startServer();
+    }
 
     GlobalConstants.InitNotifications();
     final ThemeData theme = ThemeData(
@@ -76,7 +79,7 @@ class MyApp extends StatelessWidget {
             //     title: const Text(title),
             //     backgroundColor: const Color.fromRGBO(
             //         142, 11, 44, 1)), // Set the background color of the AppBar
-            body: LoginScreen(),
+            body: CobrosScreen(),
           ),
         ));
   }
