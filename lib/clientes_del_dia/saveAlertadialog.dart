@@ -1,17 +1,10 @@
 import 'package:bys_app/alertas/bloc/alertas_bloc.dart';
 import 'package:bys_app/alertas/model/Alerta.dart';
-import 'package:bys_app/cobros/AlbaranesDialog.dart';
-import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
-import 'package:bys_app/cobros/datepicker.dart';
-import 'package:bys_app/cobros/select.dart';
+import 'package:bys_app/cobros_unificados/cobros/datepicker.dart';
 import 'package:bys_app/general/const.dart';
-import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:flutter/material.dart';
-import 'package:bys_app/pedidos/models/FacturaPendiente.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:bys_app/pedidos/models/FacturaAlbaran.dart';
 
 class SaveAlertaDialog {
   static void openDialogWithData(BuildContext context,

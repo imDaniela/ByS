@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
-import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
-import 'package:bys_app/pedidos/deudaDialog.dart';
-import 'package:bys_app/pedidos/lineapedidoDialog.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albara_state.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albaran_bloc.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albaran_event.dart';
@@ -42,17 +39,6 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback(
         (_) => context.read<PedidosAlbaranBloc>().add(SearchPedido()));
-  }
-
-  void openDeudaDialog(CobrosState state) {
-    if (state is CobrosPendientes) {
-      if ((state as CobrosPendientes).showDialog) {
-        DialogHelper.openDialogWithData(
-            context, state.deuda.deuda, state.deuda.detalles);
-        context.read<PedidosAlbaranBloc>().add(InitPedidoAlbaranBuild());
-        context.read<CobrosBloc>().add(toggleDialogEvent(false));
-      }
-    }
   }
 
   @override

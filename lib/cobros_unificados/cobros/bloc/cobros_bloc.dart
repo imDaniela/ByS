@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:bys_app/cobros/api/cobros_api.dart';
+import 'package:bys_app/cobros_unificados/cobros/api/cobros_api.dart';
 import 'package:bys_app/pedidos/api/pedidos_api.dart';
 import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
 import 'package:equatable/equatable.dart';

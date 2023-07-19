@@ -1,6 +1,6 @@
 import 'package:bys_app/clientes_del_dia/client_screen.dart';
 import 'package:bys_app/albaran_pendiente_por_facturar/albaran_screen.dart';
-import 'package:bys_app/cobros/cobros_screen.dart';
+import 'package:bys_app/cobros_unificados/cobros/cobros_screen.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos/pedidos.dart';
 

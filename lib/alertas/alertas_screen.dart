@@ -1,5 +1,4 @@
 import 'package:bys_app/albaran_pendiente_por_facturar/bloc/albaran_bloc.dart';
-import 'package:bys_app/albaran_pendiente_por_facturar/model/albaran.dart';
 import 'package:bys_app/alertas/bloc/alertas_bloc.dart';
 import 'package:bys_app/clientes_del_dia/saveAlertadialog.dart';
 import 'package:bys_app/general/const.dart';

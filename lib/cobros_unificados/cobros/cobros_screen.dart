@@ -1,16 +1,9 @@
-import 'package:bys_app/clientes_del_dia/day_selector.dart';
-import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
-import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
-import 'package:bys_app/cobros/saveCobroDialog.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros_unificados/cobros/saveCobroDialog.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
-import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
-import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
-import 'package:bys_app/pedidos/models/FacturaPendiente.dart';
-import 'package:bys_app/productos/bloc/productos_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

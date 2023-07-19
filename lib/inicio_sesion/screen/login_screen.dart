@@ -1,9 +1,7 @@
 import 'package:bys_app/inicio_sesion/model/user.dart';
 import 'package:flutter/material.dart';
-import 'package:bys_app/clientes_del_dia/list_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
-import 'package:bys_app/general/const.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

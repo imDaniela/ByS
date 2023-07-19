@@ -1,11 +1,8 @@
-import 'package:bys_app/general/const.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
 import 'package:bys_app/productos/models/producto.dart';
 import 'package:flutter/material.dart';
-import 'package:bys_app/pedidos/models/FacturaPendiente.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class LineaPedidoDialog {
   static void openDialogWithData(BuildContext context) {

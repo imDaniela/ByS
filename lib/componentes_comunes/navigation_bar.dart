@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
-class NavigationBar extends StatefulWidget {
-  const NavigationBar({Key? key}) : super(key: key);
-
+class AppNavigationBar extends StatefulWidget {
+  const AppNavigationBar({
+    required this.currentIndex,
+    required this.onChange,
+    Key? key}) : super(key: key);
+  final int currentIndex;
+  final Function(int) onChange;
   @override
-  State<NavigationBar> createState() => _NavigationBar();
+  State<AppNavigationBar> createState() => _AppNavigationBar();
 }
 
-class _NavigationBar extends State<NavigationBar> {
+class _AppNavigationBar extends State<AppNavigationBar> {
   int _selectedIndex = 0;
   int currentIndex = 0;
 
@@ -28,21 +32,17 @@ class _NavigationBar extends State<NavigationBar> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.monitor,
+            Icons.person,
           ),
-          label: 'Ventas',
+          label: 'Clientes',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Buscar',
+          icon: Icon(Icons.rectangle_outlined),
+          label: 'Pedidos',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.euro),
-          label: 'Favoritos',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.info),
-          label: 'Info',
+          label: 'Cobros',
         ),
       ],
     );

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:bys_app/inicio_sesion/model/user.dart';
-import 'package:bys_app/inicio_sesion/screen/login_screen.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:bys_app/general/const.dart';

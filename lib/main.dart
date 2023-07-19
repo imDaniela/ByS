@@ -1,18 +1,17 @@
-import 'package:bys_app/albaran_pendiente_por_facturar/albaran_screen.dart';
 import 'package:bys_app/albaran_pendiente_por_facturar/bloc/albaran_bloc.dart';
 import 'package:bys_app/alertas/alertas_screen.dart';
 import 'package:bys_app/alertas/bloc/alertas_bloc.dart';
 import 'package:bys_app/api_de_mentira.dart';
-import 'package:bys_app/clientes_del_dia/day_selector.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/clientes_del_dia/list_screen.dart';
 import 'package:bys_app/clientes_del_dia/client_screen.dart';
-import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
-import 'package:bys_app/cobros/cobros_screen.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros_unificados/cobros/cobros_screen.dart';
+import 'package:bys_app/cobros_unificados/tab_view.dart';
+import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
-import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/pedidos/pedidos.dart';
 import 'package:bys_app/pedidos/pedidos_dia/bloc/pedidos_dia_bloc.dart';
@@ -74,13 +73,45 @@ class MyApp extends StatelessWidget {
             'alertas': (context) => const AlertasScreen(),
             'pedidos_dia': (context) => const PedidosDiaScreen(),
           },
-          home: const Scaffold(
-            // appBar: AppBar(
-            //     title: const Text(title),
-            //     backgroundColor: const Color.fromRGBO(
-            //         142, 11, 44, 1)), // Set the background color of the AppBar
-            body: CobrosScreen(),
-          ),
+          home: const RootHome() // LoginScreen()
         ));
   }
+}
+
+class RootHome extends StatefulWidget {
+  const RootHome({Key? key}) : super(key: key);
+
+  @override
+  State<RootHome> createState() => _RootHomeState();
+}
+
+class _RootHomeState extends State<RootHome> {
+
+  // Pages current index
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(
+      //     title: const Text(title),
+      //     backgroundColor: const Color.fromRGBO(
+      //         142, 11, 44, 1)), // Set the background color of the AppBar
+      body: currentScreen(),
+      bottomNavigationBar: AppNavigationBar(
+        currentIndex: currentIndex,
+        onChange: (index) => setState(() => currentIndex = index)),
+    );
+  }
+  
+  Widget currentScreen() {
+    // Current Screens (3)
+    List<Widget> screens = const [
+      DayScreen(),
+      PedidosAlbaranScreen(),
+      CobrosUnificados()
+    ];
+    return screens[currentIndex];
+  }
+
 }

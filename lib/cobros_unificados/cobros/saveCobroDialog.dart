@@ -1,13 +1,11 @@
-import 'package:bys_app/cobros/AlbaranesDialog.dart';
-import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
-import 'package:bys_app/cobros/datepicker.dart';
-import 'package:bys_app/cobros/select.dart';
+import 'package:bys_app/cobros_unificados/cobros/AlbaranesDialog.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros_unificados/cobros/datepicker.dart';
+import 'package:bys_app/cobros_unificados/cobros/select.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:bys_app/pedidos/models/FacturaPendiente.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:bys_app/pedidos/models/FacturaAlbaran.dart';
 
 enum PaymentMethod { contado, datafono, cheque, transferencia }
