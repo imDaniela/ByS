@@ -95,7 +95,7 @@ class _PedidosDiasList extends State<PedidosDiasList> {
                               ),
                             ),
                           ],
-                          rows: listado(state.pedidos ?? [])),
+                          rows: listado(state.pedidos)),
                     ))),
           ],
         ));

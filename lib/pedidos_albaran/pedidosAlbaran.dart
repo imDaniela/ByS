@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albara_state.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albaran_bloc.dart';
@@ -155,7 +154,7 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
                   );
                 } else {
                   return const SizedBox();
-                };
+                }
       },
     );
   }

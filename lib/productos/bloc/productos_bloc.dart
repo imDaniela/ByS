@@ -14,17 +14,15 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   ProductosBloc() : super(ProductosInitial()) {
     on<LoadProductos>((event, emit) async {
       http.Response resp = await ProductosApi.getProductos(event.codcli);
-      if (resp != null) {
-        if (resp.statusCode == 200) {
-          List<Producto> productos = [];
-          List<dynamic> temp = jsonDecode(resp.body);
-          temp.forEach((element) {
-            productos.add(Producto.fromMap(element));
-          });
-          GlobalConstants.productos = productos;
-          emit(
-              ProductosInitial(productos: productos, productos_all: productos));
-        }
+      if (resp.statusCode == 200) {
+        List<Producto> productos = [];
+        List<dynamic> temp = jsonDecode(resp.body);
+        temp.forEach((element) {
+          productos.add(Producto.fromMap(element));
+        });
+        GlobalConstants.productos = productos;
+        emit(
+            ProductosInitial(productos: productos, productos_all: productos));
       }
     });
     on<SearchProductos>((event, emit) {

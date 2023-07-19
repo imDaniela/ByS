@@ -15,7 +15,7 @@ class AlbaranesDialog {
           DataCell(Text(element.canser.toString())),
           DataCell(Text(element.preven.toString())),
           DataCell(Text((element.canser * element.preven).toString())),
-          DataCell(Text(GlobalConstants.format.format(element.fecgar!))),
+          DataCell(Text(GlobalConstants.format.format(element.fecgar))),
         ]));
       });
       return result;
