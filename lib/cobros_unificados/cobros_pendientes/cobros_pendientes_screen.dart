@@ -2,6 +2,8 @@ import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
 import 'package:bys_app/cobros_unificados/cobros/models/cobro.dart';
 import 'package:bys_app/cobros_unificados/cobros/saveCobroDialog.dart';
 import 'package:bys_app/cobros_unificados/cobros_dialog_helper.dart';
+import 'package:bys_app/cobros_unificados/cobros_pendientes/bloc/cobros_pendientes_state.dart';
+import 'package:bys_app/cobros_unificados/cobros_pendientes/models/cobro_pendiente.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
@@ -9,36 +11,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class CobrosScreen extends StatefulWidget {
-  const CobrosScreen({
+class CobrosPendientesScreen extends StatefulWidget {
+  const CobrosPendientesScreen({
     this.state,
     Key? key}) : super(key: key);
-  final CobrosState? state;
+  final CobrosPendientesState? state;
   @override
-  State<CobrosScreen> createState() => _CobrosScreen();
+  State<CobrosPendientesScreen> createState() => _CobrosPendientesScreen();
 }
 
-class _CobrosScreen extends State<CobrosScreen> {
+class _CobrosPendientesScreen extends State<CobrosPendientesScreen> {
   @override
   Widget build(BuildContext context) {
-    return widget.state == null ? BlocConsumer<CobrosBloc, CobrosState>(
-        listener: (context, state) {
-          if (state is CobrosSuccess) {
-            Fluttertoast.showToast(
-                msg: "Se ha rehow alizado el cobro con éxito",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.TOP,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Color.fromARGB(255, 0, 155, 0),
-                textColor: Colors.white,
-                fontSize: 16.0);
-          }
-        },
-        builder: (context, state) => _body(state: state))
-      : _body(state: widget.state!);
+    return _body(state: widget.state!);
   }
 
-  Widget _body({required CobrosState state}) {
+  Widget _body({required CobrosPendientesState state}) {
     return Column(
       children: <Widget>[
         Container(
@@ -86,37 +74,7 @@ class _CobrosScreen extends State<CobrosScreen> {
                         DataColumn(
                           label: Expanded(
                             child: Text(
-                              'Numero de Factura',
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Fecha de cobro',
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Importe',
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'F.P.',
+                              'Total Pendiente',
                               style: TextStyle(
                                   fontStyle: FontStyle.italic,
                                   color: Colors.white),
@@ -124,12 +82,12 @@ class _CobrosScreen extends State<CobrosScreen> {
                           ),
                         ),
                       ],
-                      rows: state is CobrosBuilding
+                      rows: state is CobrosPedientesBuilding
                           ? listado(
                               (state).cobros)
                           : []),
                 ))),
-        state is CobroLoading
+        state is CobrosPendientesLoading
             ? Expanded(
                 flex: 5,
                 child: Center(child: CircularProgressIndicator()))
@@ -138,21 +96,21 @@ class _CobrosScreen extends State<CobrosScreen> {
     );
   }
 
-  List<DataRow> listado(List<Cobro> cobros) {
+  List<DataRow> listado(List<CobroPendiente> cobros) {
     List<DataRow> resultado = [];
     cobros.forEach((cobro) {
       resultado.add(DataRow(
+          color: MaterialStateProperty.all(((cobro.importe ?? 0) >= 1000) ? Colors.red.withOpacity(0.8) : Colors.blue.withOpacity(0.8)),
           cells: <DataCell>[
             DataCell(Text(cobro.codigoCliente.toString())),
-            DataCell(Text(cobro.nombre.toString())),
-            DataCell(Text(cobro.nombreComercio.toString())),
-            DataCell(Text(cobro.numeroFactura.toString())),
-            DataCell(Text(cobro.fechaFactura.toString())),
+            DataCell(Text(cobro.nombreFiscal.toString())),
+            DataCell(Text(cobro.nombreComercial.toString())),
             DataCell(Text(cobro.importe.toString())),
-            DataCell(Text(cobro.formaPago.toString())),
           ],
           onSelectChanged: (bool? selected) {
-            CobrosDialogHelper.openCobrosDialogWithData(context, cobro.numeroFactura!);
+            CobrosDialogHelper.openCobrosPendientesDialogWithData(context, cobro.codigoCliente!);
+            // CobroDialog.openDialogWithData(context, saldo.restofactura ?? 0,
+            //     saldo.numfac!, saldo.albfaclis ?? []);
             /*if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<CobrosBloc>().add(CheckDeudaEvent(cliente.codcli));

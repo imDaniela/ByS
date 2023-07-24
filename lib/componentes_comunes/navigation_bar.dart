@@ -12,19 +12,15 @@ class AppNavigationBar extends StatefulWidget {
 }
 
 class _AppNavigationBar extends State<AppNavigationBar> {
-  int _selectedIndex = 0;
-  int currentIndex = 0;
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    widget.onChange(index);
   }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: _selectedIndex,
+      currentIndex: widget.currentIndex,
       onTap: _onItemTapped,
       selectedItemColor: Color.fromRGBO(142, 11, 44, 1),
       unselectedItemColor: Colors.grey,

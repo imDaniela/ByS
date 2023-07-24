@@ -15,6 +15,11 @@ class CobrosPendientes extends CobrosState {
   const CobrosPendientes(this.deuda, {required this.showDialog}) : super();
 }
 
+class CobrosBuilding extends CobrosState {
+  final List<Cobro> cobros;
+  const CobrosBuilding(this.cobros);
+}
+
 class CobrosSuccess extends CobrosState {}
 
 class CobrosInitial extends CobrosState {}

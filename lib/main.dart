@@ -7,7 +7,8 @@ import 'package:bys_app/clientes_del_dia/list_screen.dart';
 import 'package:bys_app/clientes_del_dia/client_screen.dart';
 import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
 import 'package:bys_app/cobros_unificados/cobros/cobros_screen.dart';
-import 'package:bys_app/cobros_unificados/tab_view.dart';
+import 'package:bys_app/cobros_unificados/cobros_pendientes/bloc/cobros_pedientes_bloc.dart';
+import 'package:bys_app/cobros_unificados/cobros_unificados.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
@@ -57,7 +58,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => AlbaranBloc()),
           BlocProvider(create: (context) => CobrosBloc()),
           BlocProvider(create: (context) => AlertasBloc()),
-          BlocProvider(create: (context) => PedidosDiaBloc())
+          BlocProvider(create: (context) => PedidosDiaBloc()),
+          BlocProvider(create: (context) => CobrosPendientesBloc())
         ],
         child: MaterialApp(
           title: title,
@@ -90,6 +92,13 @@ class _RootHomeState extends State<RootHome> {
   // Pages current index
   int currentIndex = 0;
 
+  // Current Screens (3)
+  static List<Widget> screens = const [
+    DayScreen(key: GlobalObjectKey('dayScreen')),
+    PedidosAlbaranScreen(key: GlobalObjectKey('pedidosAlb')),
+    CobrosUnificados(key: GlobalObjectKey('cobros'))
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,12 +114,6 @@ class _RootHomeState extends State<RootHome> {
   }
   
   Widget currentScreen() {
-    // Current Screens (3)
-    List<Widget> screens = const [
-      DayScreen(),
-      PedidosAlbaranScreen(),
-      CobrosUnificados()
-    ];
     return screens[currentIndex];
   }
 
