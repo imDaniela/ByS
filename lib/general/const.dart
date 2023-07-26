@@ -5,10 +5,12 @@ import 'package:intl/intl.dart';
 import 'package:bys_app/productos/models/producto.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-const fakeEndPoint = 'http://127.0.0.1:8080/';
+//const fakeEndPoint = 'http://127.0.0.1:8080/';
 
 class GlobalConstants {
-  static String apiEndPoint = "http://192.168.0.200:3000/";
+  //static String apiEndPoint = "http://192.168.0.200:3000/";
+  static String apiEndPoint = "http://192.168.18.7:3001/";
+
   static String? token;
   static String? id;
   static String? email;

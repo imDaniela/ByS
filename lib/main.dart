@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     tz.initializeTimeZones();
     if (kDebugMode) {
-      ApiDeMentira().startServer();
+      //ApiDeMentira().startServer();
     }
 
     GlobalConstants.InitNotifications();
@@ -62,21 +62,21 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => CobrosPendientesBloc())
         ],
         child: MaterialApp(
-          title: title,
-          theme: theme,
-          routes: {
-            'login': (context) => const LoginScreen(),
-            'dias': (context) => const DayScreen(),
-            'client': (context) => const ClientScreen(),
-            'pedidos': (context) => const PedidosScreen(),
-            'pedidos_albaran': (context) => const PedidosAlbaranScreen(),
-            'cobros':(context) => const CobrosScreen(),
-            'zona_clientes': (context) => const ZonaCliente(),
-            'alertas': (context) => const AlertasScreen(),
-            'pedidos_dia': (context) => const PedidosDiaScreen(),
-          },
-          home: const RootHome() // LoginScreen()
-        ));
+            title: title,
+            theme: theme,
+            routes: {
+              'login': (context) => const LoginScreen(),
+              'dias': (context) => const DayScreen(),
+              'client': (context) => const ClientScreen(),
+              'pedidos': (context) => const PedidosScreen(),
+              'pedidos_albaran': (context) => const PedidosAlbaranScreen(),
+              'cobros': (context) => const CobrosScreen(),
+              'zona_clientes': (context) => const ZonaCliente(),
+              'alertas': (context) => const AlertasScreen(),
+              'pedidos_dia': (context) => const PedidosDiaScreen(),
+            },
+            home: const RootHome() // LoginScreen()
+            ));
   }
 }
 
@@ -88,7 +88,6 @@ class RootHome extends StatefulWidget {
 }
 
 class _RootHomeState extends State<RootHome> {
-
   // Pages current index
   int currentIndex = 0;
 
@@ -108,13 +107,12 @@ class _RootHomeState extends State<RootHome> {
       //         142, 11, 44, 1)), // Set the background color of the AppBar
       body: currentScreen(),
       bottomNavigationBar: AppNavigationBar(
-        currentIndex: currentIndex,
-        onChange: (index) => setState(() => currentIndex = index)),
+          currentIndex: currentIndex,
+          onChange: (index) => setState(() => currentIndex = index)),
     );
   }
-  
+
   Widget currentScreen() {
     return screens[currentIndex];
   }
-
 }
