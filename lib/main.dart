@@ -5,8 +5,9 @@ import 'package:bys_app/api_de_mentira.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/clientes_del_dia/list_screen.dart';
 import 'package:bys_app/clientes_del_dia/client_screen.dart';
-import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
-import 'package:bys_app/cobros_unificados/cobros/cobros_screen.dart';
+import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros/cobros_screen.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_realizados_bloc.dart';
 import 'package:bys_app/cobros_unificados/cobros_pendientes/bloc/cobros_pedientes_bloc.dart';
 import 'package:bys_app/cobros_unificados/cobros_unificados.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => HistoryBloc()),
           BlocProvider(create: (context) => AlbaranBloc()),
           BlocProvider(create: (context) => CobrosBloc()),
+          BlocProvider(create: (context) => CobrosRealizadosBloc()),
           BlocProvider(create: (context) => AlertasBloc()),
           BlocProvider(create: (context) => PedidosDiaBloc()),
           BlocProvider(create: (context) => CobrosPendientesBloc())

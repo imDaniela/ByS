@@ -1,29 +1,26 @@
-import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_realizados_bloc.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_realizados_state.dart';
 import 'package:bys_app/cobros_unificados/cobros/models/cobro.dart';
-import 'package:bys_app/cobros_unificados/cobros/saveCobroDialog.dart';
 import 'package:bys_app/cobros_unificados/cobros_dialog_helper.dart';
-import 'package:bys_app/general/const.dart';
-import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
-import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class CobrosScreen extends StatefulWidget {
-  const CobrosScreen({
+class CobrosRealizadosScreen extends StatefulWidget {
+  const CobrosRealizadosScreen({
     this.state,
     Key? key}) : super(key: key);
-  final CobrosState? state;
+  final CobrosRealizadosState? state;
   @override
-  State<CobrosScreen> createState() => _CobrosScreen();
+  State<CobrosRealizadosScreen> createState() => _CobrosScreen();
 }
 
-class _CobrosScreen extends State<CobrosScreen> {
+class _CobrosScreen extends State<CobrosRealizadosScreen> {
   @override
   Widget build(BuildContext context) {
-    return widget.state == null ? BlocConsumer<CobrosBloc, CobrosState>(
+    return widget.state == null ? BlocConsumer<CobrosRealizadosBloc, CobrosRealizadosState>(
         listener: (context, state) {
-          if (state is CobrosSuccess) {
+          if (state is CobrosRealizadosSuccess) {
             Fluttertoast.showToast(
                 msg: "Se ha rehow alizado el cobro con éxito",
                 toastLength: Toast.LENGTH_SHORT,
@@ -38,7 +35,7 @@ class _CobrosScreen extends State<CobrosScreen> {
       : _body(state: widget.state!);
   }
 
-  Widget _body({required CobrosState state}) {
+  Widget _body({required CobrosRealizadosState state}) {
     return Column(
       children: <Widget>[
         Container(
@@ -124,12 +121,12 @@ class _CobrosScreen extends State<CobrosScreen> {
                           ),
                         ),
                       ],
-                      rows: state is CobrosBuilding
+                      rows: state is CobrosRealizadosBuilding
                           ? listado(
                               (state).cobros)
                           : []),
                 ))),
-        state is CobroLoading
+        state is CobrosRealizadosLoading
             ? Expanded(
                 flex: 5,
                 child: Center(child: CircularProgressIndicator()))

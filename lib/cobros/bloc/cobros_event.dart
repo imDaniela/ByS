@@ -35,17 +35,3 @@ class SaveCobroEvent extends CobrosEvent {
       required this.cobro,
       required this.fecha});
 }
-
-
-
-class GetCobros extends CobrosEvent {
-  final DateTime init;
-  final DateTime end;
-  final String? search;
-  const GetCobros({required this.init, required this.end, this.search});
-}
-
-class GetDetallesCobro extends CobrosEvent {
-  final int numeroFactura;
-  const GetDetallesCobro({required this.numeroFactura});
-}

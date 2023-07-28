@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
-import 'package:bys_app/cobros_unificados/cobros/api/cobros_api.dart';
-import 'package:bys_app/cobros_unificados/cobros/models/cobro.dart';
+import 'package:bys_app/cobros/api/cobros_api.dart';
 import 'package:bys_app/pedidos/api/pedidos_api.dart';
 import 'package:bys_app/pedidos/models/ClienteSaldoPendiente.dart';
 import 'package:equatable/equatable.dart';
@@ -62,26 +59,6 @@ class CobrosBloc extends Bloc<CobrosEvent, CobrosState> {
       } catch (ex) {
         emit(estado);
       }
-    });
-    on<GetCobros>((event, emit) async {
-      emit(CobroLoading());
-      List<Cobro> cobros = [];
-      try {
-        final response = await CobrosApi.getCobros(
-          inicio: event.init,
-          fin: event.end,
-          search: event.search,
-        );
-        if (response.statusCode == 200) {
-          if (response.body != 'null') {
-            List<dynamic> body = jsonDecode(response.body);
-            for (final cobro in body) {
-              cobros.add(Cobro.fromMap(cobro));
-            }
-            emit(CobrosBuilding(cobros));
-          }
-        }
-      } catch (_) {}
     });
   }
 }
