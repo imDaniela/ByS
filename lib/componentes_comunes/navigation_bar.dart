@@ -1,10 +1,11 @@
+import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppNavigationBar extends StatefulWidget {
-  const AppNavigationBar({
-    required this.currentIndex,
-    required this.onChange,
-    Key? key}) : super(key: key);
+  const AppNavigationBar(
+      {required this.currentIndex, required this.onChange, Key? key})
+      : super(key: key);
   final int currentIndex;
   final Function(int) onChange;
   @override
@@ -12,9 +13,14 @@ class AppNavigationBar extends StatefulWidget {
 }
 
 class _AppNavigationBar extends State<AppNavigationBar> {
-
   void _onItemTapped(int index) {
-    widget.onChange(index);
+    if (index < 4) {
+      widget.onChange(index);
+    } else {
+      context.read<LoginBloc>().add(LogOut());
+
+      Navigator.of(context).pushNamedAndRemoveUntil('login', (route) => false);
+    }
   }
 
   @override
@@ -39,6 +45,14 @@ class _AppNavigationBar extends State<AppNavigationBar> {
         BottomNavigationBarItem(
           icon: Icon(Icons.euro),
           label: 'Cobros',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.file_open),
+          label: 'Archivos',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.logout),
+          label: 'Salir',
         ),
       ],
     );

@@ -12,7 +12,7 @@ class PedidosAlbaranApi {
   }
 
   static Future<http.Response> getPedido(int codigo) async {
-    String url = '${GlobalConstants.apiEndPoint}get-pedido-albaran/$codigo}';
+    String url = '${GlobalConstants.apiEndPoint}get-pedido-albaran/$codigo';
     final response =
         await http.get(Uri.parse(url), headers: GlobalConstants.header());
     return response;

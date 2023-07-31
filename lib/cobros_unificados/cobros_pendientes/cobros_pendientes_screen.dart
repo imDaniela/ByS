@@ -4,9 +4,7 @@ import 'package:bys_app/cobros_unificados/cobros_pendientes/models/cobro_pendien
 import 'package:flutter/material.dart';
 
 class CobrosPendientesScreen extends StatefulWidget {
-  const CobrosPendientesScreen({
-    this.state,
-    Key? key}) : super(key: key);
+  const CobrosPendientesScreen({this.state, Key? key}) : super(key: key);
   final CobrosPendientesState? state;
   @override
   State<CobrosPendientesScreen> createState() => _CobrosPendientesScreen();
@@ -19,19 +17,18 @@ class _CobrosPendientesScreen extends State<CobrosPendientesScreen> {
   }
 
   Widget _body({required CobrosPendientesState state}) {
-    return Column(
-      children: <Widget>[
-        Container(
-            width: 1000000,
-            child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: DataTable(
+    return Container(
+      width: 1000000,
+      child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: <Widget>[
+                  DataTable(
                       showCheckboxColumn: false,
-                      headingRowColor: MaterialStateProperty
-                          .resolveWith<Color>((states) =>
-                              const Color.fromRGBO(142, 11, 44, 1)),
+                      headingRowColor: MaterialStateProperty.resolveWith<Color>(
+                          (states) => const Color.fromRGBO(142, 11, 44, 1)),
                       columns: const <DataColumn>[
                         DataColumn(
                           label: Expanded(
@@ -75,16 +72,15 @@ class _CobrosPendientesScreen extends State<CobrosPendientesScreen> {
                         ),
                       ],
                       rows: state is CobrosPedientesBuilding
-                          ? listado(
-                              (state).cobros)
+                          ? listado((state).cobros)
                           : []),
-                ))),
-        state is CobrosPendientesLoading
-            ? Expanded(
-                flex: 5,
-                child: Center(child: CircularProgressIndicator()))
-            : Container(),
-      ],
+                  state is CobrosPendientesLoading
+                      ? Expanded(
+                          flex: 5,
+                          child: Center(child: CircularProgressIndicator()))
+                      : Container(),
+                ],
+              ))),
     );
   }
 
@@ -92,7 +88,9 @@ class _CobrosPendientesScreen extends State<CobrosPendientesScreen> {
     List<DataRow> resultado = [];
     cobros.forEach((cobro) {
       resultado.add(DataRow(
-          color: MaterialStateProperty.all(((cobro.importe ?? 0) >= 1000) ? Colors.red.withOpacity(0.8) : Colors.blue.withOpacity(0.8)),
+          color: MaterialStateProperty.all(((cobro.importe ?? 0) >= 1000)
+              ? Colors.red.withOpacity(0.8)
+              : Colors.blue.withOpacity(0.8)),
           cells: <DataCell>[
             DataCell(Text(cobro.codigoCliente.toString())),
             DataCell(Text(cobro.nombreFiscal.toString())),
@@ -100,7 +98,8 @@ class _CobrosPendientesScreen extends State<CobrosPendientesScreen> {
             DataCell(Text(cobro.importe.toString())),
           ],
           onSelectChanged: (bool? selected) {
-            CobrosDialogHelper.openCobrosPendientesDialogWithData(context, cobro.codigoCliente!);
+            CobrosDialogHelper.openCobrosPendientesDialogWithData(
+                context, cobro.codigoCliente!);
             // CobroDialog.openDialogWithData(context, saldo.restofactura ?? 0,
             //     saldo.numfac!, saldo.albfaclis ?? []);
             /*if (selected != null && selected) {

@@ -11,6 +11,8 @@ import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_realizados_bloc.dar
 import 'package:bys_app/cobros_unificados/cobros_pendientes/bloc/cobros_pedientes_bloc.dart';
 import 'package:bys_app/cobros_unificados/cobros_unificados.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
+import 'package:bys_app/file_screen/bloc/file_bloc.dart';
+import 'package:bys_app/file_screen/file_screen.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
@@ -61,7 +63,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => CobrosRealizadosBloc()),
           BlocProvider(create: (context) => AlertasBloc()),
           BlocProvider(create: (context) => PedidosDiaBloc()),
-          BlocProvider(create: (context) => CobrosPendientesBloc())
+          BlocProvider(create: (context) => CobrosPendientesBloc()),
+          BlocProvider(create: (context) => FileBloc())
         ],
         child: MaterialApp(
             title: title,
@@ -76,8 +79,10 @@ class MyApp extends StatelessWidget {
               'zona_clientes': (context) => const ZonaCliente(),
               'alertas': (context) => const AlertasScreen(),
               'pedidos_dia': (context) => const PedidosDiaScreen(),
+              'root_home': (context) => RootHome(),
+              'file_screen': (context) => FileScreen()
             },
-            home: const RootHome() // LoginScreen()
+            home: LoginScreen() //const LoginScreen() // LoginScreen()
             ));
   }
 }
@@ -97,7 +102,8 @@ class _RootHomeState extends State<RootHome> {
   static List<Widget> screens = const [
     DayScreen(key: GlobalObjectKey('dayScreen')),
     PedidosAlbaranScreen(key: GlobalObjectKey('pedidosAlb')),
-    CobrosUnificados(key: GlobalObjectKey('cobros'))
+    CobrosUnificados(key: GlobalObjectKey('cobros')),
+    FileScreen()
   ];
 
   @override

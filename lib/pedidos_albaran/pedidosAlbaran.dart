@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albara_state.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albaran_bloc.dart';
@@ -27,7 +28,6 @@ class _PedidosAlbaranScreen extends StatefulWidget {
 }
 
 class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
-
   // Search Controller
   TextEditingController _searchController = TextEditingController();
   Timer? _debounce;
@@ -43,118 +43,115 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PedidosAlbaranBloc, PedidosAlbaranState>(
-      listener: (context, state) {
-        
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state == const PedidoAlbaranBuilding()) {
-        return BlocBuilder<ClientesdiaBloc, ClientesdiaState>(
-            builder: (context, state_cliente) => Scaffold(
-                body: Container(
-                    child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(top: 60, bottom: 40),
-                      child: _appBar()
-                    ),
-                    Expanded(
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Container(
-                                child: DataTable(
-                                    
-                                    showCheckboxColumn: false,
-                                    headingRowColor: MaterialStateProperty
-                                        .resolveWith<Color>((states) =>
-                                            const Color.fromRGBO(
-                                                142, 11, 44, 1)),
-                                    columns: const <DataColumn>[
-                                      DataColumn(
-                                        label: Expanded(
-                                          child: Text(
-                                            'Codigo',
-                                            style: TextStyle(
-                                                fontStyle: FontStyle.italic,
-                                                color: Colors.white),
+          return BlocBuilder<ClientesdiaBloc, ClientesdiaState>(
+              builder: (context, state_cliente) => Scaffold(
+                      body: Container(
+                          child: Column(
+                    children: <Widget>[
+                      Container(
+                          padding: const EdgeInsets.only(top: 60, bottom: 40),
+                          child: _appBar()),
+                      Expanded(
+                          child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: Container(
+                                  child: DataTable(
+                                      showCheckboxColumn: false,
+                                      headingRowColor: MaterialStateProperty
+                                          .resolveWith<Color>((states) =>
+                                              const Color.fromRGBO(
+                                                  142, 11, 44, 1)),
+                                      columns: const <DataColumn>[
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Codigo',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      // DataColumn(
-                                      //   label: Expanded(
-                                      //     child: Text(
-                                      //       'Nombre Fiscal',
-                                      //       style: TextStyle(
-                                      //           fontStyle: FontStyle.italic,
-                                      //           color: Colors.white),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      DataColumn(
-                                        label: Expanded(
-                                          child: Text(
-                                            'Nombre Comercial',
-                                            style: TextStyle(
-                                                fontStyle: FontStyle.italic,
-                                                color: Colors.white),
+                                        // DataColumn(
+                                        //   label: Expanded(
+                                        //     child: Text(
+                                        //       'Nombre Fiscal',
+                                        //       style: TextStyle(
+                                        //           fontStyle: FontStyle.italic,
+                                        //           color: Colors.white),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Nombre Comercial',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      DataColumn(
-                                        label: Expanded(
-                                          child: Text(
-                                            'Fecha Creacion',
-                                            style: TextStyle(
-                                                fontStyle: FontStyle.italic,
-                                                color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Fecha Creacion',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      // DataColumn(
-                                      //   label: Expanded(
-                                      //     child: Text(
-                                      //       'Fecha Cobro',
-                                      //       style: TextStyle(
-                                      //           fontStyle: FontStyle.italic,
-                                      //           color: Colors.white),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      // DataColumn(
-                                      //   label: Expanded(
-                                      //     child: Text(
-                                      //       'Importe',
-                                      //       style: TextStyle(
-                                      //           fontStyle: FontStyle.italic,
-                                      //           color: Colors.white),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      // DataColumn(
-                                      //   label: Expanded(
-                                      //     child: Text(
-                                      //       'F.P',
-                                      //       style: TextStyle(
-                                      //           fontStyle: FontStyle.italic,
-                                      //           color: Colors.white),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                    ],
-                                    rows: state is PedidoAlbaranBuilding
-                                        ? listado(state.lineas)
-                                        : []),
-                              ),
-                            ))),
-                  ],
-                ))));} else if (state is PedidoAlbaranLoading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  return const SizedBox();
-                }
+                                        // DataColumn(
+                                        //   label: Expanded(
+                                        //     child: Text(
+                                        //       'Fecha Cobro',
+                                        //       style: TextStyle(
+                                        //           fontStyle: FontStyle.italic,
+                                        //           color: Colors.white),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        // DataColumn(
+                                        //   label: Expanded(
+                                        //     child: Text(
+                                        //       'Importe',
+                                        //       style: TextStyle(
+                                        //           fontStyle: FontStyle.italic,
+                                        //           color: Colors.white),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        // DataColumn(
+                                        //   label: Expanded(
+                                        //     child: Text(
+                                        //       'F.P',
+                                        //       style: TextStyle(
+                                        //           fontStyle: FontStyle.italic,
+                                        //           color: Colors.white),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ],
+                                      rows: state is PedidoAlbaranBuilding
+                                          ? listado(state.lineas)
+                                          : []),
+                                ),
+                              ))),
+                    ],
+                  ))));
+        } else if (state is PedidoAlbaranLoading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          return const SizedBox();
+        }
       },
     );
   }
@@ -174,9 +171,7 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
                 child: Text(
                   'Pedidos Albaran', // Add your label text here
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -184,23 +179,19 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
         ),
         Container(
             width: 10000000,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
                 controller: _searchController,
                 onChanged: (val) {
-                  if (_debounce?.isActive ?? false)
-                    _debounce!.cancel();
-                  _debounce = Timer(
-                      const Duration(milliseconds: 500), () {
+                  if (_debounce?.isActive ?? false) _debounce!.cancel();
+                  _debounce = Timer(const Duration(milliseconds: 500), () {
                     // do something with query
                     context
                         .read<PedidosAlbaranBloc>()
                         .add(SearchPedido(query: val));
                   });
                 },
-                cursorColor:
-                    const Color.fromRGBO(142, 11, 44, 1),
+                cursorColor: const Color.fromRGBO(142, 11, 44, 1),
                 decoration: InputDecoration(
                   isDense: true,
                   border: OutlineInputBorder(
@@ -211,10 +202,9 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
                     Icons.search,
                     color: Colors.grey,
                   ), // Ícono antes del texto
-                  filled:
-                      true, // Enable filling the TextField background
-                  fillColor: const Color.fromRGBO(212, 212,
-                      212, 1), // Set the background color
+                  filled: true, // Enable filling the TextField background
+                  fillColor: const Color.fromRGBO(
+                      212, 212, 212, 1), // Set the background color
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromRGBO(142, 11, 44,
@@ -224,8 +214,6 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
                 ))),
       ],
     );
-          
-                    
   }
 
   List<DataRow> listado(List<PedidoAlbaranLinea>? lineas) {
@@ -237,7 +225,8 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
           cells: <DataCell>[
             DataCell(Text(linea.numeroAlbaran.toString())),
             DataCell(Text(linea.nombreComercial ?? '')),
-            DataCell(Text(linea.fechaCreacion.toString())),
+            DataCell(Text(GlobalConstants.format
+                .format(DateTime.parse(linea.fechaCreacion.toString())))),
             // DataCell(Text(linea.precio.toString())),
             // DataCell(Text(linea.descuento.toString())),
             // DataCell(Text(subtotal.toStringAsFixed(2))),
@@ -245,7 +234,8 @@ class _PedidosAlbaranScreenState extends State<_PedidosAlbaranScreen> {
           onSelectChanged: (value) => {
                 if (value == true)
                   {
-                    AlbaranDialogHelper.openDialogWithData(context, linea.numeroAlbaran!)
+                    AlbaranDialogHelper.openDialogWithData(
+                        context, linea.numeroAlbaran!)
                   }
               }));
     }

@@ -50,20 +50,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (await GlobalConstants.LoadSharedPreferences()) {
         emit(LogedIn());
       } else {
-        List<User>? usuarios = null;
-        http.Response? resp = await LoginApi.Users();
-        if (resp != null) {
-          if (resp.statusCode == 200) {
-            usuarios = await User.fromJsonList(resp.body);
-          }
-        }
-        emit(LoginInitial(usuarios: usuarios));
+        add(getUsersList());
       }
     });
     on<LogOut>((event, emit) async {
       emit(LoginInitial());
+      add(getUsersList());
       GlobalConstants.cleanSharedPreferences();
     });
-    on<getUsersList>((event, emit) {});
+    on<getUsersList>((event, emit) async {
+      List<User>? usuarios = null;
+      http.Response? resp = await LoginApi.Users();
+      if (resp != null) {
+        if (resp.statusCode == 200) {
+          usuarios = await User.fromJsonList(resp.body);
+        }
+      }
+      emit(LoginInitial(usuarios: usuarios));
+    });
   }
 }
