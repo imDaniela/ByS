@@ -1,6 +1,8 @@
 import 'dart:async';
 
-import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_realizados_bloc.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_realizados_event.dart';
+import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_realizados_state.dart';
 import 'package:bys_app/cobros_unificados/cobros/cobros_screen.dart';
 import 'package:bys_app/cobros_unificados/cobros_pendientes/bloc/cobros_pedientes_bloc.dart';
 import 'package:bys_app/cobros_unificados/cobros_pendientes/bloc/cobros_pendientes_event.dart';
@@ -52,8 +54,8 @@ class _CobrosUnificadosState extends State<CobrosUnificados> with TickerProvider
   void _loadCobros() {
     context.read<CobrosPendientesBloc>()
       .add(GetCobrosPendientes(init: fechaCobroPendienteInicial, end: fechaCobroPendienteFinal, search: searchController.text));
-    context.read<CobrosBloc>()
-      .add(GetCobros(init: fechaCobroPendienteInicial, end: fechaCobroPendienteFinal, search: searchController.text));
+    context.read<CobrosRealizadosBloc>()
+      .add(GetCobrosRealizados(init: fechaCobroPendienteInicial, end: fechaCobroPendienteFinal, search: searchController.text));
   }
 
   @override
@@ -83,7 +85,7 @@ class _CobrosUnificadosState extends State<CobrosUnificados> with TickerProvider
                     physics: const NeverScrollableScrollPhysics(),
                     controller: tabController,
                     children: [
-                      CobrosScreen(state: cobros),
+                      CobrosRealizadosScreen(state: cobros),
                       CobrosPendientesScreen(state: cobrosPedientes)
                     ],
                   ),
@@ -163,20 +165,9 @@ class _CobrosUnificadosState extends State<CobrosUnificados> with TickerProvider
   }
 
   // Blocs
-  Widget _blocs({required Widget Function(BuildContext, CobrosState, CobrosPendientesState) builder}) {
-    return BlocConsumer<CobrosBloc, CobrosState>(
-      listener: (context, state) {
-        if (state is CobrosSuccess) {
-          Fluttertoast.showToast(
-              msg: "Se ha rehow alizado el cobro con éxito",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.TOP,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Color.fromARGB(255, 0, 155, 0),
-              textColor: Colors.white,
-              fontSize: 16.0);
-        }
-      },
+  Widget _blocs({required Widget Function(BuildContext, CobrosRealizadosState, CobrosPendientesState) builder}) {
+    return BlocConsumer<CobrosRealizadosBloc, CobrosRealizadosState>(
+      listener: (context, state) { },
       builder: (context, cobrosState) {
         return BlocConsumer<CobrosPendientesBloc, CobrosPendientesState>(
           listener: (_, __) {},

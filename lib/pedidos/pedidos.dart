@@ -1,5 +1,4 @@
-
-import 'package:bys_app/cobros_unificados/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';

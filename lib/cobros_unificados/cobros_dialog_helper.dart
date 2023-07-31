@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:bys_app/cobros_unificados/cobros/api/cobros_api.dart';
+import 'package:bys_app/cobros_unificados/cobros/api/cobros_realizados_api.dart';
 import 'package:bys_app/cobros_unificados/cobros/models/cobro.dart';
 import 'package:bys_app/cobros_unificados/cobros_pendientes/api/cobros_pendientes_api.dart';
-import 'package:bys_app/cobros_unificados/cobros_pendientes/models/cobro_pendiente.dart';
 import 'package:bys_app/cobros_unificados/cobros_pendientes/models/cobro_pendiente_detalles.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +29,7 @@ class CobrosDialogHelper {
     showDialog(context: context, barrierDismissible: false, builder: (context) {
       return const Center(child: CircularProgressIndicator());
     });
-    await CobrosApi.getDetalles(numeroFactura: number).then((response) {
+    await CobrosRealizadosApi.getDetalles(numeroFactura: number).then((response) {
       final detalles = <Cobro>[];
       if (response.statusCode == 200 && response.body != 'null') {
         List<dynamic> body = jsonDecode(response.body);
