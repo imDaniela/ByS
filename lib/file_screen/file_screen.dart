@@ -4,6 +4,7 @@ import 'package:bys_app/file_screen/pdf_screen.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class FileScreen extends StatefulWidget {
   const FileScreen({Key? key}) : super(key: key);
@@ -89,10 +90,11 @@ class _FileScreenState extends State<FileScreen> {
                         Icons.picture_as_pdf,
                         size: 90,
                       )
-                    : Image.network(
-                        '${GlobalConstants.apiEndPoint}get-archivo/${element}',
+                    : CachedNetworkImage(
+                        imageUrl:
+                            '${GlobalConstants.apiEndPoint}get-archivo/${element}',
                         height: 200,
-                        headers: GlobalConstants.header(),
+                        httpHeaders: GlobalConstants.header(),
                       )),
             SizedBox(
               height: 15,
