@@ -1,3 +1,4 @@
+import 'package:bys_app/general/customHttp.dart';
 import 'package:http/http.dart' as http;
 import 'package:bys_app/general/const.dart';
 
@@ -8,7 +9,7 @@ class PedidosDiaApi {
         '${GlobalConstants.apiEndPoint}get-pedidos-dia/${aja.toIso8601String()}';
     print(url);
     http.Response result =
-        await http.get(Uri.parse(url), headers: GlobalConstants.header());
+        await customHttpGet(Uri.parse(url), headers: GlobalConstants.header());
     return result;
   }
 }

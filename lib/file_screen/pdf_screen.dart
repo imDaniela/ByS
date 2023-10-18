@@ -41,13 +41,13 @@ class _PdfScreenState extends State<PdfScreen> {
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
-            backgroundColor: Theme.of(context).colorScheme.secondary,
+            backgroundColor: Color.fromRGBO(142, 11, 44, 1),
             title: Text(
               'PDF',
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontStyle: FontStyle.italic),
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white, size: 35),

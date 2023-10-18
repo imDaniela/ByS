@@ -17,7 +17,7 @@ class CobroDialog {
       int numfac, List<FacturaAlbaran> albaranes) {
     TextEditingController _controller = TextEditingController();
     TextEditingController _datecontroller = TextEditingController();
-    String metodo = '';
+    String metodo = 'PV';
     showDialog(
       context: context,
       builder: (BuildContext context) {

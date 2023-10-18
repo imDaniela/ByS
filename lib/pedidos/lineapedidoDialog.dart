@@ -66,29 +66,29 @@ class LineaPedidoDialog {
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                       ))),
-              Container(
-                  height: 500,
-                  width: 1000000,
-                  child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: BlocBuilder<ProductosBloc, ProductosState>(
-                        builder: (context, state) => PaginatedDataTable(
-                          availableRowsPerPage: [5],
-                          showCheckboxColumn: false,
-                          // Optional: Add a header for the table
-                          columns: [
-                            DataColumn(label: Text('Cod. Art.')),
-                            DataColumn(label: Text('Descripción')),
-                            DataColumn(label: Text('Stock')),
-                          ],
-                          source: _ProductosDataSource(
-                              _controller.text == ''
-                                  ? state.productos_all
-                                  : state.productos,
-                              context), // Create a custom DataTableSource
-                          // Add any additional properties and customization as per your requirements
-                        ),
-                      ))),
+              Expanded(
+                  child: Container(
+                      width: 1000000,
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: BlocBuilder<ProductosBloc, ProductosState>(
+                            builder: (context, state) => PaginatedDataTable(
+                              availableRowsPerPage: [5],
+                              showCheckboxColumn: false,
+                              // Optional: Add a header for the table
+                              columns: [
+                                DataColumn(label: Text('Cod. Art.')),
+                                DataColumn(label: Text('Descripción')),
+                                DataColumn(label: Text('Stock')),
+                              ],
+                              source: _ProductosDataSource(
+                                  _controller.text == ''
+                                      ? state.productos_all
+                                      : state.productos,
+                                  context), // Create a custom DataTableSource
+                              // Add any additional properties and customization as per your requirements
+                            ),
+                          )))),
             ],
           ),
           actions: [],
@@ -102,6 +102,7 @@ class LineaPedido2Dialog {
   static void openDialogWithData(BuildContext context, Producto producto,
       {int? index, int? cantidad}) {
     TextEditingController _controller = TextEditingController();
+    _controller.text = "1";
     if (cantidad != null) _controller.text = cantidad.toString();
     showDialog(
       context: context,
@@ -119,7 +120,8 @@ class LineaPedido2Dialog {
           ),
           content: Container(
               width: 1000000,
-              child: Column(
+              child: SingleChildScrollView(
+                  child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
@@ -176,7 +178,7 @@ class LineaPedido2Dialog {
                             ),
                           ))),
                 ],
-              )),
+              ))),
           actions: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(

@@ -26,6 +26,9 @@ class CobrosBloc extends Bloc<CobrosEvent, CobrosState> {
               ClienteSaldoPendiente.fromJson(resp.body);
           if (saldo.deuda > 0) {
             emit(CobrosPendientes(saldo, showDialog: event.showDialog));
+          } else if (saldo.detalles.isNotEmpty) {
+            emit(CobrosPendientesRealizados(saldo,
+                showDialog: event.showDialog));
           }
         }
       }

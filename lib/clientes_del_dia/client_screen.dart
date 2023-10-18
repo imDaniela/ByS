@@ -151,7 +151,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 1',
+                                                'M1',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -161,7 +161,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 2',
+                                                'M2',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -171,7 +171,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 3',
+                                                'M3',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -181,7 +181,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 4',
+                                                'M4',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -191,7 +191,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 5',
+                                                'M5',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -201,7 +201,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 6',
+                                                'M6',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -211,7 +211,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 7',
+                                                'M7',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -221,7 +221,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 8',
+                                                'M8',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -231,7 +231,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 9',
+                                                'M9',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -241,7 +241,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 10',
+                                                'M10',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -251,7 +251,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 11',
+                                                'M11',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),
@@ -261,7 +261,7 @@ class _ClienteHistorial extends State<ClienteHistorial> {
                                           DataColumn(
                                             label: Expanded(
                                               child: Text(
-                                                'Mes 12',
+                                                'M12',
                                                 style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     color: Colors.white),

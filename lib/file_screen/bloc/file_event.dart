@@ -7,4 +7,7 @@ abstract class FileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class Loadfiles extends FileEvent {}
+class Loadfiles extends FileEvent {
+  final String tipo;
+  const Loadfiles(this.tipo);
+}

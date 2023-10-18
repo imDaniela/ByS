@@ -14,12 +14,15 @@ class CobrosRealizadosLoading extends CobrosRealizadosState {}
 class CobrosRealizadosPendientes extends CobrosRealizadosState {
   final ClienteSaldoPendiente deuda;
   final bool showDialog;
-  const CobrosRealizadosPendientes(this.deuda, {required this.showDialog}) : super();
+  const CobrosRealizadosPendientes(this.deuda, {required this.showDialog})
+      : super();
 }
 
 class CobrosRealizadosBuilding extends CobrosRealizadosState {
   final List<Cobro> cobros;
-  const CobrosRealizadosBuilding(this.cobros);
+  final DateTime? inicio;
+  final DateTime? fin;
+  const CobrosRealizadosBuilding(this.cobros, {this.inicio, this.fin});
 }
 
 class CobrosRealizadosSuccess extends CobrosRealizadosState {}

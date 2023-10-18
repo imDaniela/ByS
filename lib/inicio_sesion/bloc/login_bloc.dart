@@ -30,7 +30,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           if (resp?.statusCode == 200 || resp?.statusCode == 201) {
             LoginResp json_resp = LoginResp.fromJson(resp?.body ?? '');
             GlobalConstants.storeInSharedPreferenced(json_resp);
-            emit(LogedIn());
+            emit(LogedIn(usuarios: state.usuarios));
+            add(getUsersList());
           } else {
             try {
               dynamic json_resp = jsonDecode(resp?.body ?? '');
@@ -49,9 +50,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoadToken>((event, emit) async {
       if (await GlobalConstants.LoadSharedPreferences()) {
         emit(LogedIn());
-      } else {
-        add(getUsersList());
       }
+      add(getUsersList());
     });
     on<LogOut>((event, emit) async {
       emit(LoginInitial());
@@ -66,7 +66,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           usuarios = await User.fromJsonList(resp.body);
         }
       }
-      emit(LoginInitial(usuarios: usuarios));
+      print(usuarios);
+      if (state is LogedIn) {
+        emit(LogedIn(usuarios: usuarios));
+      } else {
+        emit(LoginInitial(usuarios: usuarios));
+      }
     });
   }
 }

@@ -30,7 +30,7 @@ class _DaySelectorState extends State<DaySelector> {
   Widget build(BuildContext context) {
     return Container(
         color: Color.fromRGBO(142, 11, 44, 1),
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

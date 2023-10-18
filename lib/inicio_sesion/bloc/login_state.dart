@@ -1,7 +1,9 @@
 part of 'login_bloc.dart';
 
 @immutable
-abstract class LoginState {}
+abstract class LoginState {
+  List<User>? usuarios;
+}
 
 class LoginInitial extends LoginState {
   List<User>? usuarios;
@@ -18,7 +20,9 @@ class LoginError extends LoginState {
 }
 
 class LogedIn extends LoginState {
-  LogedIn() : super();
+  List<User>? usuarios;
+
+  LogedIn({this.usuarios}) : super();
 }
 
 class Users extends LoginState {

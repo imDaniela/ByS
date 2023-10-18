@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bys_app/general/customHttp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:bys_app/general/const.dart';
@@ -15,9 +16,10 @@ class CobrosPendientesApi {
     final initText = '${init.year}-${init.month}-${init.day}';
     final endText = '${end.year}-${end.month}-${end.day}';
     String url =
-        '${GlobalConstants.apiEndPoint}get-facturas-pendientes?fecha_inicio=$initText&fecha_fin=$endText&forma_pago=&search=${search ?? ''}';
+        '${GlobalConstants.apiEndPoint}get-facturas-pendientes?fecha_inicio=$initText&fecha_fin=$endText&search=${search ?? ''}';
+    print(url);
     final response =
-        await http.get(Uri.parse(url), headers: GlobalConstants.header());
+        await customHttpGet(Uri.parse(url), headers: GlobalConstants.header());
     return response;
   }
 
@@ -25,7 +27,8 @@ class CobrosPendientesApi {
     String url =
         '${GlobalConstants.apiEndPoint}get-detalles-facturas-pendientes/$codigoCliente';
     final response =
-        await http.get(Uri.parse(url), headers: GlobalConstants.header());
+        await customHttpGet(Uri.parse(url), headers: GlobalConstants.header());
+    print(response.body);
     return response;
   }
 }

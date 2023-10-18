@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:bys_app/clientes_del_dia/client_screen.dart';
 import 'package:bys_app/albaran_pendiente_por_facturar/albaran_screen.dart';
 import 'package:bys_app/cobros/cobros_screen.dart';
 import 'package:bys_app/cobros_unificados/cobros/cobros_screen.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
+import 'package:bys_app/pedidos/NotasDialog.dart';
+import 'package:bys_app/pedidos/api/pedidos_api.dart';
+import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/pedidos/pedidos.dart';
-
+import 'package:whatsapp_share/whatsapp_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,6 +46,46 @@ class _ZonaClienteState extends State<ZonaCliente>
               ? state.cliente?.cal2 ?? ''
               : 'TabBar Sample'),
         ),
+        actions: [
+          BlocBuilder<PedidosBloc, PedidosState>(
+              builder: (context, state) => (state is PedidoBuilding)
+                  ? (state.totales?.numped != null
+                      ? Container(
+                          margin: EdgeInsets.only(right: 40),
+                          child: InkWell(
+                            onTap: () async {
+                              File file = await PedidosApi.getPedidoPdf(
+                                  state.totales?.numped ?? 0);
+                              await WhatsappShare.shareFile(
+                                phone: '',
+                                filePath: [file.path],
+                              );
+                            },
+                            child: Icon(Icons.message),
+                          ))
+                      : Container())
+                  : Container()),
+          Container(
+              margin: EdgeInsets.only(right: 40),
+              child: BlocBuilder<PedidosBloc, PedidosState>(
+                  builder: (context, state) =>
+                      BlocBuilder<ClientesdiaBloc, ClientesdiaState>(
+                          builder: (context, state_cliente) => InkWell(
+                              onTap: () {
+                                PedidoBuilding? estado;
+                                if (state is PedidoBuilding) {
+                                  estado = state as PedidoBuilding;
+                                }
+                                NotasDialog.openDialogWithData(
+                                    context,
+                                    (state_cliente as ClientesdiaLoaded)
+                                        .cliente!
+                                        .codcli,
+                                    default_obs: estado?.totales?.observa,
+                                    default_obs_int: estado?.totales?.obsint);
+                              },
+                              child: Icon(Icons.note_add)))))
+        ],
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,

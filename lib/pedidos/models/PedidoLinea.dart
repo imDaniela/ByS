@@ -2,35 +2,38 @@
 import 'dart:convert';
 
 class PedidoLinea {
-  int codart;
+  String codart;
   String? nombre;
   int cantidad;
   double precio;
   double? descuento;
   int sto;
+  bool envase;
   PedidoLinea(
       {required this.codart,
       this.nombre,
       required this.cantidad,
       required this.precio,
       this.descuento,
-      this.sto = 0});
+      this.sto = 0,
+      this.envase = false});
 
-  PedidoLinea copyWith({
-    int? codart,
-    String? nombre,
-    int? cantidad,
-    double? precio,
-    double? descuento,
-    int sto = 0,
-  }) {
+  PedidoLinea copyWith(
+      {String? codart,
+      String? nombre,
+      int? cantidad,
+      double? precio,
+      double? descuento,
+      int? sto,
+      bool? envase}) {
     return PedidoLinea(
         codart: codart ?? this.codart,
         nombre: nombre ?? this.nombre,
         cantidad: cantidad ?? this.cantidad,
         precio: precio ?? this.precio,
         descuento: descuento ?? this.descuento,
-        sto: sto ?? this.sto);
+        sto: sto ?? this.sto,
+        envase: envase ?? this.envase);
   }
 
   Map<String, dynamic> toMap() {
@@ -41,20 +44,21 @@ class PedidoLinea {
       'precio': precio,
       'descuento': descuento,
       'sto': sto,
+      'envase': envase,
     };
   }
 
   factory PedidoLinea.fromMap(Map<String, dynamic> map) {
     return PedidoLinea(
-      codart: map['codart'] as int,
-      nombre: map['nombre'] != null ? map['nombre'] as String : null,
-      cantidad: map['cantidad'] as int,
-      precio: double.tryParse(map['precio'].toString()) ?? 0.00,
-      descuento: map['descuento'] != null
-          ? double.tryParse(map['descuento'].toString())
-          : null,
-      sto: map['sto'] != null ? map['sto'] as int : 0,
-    );
+        codart: map['codart'].toString(),
+        nombre: map['nombre'] != null ? map['nombre'] as String : null,
+        cantidad: map['cantidad'] as int,
+        precio: double.tryParse(map['precio'].toString()) ?? 0.00,
+        descuento: map['descuento'] != null
+            ? double.tryParse(map['descuento'].toString())
+            : null,
+        sto: map['sto'] != null ? map['sto'] as int : 0,
+        envase: map['envase']);
   }
 
   String toJson() => json.encode(toMap());

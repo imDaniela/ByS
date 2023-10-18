@@ -1,23 +1,47 @@
+import 'package:bys_app/clientes_del_dia/add_cliente_dialog.dart';
 import 'package:bys_app/clientes_del_dia/day_selector.dart';
 import 'package:bys_app/clientes_del_dia/historial_cliente/bloc/history_bloc.dart';
 import 'package:bys_app/clientes_del_dia/saveAlertadialog.dart';
 import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/file_screen/delete_dialog.dart';
+import 'package:bys_app/general/const.dart';
+import 'package:bys_app/inicio_sesion/api/clientes_dia_api.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
+import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
 import 'package:bys_app/inicio_sesion/model/ClientesDia.dart';
+import 'package:bys_app/inicio_sesion/model/user.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
 import 'package:bys_app/albaran_pendiente_por_facturar/bloc/albaran_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:async';
+
+import 'package:http/http.dart';
 
 class DayScreen extends StatelessWidget {
   const DayScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       //bottomNavigationBar: NavigationBar(),
+      floatingActionButton: GlobalConstants.rol == 2
+          ? FloatingActionButton(
+              backgroundColor: Color.fromRGBO(142, 11, 44, 1),
+              child: Icon(
+                Icons.add,
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CustomDialog();
+                  },
+                );
+              })
+          : null,
       body: Center(
         child: ListScreen(),
       ),
@@ -35,6 +59,8 @@ class ListScreen extends StatefulWidget {
 class _ListScreen extends State<ListScreen> {
   TextEditingController _controller = TextEditingController();
   Timer? _debounce;
+
+  int _index = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -43,7 +69,7 @@ class _ListScreen extends State<ListScreen> {
             builder: (context, state) => Column(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(top: 60, bottom: 40),
+                      padding: const EdgeInsets.only(top: 60, bottom: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -79,13 +105,14 @@ class _ListScreen extends State<ListScreen> {
                                                     )))))),
                                 Expanded(
                                   flex: 2,
-                                  child: Text(
+                                  child: Center(
+                                      child: Text(
                                     'Relación Cliente', // Add your label text here
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
-                                  ),
+                                  )),
                                 ),
                                 Flexible(
                                     flex: 1,
@@ -158,8 +185,11 @@ class _ListScreen extends State<ListScreen> {
                     ),
                     DaySelector(
                       onChanged: (index) {
+                        _index = index;
                         context.read<ClientesdiaBloc>().add(LoadClientesDia(
-                            dia: index, search: _controller.text));
+                              dia: _index,
+                              search: _controller.text,
+                            ));
                       },
                     ),
                     Expanded(
@@ -271,13 +301,50 @@ class _ListScreen extends State<ListScreen> {
             DataCell(Text(cliente.ampm)),
             DataCell(Text('')),
             DataCell(Text(cliente.nom)),
-            DataCell(Container(
-                child: InkWell(
-              onTap: () {
-                SaveAlertaDialog.openDialogWithData(context, cliente: cliente);
-              },
-              child: Icon(Icons.alarm),
-            )))
+            DataCell(Row(children: [
+              Container(
+                  child: InkWell(
+                onTap: () {
+                  SaveAlertaDialog.openDialogWithData(context,
+                      cliente: cliente);
+                },
+                child: Icon(Icons.alarm),
+              )),
+              GlobalConstants.rol != 2
+                  ? Container()
+                  : Container(
+                      margin: EdgeInsets.only(left: 20),
+                      child: InkWell(
+                        onTap: () {
+                          DeleteDialog.showDeleteDialog(context,
+                              onDelete: () async {
+                            Response resp =
+                                await ClientesDiaApi.deleteClienteDia(cliente);
+                            if (resp.statusCode == 200) {
+                              Fluttertoast.showToast(
+                                  msg: "Se ha elimnado con éxito",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.TOP,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor:
+                                      Color.fromARGB(255, 0, 155, 0),
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                              context
+                                  .read<ClientesdiaBloc>()
+                                  .add(LoadClientesDia(
+                                    dia: _index,
+                                    search: _controller.text,
+                                  ));
+                            }
+                          });
+                        },
+                        child: Icon(
+                          Icons.delete,
+                          color: Color.fromRGBO(142, 11, 44, 1),
+                        ),
+                      ))
+            ]))
           ],
           onSelectChanged: (bool? selected) {
             if (selected != null && selected) {

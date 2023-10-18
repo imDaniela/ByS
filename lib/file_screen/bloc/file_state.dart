@@ -9,7 +9,9 @@ abstract class FileState extends Equatable {
 
 class FileInitial extends FileState {}
 
+class FileLoading extends FileState {}
+
 class FileList extends FileState {
-  final List<String> archivos;
+  final List<Archivo> archivos;
   const FileList(this.archivos);
 }

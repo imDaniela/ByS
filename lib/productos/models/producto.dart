@@ -2,28 +2,30 @@
 import 'dart:convert';
 
 class Producto {
-  int codart;
+  String codart;
   String des;
   double desc;
   int sto;
   double prevena;
-  int? rel;
-  Producto({
-    required this.codart,
-    required this.des,
-    required this.sto,
-    required this.prevena,
-    required this.desc,
-    this.rel,
-  });
+  String? rel;
+  bool envase;
+  Producto(
+      {required this.codart,
+      required this.des,
+      required this.sto,
+      required this.prevena,
+      required this.desc,
+      this.rel,
+      this.envase = false});
 
   Producto copyWith({
-    int? codart,
+    String? codart,
     String? des,
     int? sto,
     double? desc,
     double? prevena,
-    int? rel,
+    String? rel,
+    bool? envase,
   }) {
     return Producto(
       codart: codart ?? this.codart,
@@ -32,6 +34,7 @@ class Producto {
       prevena: prevena ?? this.prevena,
       desc: desc ?? this.desc,
       rel: rel ?? this.rel,
+      envase: envase ?? this.envase,
     );
   }
 
@@ -43,18 +46,19 @@ class Producto {
       'prevena': prevena,
       'desc': des,
       'rel': rel,
+      'envase': envase
     };
   }
 
   factory Producto.fromMap(Map<String, dynamic> map) {
     return Producto(
-      codart: int.parse(map['codart']),
-      des: map['des'] as String,
-      sto: map['sto'] == null ? 0 : map['sto'] as int,
-      prevena: double.parse(map['prevena'].toString()),
-      desc: double.tryParse(map['desc'].toString()) ?? 0,
-      rel: map['rel'] != null ? map['rel'] as int : null,
-    );
+        codart: map['codart'] as String,
+        des: map['des'] as String,
+        sto: map['sto'] == null ? 0 : map['sto'] as int,
+        prevena: double.parse(map['prevena'].toString()),
+        desc: double.tryParse(map['desc'].toString()) ?? 0,
+        rel: map['rel'],
+        envase: map['envase']);
   }
 
   String toJson() => json.encode(toMap());

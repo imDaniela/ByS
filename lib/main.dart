@@ -13,7 +13,9 @@ import 'package:bys_app/cobros_unificados/cobros_unificados.dart';
 import 'package:bys_app/componentes_comunes/navigation_bar.dart';
 import 'package:bys_app/file_screen/bloc/file_bloc.dart';
 import 'package:bys_app/file_screen/file_screen.dart';
+import 'package:bys_app/file_screen/file_selector.dart';
 import 'package:bys_app/general/const.dart';
+import 'package:bys_app/inicio_sesion/bloc/clientesbloc/clientes_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/inicio_sesion/bloc/login_bloc.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
@@ -24,11 +26,13 @@ import 'package:bys_app/pedidos/zonacliente.dart';
 import 'package:bys_app/pedidos_albaran/bloc/pedidos_albaran_bloc.dart';
 import 'package:bys_app/pedidos_albaran/pedidosAlbaran.dart';
 import 'package:bys_app/productos/bloc/productos_bloc.dart';
+import 'package:bys_app/profile/profile_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bys_app/inicio_sesion/screen/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() => runApp(const MyApp());
 
@@ -64,11 +68,24 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => AlertasBloc()),
           BlocProvider(create: (context) => PedidosDiaBloc()),
           BlocProvider(create: (context) => CobrosPendientesBloc()),
-          BlocProvider(create: (context) => FileBloc())
+          BlocProvider(create: (context) => FileBloc()),
+          BlocProvider(
+              create: (context) => ClientesBloc()..add(LoadAllClientes()))
         ],
         child: MaterialApp(
             title: title,
             theme: theme,
+            navigatorKey: GlobalConstants.navState,
+            scaffoldMessengerKey: GlobalConstants.scaffoldState,
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              Locale('en'), // English
+              Locale('es'), // Spanish
+            ],
             routes: {
               'login': (context) => const LoginScreen(),
               'dias': (context) => const DayScreen(),
@@ -80,7 +97,7 @@ class MyApp extends StatelessWidget {
               'alertas': (context) => const AlertasScreen(),
               'pedidos_dia': (context) => const PedidosDiaScreen(),
               'root_home': (context) => RootHome(),
-              'file_screen': (context) => FileScreen()
+              'file_screen': (context) => FileSelector()
             },
             home: LoginScreen() //const LoginScreen() // LoginScreen()
             ));
@@ -103,7 +120,8 @@ class _RootHomeState extends State<RootHome> {
     DayScreen(key: GlobalObjectKey('dayScreen')),
     PedidosAlbaranScreen(key: GlobalObjectKey('pedidosAlb')),
     CobrosUnificados(key: GlobalObjectKey('cobros')),
-    FileScreen()
+    FileSelector(),
+    ProfileScreen()
   ];
 
   @override

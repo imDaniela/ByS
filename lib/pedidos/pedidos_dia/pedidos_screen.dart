@@ -118,7 +118,7 @@ class _PedidosDiasList extends State<PedidosDiasList> {
             DataCell(Text(pedido.codcli.toString())),
             DataCell(Text(pedido.cliente.toString())),
             DataCell(Text(GlobalConstants.format.format(pedido.fecped))),
-            DataCell(Text(pedido.totped.toString())),
+            DataCell(Text(pedido.totped.toStringAsFixed(2))),
           ],
           onSelectChanged: (selected) {
             if (selected != null && selected) {

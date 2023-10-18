@@ -17,7 +17,8 @@ class PedidosError extends PedidosState {
 
 class PedidoBuilding extends PedidosState {
   final List<PedidoLinea> lineas;
-  const PedidoBuilding({this.lineas = const []}) : super();
+  final Totales? totales;
+  const PedidoBuilding({this.lineas = const [], this.totales}) : super();
 }
 
 class PedidosSuccess extends PedidosState {}

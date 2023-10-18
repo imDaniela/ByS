@@ -15,13 +15,23 @@ class SearchCliente extends ClientesdiaEvent {
 class LoadClientesDia extends ClientesdiaEvent {
   int? dia;
   String? search;
-  LoadClientesDia({this.dia, this.search});
+  int? codrep;
+  LoadClientesDia({this.dia, this.search, this.codrep});
 }
 
 class SelectClienteDia extends ClientesdiaEvent {
   ClientesDia cliente;
   SelectClienteDia(this.cliente);
 }
+
+class AddClienteDiaEvent extends ClientesdiaEvent {
+  int codcli;
+  int dia;
+  int tarde;
+  AddClienteDiaEvent(
+      {required this.codcli, required this.dia, required this.tarde});
+}
+
 class SelectClienteDiaById extends ClientesdiaEvent {
   int cliente;
   SelectClienteDiaById(this.cliente);

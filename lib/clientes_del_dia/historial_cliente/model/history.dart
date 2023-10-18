@@ -3,7 +3,7 @@ import 'dart:convert';
 class Historial {
   int? canped;
   int codcli;
-  int codart;
+  String codart;
   String desmod;
   int mes_1;
   int mes_2;
@@ -37,7 +37,7 @@ class Historial {
 
   Historial copyWith({
     int? codcli,
-    int? codart,
+    String? codart,
     String? desmod,
     int? mes_1,
     int? mes_2,
@@ -96,7 +96,7 @@ class Historial {
   factory Historial.fromMap(Map<String, dynamic> map) {
     return Historial(
       codcli: int.tryParse(map['codcli'].toString() ?? '0') ?? 0,
-      codart: int.tryParse(map['codart'].toString() ?? '0') ?? 0,
+      codart: map['codart'].toString(),
       desmod: map['desmod'] ?? '',
       mes_1: int.tryParse(map['mes_1'].toString() ?? '0') ?? 0,
       mes_2: int.tryParse(map['mes_2'].toString() ?? '0') ?? 0,

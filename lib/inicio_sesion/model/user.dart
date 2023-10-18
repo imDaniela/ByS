@@ -3,19 +3,14 @@ import 'dart:convert';
 class User {
   int CODREP;
   String NOM;
-  User({
-    required this.CODREP,
-    required this.NOM,
-  });
+  int id_rol;
+  User({required this.CODREP, required this.NOM, required this.id_rol});
 
-  User copyWith({
-    int? CODREP,
-    String? NOM,
-  }) {
+  User copyWith({int? CODREP, String? NOM, int? id_rol}) {
     return User(
-      CODREP: CODREP ?? this.CODREP,
-      NOM: NOM ?? this.NOM,
-    );
+        CODREP: CODREP ?? this.CODREP,
+        NOM: NOM ?? this.NOM,
+        id_rol: id_rol ?? this.id_rol);
   }
 
   static List<User>? fromJsonList(String source) {
@@ -30,15 +25,15 @@ class User {
 
     result.addAll({'CODREP': CODREP});
     result.addAll({'NOM': NOM});
-
+    result.addAll({'id_rol': id_rol});
     return result;
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      CODREP: map['CODREP']?.toInt() ?? 0,
-      NOM: map['NOM'] ?? '',
-    );
+        CODREP: map['CODREP']?.toInt() ?? 0,
+        NOM: map['nom'] ?? map['NOM'] ?? '',
+        id_rol: map['id_rol'] ?? 1);
   }
 
   String toJson() => json.encode(toMap());

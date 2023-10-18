@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bys_app/general/customHttp.dart';
 import 'package:http/http.dart' as http;
 import 'package:bys_app/general/const.dart';
 
@@ -18,8 +19,7 @@ class CobrosApi {
       'cobro': cobro,
       'fecha': fecha.toString()
     });
-    http.Response result = await http.post(Uri.parse(url),
-        headers: GlobalConstants.header(), body: _body);
+    http.Response result = await customHttpPost(url, body: _body);
     return result;
   }
 
@@ -32,24 +32,24 @@ class CobrosApi {
       'codclie': codcli,
       'numfac': numfac,
     });
-    http.Response result = await http.post(Uri.parse(url),
-        headers: GlobalConstants.header(), body: _body);
+    http.Response result = await customHttpPost(url, body: _body);
     return result;
   }
 
-  static Future<http.Response> getCobros({
-    DateTime? inicio,
-    DateTime? fin,
-    String? search,
-  }) async {
+  static Future<http.Response> getCobros(
+      {DateTime? inicio,
+      DateTime? fin,
+      String? search,
+      required String forma_pago}) async {
     final init = (inicio ?? DateTime.now());
     final end = (inicio ?? DateTime.now());
     final initText = '${init.year}-${init.month}-${init.day}';
     final endText = '${end.year}-${end.month}-${end.day}';
     String url =
-        '${GlobalConstants.apiEndPoint}get-cobros?fecha_inicio=$initText&fecha_fin=$endText&forma_pago=&search=${search ?? ''}';
+        '${GlobalConstants.apiEndPoint}get-cobros?fecha_inicio=$initText&fecha_fin=$endText&forma_pago=${forma_pago}&search=${search ?? ''}';
+    print(url);
     final response =
-        await http.get(Uri.parse(url), headers: GlobalConstants.header());
+        await customHttpGet(Uri.parse(url), headers: GlobalConstants.header());
     return response;
   }
 
@@ -57,7 +57,7 @@ class CobrosApi {
     String url =
         '${GlobalConstants.apiEndPoint}get-detalles-cobro/$numeroFactura';
     final response =
-        await http.get(Uri.parse(url), headers: GlobalConstants.header());
+        await customHttpGet(Uri.parse(url), headers: GlobalConstants.header());
     return response;
   }
 }

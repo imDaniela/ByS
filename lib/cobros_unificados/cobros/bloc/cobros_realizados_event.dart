@@ -17,7 +17,12 @@ class GetCobrosRealizados extends CobrosRealizadosEvent {
   final DateTime init;
   final DateTime end;
   final String? search;
-  const GetCobrosRealizados({required this.init, required this.end, this.search});
+  final String metodo;
+  const GetCobrosRealizados(
+      {required this.init,
+      required this.end,
+      this.search,
+      required this.metodo});
 }
 
 class GetDetallesCobro extends CobrosRealizadosEvent {

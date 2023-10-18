@@ -30,7 +30,7 @@ class _CobrosScreen extends State<CobrosScreen> {
             listener: (context, state) {
               if (state is CobrosSuccess) {
                 Fluttertoast.showToast(
-                    msg: "Se ha rehow alizado el cobro con éxito",
+                    msg: "Se ha realizado el cobro con éxito",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 1,
@@ -124,9 +124,9 @@ class _CobrosScreen extends State<CobrosScreen> {
                                       ),
                                     ),
                                   ],
-                                  rows: state is CobrosPendientes
-                                      ? listado(
-                                          (state as CobrosPendientes).deuda)
+                                  rows: state is CobrosPendientes ||
+                                          state is CobrosPendientesRealizados
+                                      ? listado((state).deuda)
                                       : []),
                             ))),
                     state is ClientesdiaLoading

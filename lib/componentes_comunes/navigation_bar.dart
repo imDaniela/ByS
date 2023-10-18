@@ -14,7 +14,7 @@ class AppNavigationBar extends StatefulWidget {
 
 class _AppNavigationBar extends State<AppNavigationBar> {
   void _onItemTapped(int index) {
-    if (index < 4) {
+    if (index < 5) {
       widget.onChange(index);
     } else {
       context.read<LoginBloc>().add(LogOut());
@@ -26,13 +26,15 @@ class _AppNavigationBar extends State<AppNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      backgroundColor: Color.fromRGBO(142, 11, 44, 1),
       currentIndex: widget.currentIndex,
       onTap: _onItemTapped,
-      selectedItemColor: Color.fromRGBO(142, 11, 44, 1),
-      unselectedItemColor: Colors.grey,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white,
       elevation: 1,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
+          backgroundColor: Color.fromRGBO(142, 11, 44, 1),
           icon: Icon(
             Icons.person,
           ),
@@ -51,8 +53,8 @@ class _AppNavigationBar extends State<AppNavigationBar> {
           label: 'Archivos',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.logout),
-          label: 'Salir',
+          icon: Icon(Icons.person_2),
+          label: 'Perfil',
         ),
       ],
     );

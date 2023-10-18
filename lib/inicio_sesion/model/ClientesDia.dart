@@ -55,7 +55,7 @@ class ClientesDia {
   factory ClientesDia.fromMap(Map<String, dynamic> map) {
     return ClientesDia(
       codcli: map['codcli']?.toInt() ?? 0,
-      ordenvisit: map['ordenvisit'] ?? '',
+      ordenvisit: map['ordenvisit'].toString() ?? '',
       ampm: map['ampm'] ?? '',
       Ordgeo2: map['Ordgeo2']?.toInt() ?? 0,
       Ordgeo1: map['Ordgeo1']?.toInt() ?? 0,
@@ -81,6 +81,7 @@ class ClientesDia {
   static List<ClientesDia>? fromJsonList(String source) {
     List<dynamic> elementos = jsonDecode(source);
     return List<ClientesDia>.from(elementos.map((e) {
+      print(e);
       return ClientesDia.fromMap(e);
     }));
   }

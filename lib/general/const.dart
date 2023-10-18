@@ -1,20 +1,27 @@
 import 'package:bys_app/inicio_sesion/model/login_resp.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:bys_app/productos/models/producto.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter/cupertino.dart';
 
 //const fakeEndPoint = 'http://127.0.0.1:8080/';
 
 class GlobalConstants {
   //static String apiEndPoint = "http://192.168.0.200:3000/";
-  static String apiEndPoint = "http://192.168.18.7:3001/";
+  static String apiEndPoint = "http://192.168.1.29:3001/";
+  static final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
+  static final GlobalKey<ScaffoldMessengerState> scaffoldState =
+      GlobalKey<ScaffoldMessengerState>();
 
   static String? token;
   static String? id;
   static String? email;
   static String? name;
+  static int? rol;
+  static int? codrep;
   static DateFormat format = DateFormat('d-M-y');
   static DateFormat format_with_time = DateFormat('d-M-y HH:mm');
 
@@ -50,9 +57,13 @@ class GlobalConstants {
         onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
-  static Producto? findProducto(int codart) {
+  static Producto? findProducto(String codart) {
     try {
-      return productos.firstWhere((element) => element.codart == codart);
+      print(codart);
+      Producto? producto =
+          productos.firstWhere((element) => element.codart == codart);
+      print(producto);
+      return producto;
     } catch (ex) {
       return null;
     }
@@ -76,15 +87,28 @@ class GlobalConstants {
   }
 
   static Map<String, String> header() {
-    return {'x-access-token': "${token}", 'Content-Type': "application/json"};
+    Map<String, String> result = {
+      'x-access-token': "${token}",
+      'Content-Type': "application/json",
+    };
+    if (codrep != null) {
+      result.addAll({'codrep': codrep!.toString()});
+    }
+    return result;
   }
 
   static void storeInSharedPreferenced(LoginResp resp) async {
     token = resp.token;
-
+    id = resp.user?.CODREP.toString();
+    rol = resp.user?.id_rol;
+    name = resp.user?.NOM;
     final shar = await SharedPreferences.getInstance();
     if (token != null) {
       shar.setString('token', token!);
+    }
+    if (rol != null) {
+      shar.setInt('rol', rol!);
+      print(rol);
     }
     if (id != null) {
       shar.setString('id', id!);
@@ -104,6 +128,9 @@ class GlobalConstants {
     id = shar.getString('id');
     name = shar.getString('name');
     email = shar.getString('email');
+    rol = shar.getInt('rol');
+    print(rol);
+    codrep = null;
     return token != null;
   }
 

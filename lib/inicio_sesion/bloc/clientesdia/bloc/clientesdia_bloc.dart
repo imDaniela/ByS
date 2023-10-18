@@ -9,10 +9,20 @@ part 'clientesdia_state.dart';
 
 class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
   ClientesdiaBloc() : super(ClientesdiaInitial()) {
+    on<AddClienteDiaEvent>((event, emit) async {
+      print('ananand');
+      http.Response? resp;
+      resp = await ClientesDiaApi.addClienteDia(
+          event.codcli, event.dia, event.tarde);
+      add(LoadClientesDia());
+    });
     on<LoadClientesDia>((event, emit) async {
       if (event.dia != null) {
         emit(ClientesdiaLoading());
-        http.Response? resp = await ClientesDiaApi.GetClientesDia(event.dia!);
+        http.Response? resp;
+
+        resp = await ClientesDiaApi.GetClientesDia(event.dia!);
+
         if (resp != null) {
           if (resp.statusCode == 200) {
             List<ClientesDia>? clientes = ClientesDia.fromJsonList(resp.body);
@@ -34,7 +44,7 @@ class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
         emit(esta);
       }
     });
-  
+
     on<SearchCliente>((event, emit) async {
       if (state is ClientesdiaLoaded) {
         /*ClientesdiaLoaded estado = state as ClientesdiaLoaded;

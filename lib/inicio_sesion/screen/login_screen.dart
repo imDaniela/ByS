@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: BlocConsumer<LoginBloc, LoginState>(
       listener: ((context, state) {
         if (state is LogedIn) {
-          Navigator.of(context).pushReplacementNamed('root_home');
+          Navigator.of(context).popAndPushNamed('root_home');
         }
       }),
       builder: (context, state) => Padding(

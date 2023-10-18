@@ -1,4 +1,5 @@
 import 'package:bys_app/cobros/bloc/cobros_bloc.dart';
+import 'package:bys_app/file_screen/delete_dialog.dart';
 import 'package:bys_app/general/const.dart';
 import 'package:bys_app/inicio_sesion/bloc/clientesdia/bloc/clientesdia_bloc.dart';
 import 'package:bys_app/pedidos/bloc/pedidos_bloc.dart';
@@ -106,8 +107,15 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                                                       as ClientesdiaLoaded;
                                               context.read<PedidosBloc>().add(
                                                   SavePedidoEvent(
-                                                      codcli: esta
-                                                          .cliente!.codcli));
+                                                      codcli:
+                                                          esta.cliente!.codcli,
+                                                      observaciones: state
+                                                              .totales
+                                                              ?.observa ??
+                                                          '',
+                                                      intobs: state.totales
+                                                              ?.obsint ??
+                                                          ''));
                                             }
                                           },
                                           backgroundColor:
@@ -207,21 +215,63 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                                           ? listado(state.lineas)
                                           : []),
                                 ))),
+                        Container(
+                          color: Color.fromRGBO(142, 11, 44, 1),
+                          padding:
+                              EdgeInsets.only(left: 20, bottom: 20, right: 100),
+                          child: state is PedidoBuilding
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                      Flexible(
+                                        child: Text(
+                                          'Nº lineas sin contar Envases: ${NumLineas((state as PedidoBuilding).lineas)}',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      Flexible(
+                                          child: Text(
+                                        'Subtotal: ${(state as PedidoBuilding).totales?.subtotal.toStringAsFixed(2) ?? 0}',
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                      Flexible(
+                                          child: Text(
+                                        'IVA: ${(state as PedidoBuilding).totales?.iva.toStringAsFixed(2) ?? 0}',
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                      Flexible(
+                                          child: Text(
+                                        'Total: ${(state as PedidoBuilding).totales?.totped.toStringAsFixed(2) ?? 0}',
+                                        style: TextStyle(color: Colors.white),
+                                      )),
+                                    ])
+                              : Container(),
+                        )
                       ],
                     ))));
           },
         ));
   }
 
+  int NumLineas(List<PedidoLinea>? lineas) {
+    return lineas?.where((element) => !element.envase).length ?? 0;
+  }
+
   List<DataRow> listado(List<PedidoLinea>? lineas) {
     List<DataRow> resultado = [];
+
     if (lineas == null) return [];
+
     for (int index = 0; index < lineas.length; index++) {
       PedidoLinea linea = lineas[index];
 
       double subtotal =
           linea.cantidad * linea.precio * (1 - (linea.descuento ?? 0) / 100);
       resultado.add(DataRow(
+          color: linea.envase
+              ? MaterialStateColor.resolveWith((states) => Colors.red)
+              : null,
           cells: <DataCell>[
             DataCell(Text(linea.codart.toString())),
             DataCell(Text(linea.nombre ?? '')),
@@ -229,24 +279,24 @@ class _PedidosScreenState extends State<_PedidosScreen> {
             DataCell(Text(linea.precio.toString())),
             DataCell(Text(linea.descuento.toString())),
             DataCell(Text(subtotal.toStringAsFixed(2))),
-            DataCell(InkWell(
-                onTap: () {
-                  context.read<PedidosBloc>().add(DeleteLinea(index: index));
-                },
-                child: Container(
+            DataCell(
+                Center(
                   child: Icon(
                     Icons.delete,
                     color: Colors.red,
                   ),
-                )))
+                ), onTap: () {
+              DeleteDialog.showDeleteDialog(context, onDelete: () {
+                context.read<PedidosBloc>().add(DeleteLinea(index: index));
+              });
+            })
           ],
           onSelectChanged: (value) => {
-                if (value == true)
+                if (value == true && !linea.envase)
                   {
                     LineaPedido2Dialog.openDialogWithData(
                         context, GlobalConstants.findProducto(linea.codart)!,
-                        index: int.parse(index.toString()),
-                        cantidad: linea.cantidad)
+                        index: index, cantidad: linea.cantidad)
                   }
               }));
     }
