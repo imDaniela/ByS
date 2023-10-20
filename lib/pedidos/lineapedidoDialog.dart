@@ -83,7 +83,7 @@ class LineaPedidoDialog {
                               ],
                               source: _ProductosDataSource(
                                   _controller.text == ''
-                                      ? state.productos_all
+                                      ? state.productos
                                       : state.productos,
                                   context), // Create a custom DataTableSource
                               // Add any additional properties and customization as per your requirements

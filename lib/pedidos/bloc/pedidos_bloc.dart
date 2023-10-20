@@ -109,15 +109,14 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
     on<SavePedidoEvent>((event, emit) async {
       if (state is PedidoBuilding) {
         PedidoBuilding estado = state as PedidoBuilding;
-        if (estado.lineas.length > 0) {
-          try {
-            await PedidosApi.SavePedido(event.codcli, estado.lineas,
-                observaciones: event.observaciones, intobs: event.intobs);
-            emit(PedidosSuccess());
-            emit(estado);
-            add(GetPedidoCliente(event.codcli));
-          } catch (exception) {}
-        }
+        List<PedidoLinea> lineas = sortLineas(estado.lineas);
+        try {
+          await PedidosApi.SavePedido(event.codcli, lineas,
+              observaciones: event.observaciones, intobs: event.intobs);
+          emit(PedidosSuccess());
+          emit(estado);
+          add(GetPedidoCliente(event.codcli));
+        } catch (exception) {}
       }
     });
 

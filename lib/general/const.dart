@@ -11,7 +11,9 @@ import 'package:flutter/cupertino.dart';
 
 class GlobalConstants {
   //static String apiEndPoint = "http://192.168.0.200:3000/";
-  static String apiEndPoint = "http://192.168.1.29:3001/";
+  static String apiEndPoint = "http://192.168.18.5:3000/";
+
+  ///static String apiEndPoint = "http://192.168.1.29:3001/";
   static final GlobalKey<NavigatorState> navState = GlobalKey<NavigatorState>();
   static final GlobalKey<ScaffoldMessengerState> scaffoldState =
       GlobalKey<ScaffoldMessengerState>();

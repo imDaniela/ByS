@@ -96,31 +96,26 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                           ),
                           state is PedidoBuilding
                               ? Container(
-                                  child: state.lineas.length > 0
-                                      ? FloatingActionButton(
-                                          child: Icon(Icons.save),
-                                          onPressed: () {
-                                            if (state_cliente
-                                                is ClientesdiaLoaded) {
-                                              ClientesdiaLoaded esta =
-                                                  state_cliente
-                                                      as ClientesdiaLoaded;
-                                              context.read<PedidosBloc>().add(
-                                                  SavePedidoEvent(
-                                                      codcli:
-                                                          esta.cliente!.codcli,
-                                                      observaciones: state
-                                                              .totales
-                                                              ?.observa ??
+                                  child: FloatingActionButton(
+                                      child: Icon(Icons.save),
+                                      onPressed: () {
+                                        if (state_cliente
+                                            is ClientesdiaLoaded) {
+                                          ClientesdiaLoaded esta = state_cliente
+                                              as ClientesdiaLoaded;
+                                          context.read<PedidosBloc>().add(
+                                              SavePedidoEvent(
+                                                  codcli: esta.cliente!.codcli,
+                                                  observaciones:
+                                                      state.totales?.observa ??
                                                           '',
-                                                      intobs: state.totales
-                                                              ?.obsint ??
+                                                  intobs:
+                                                      state.totales?.obsint ??
                                                           ''));
-                                            }
-                                          },
-                                          backgroundColor:
-                                              Color.fromRGBO(2, 136, 31, 1))
-                                      : Container())
+                                        }
+                                      },
+                                      backgroundColor:
+                                          Color.fromRGBO(2, 136, 31, 1)))
                               : Container(),
                         ],
                       ),
@@ -134,6 +129,7 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.vertical,
                                   child: DataTable(
+                                      columnSpacing: 30,
                                       showCheckboxColumn: false,
                                       headingRowColor: MaterialStateProperty
                                           .resolveWith<Color>((states) =>
@@ -143,7 +139,7 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                                         DataColumn(
                                           label: Expanded(
                                             child: Text(
-                                              'Cod. Art',
+                                              'CodArt',
                                               style: TextStyle(
                                                   fontStyle: FontStyle.italic,
                                                   color: Colors.white),
@@ -163,7 +159,7 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                                         DataColumn(
                                           label: Expanded(
                                             child: Text(
-                                              'Cantidad',
+                                              'Ud.',
                                               style: TextStyle(
                                                   fontStyle: FontStyle.italic,
                                                   color: Colors.white),
@@ -183,7 +179,7 @@ class _PedidosScreenState extends State<_PedidosScreen> {
                                         DataColumn(
                                           label: Expanded(
                                             child: Text(
-                                              '% Dto',
+                                              '%Dto',
                                               style: TextStyle(
                                                   fontStyle: FontStyle.italic,
                                                   color: Colors.white),
