@@ -23,7 +23,7 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
         GlobalConstants.productos = productos;
         List<Producto> productos_no_all = productos.toList();
         productos_no_all.removeWhere((element) {
-          return element.envase;
+          return element.envase == true;
         });
         emit(ProductosInitial(
             productos: productos_no_all, productos_all: productos));
@@ -34,9 +34,12 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
         ProductosInitial estado = state as ProductosInitial;
         emit(ProductosLoading());
         if (event.search == '') {
+          List<Producto> productos = estado.productos_all.toList();
+          productos.removeWhere((element) {
+            return element.envase == true;
+          });
           emit(ProductosInitial(
-              productos: estado.productos_all,
-              productos_all: estado.productos_all));
+              productos: productos, productos_all: estado.productos_all));
         } else {
           List<Producto> productos = estado.productos_all.toList();
           productos.removeWhere((element) =>

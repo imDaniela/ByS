@@ -39,7 +39,10 @@ class PedidosUpdateLinea extends PedidosEvent {
   final Producto producto;
   final int cantidad;
   final int index;
-
+  final bool envase;
   const PedidosUpdateLinea(
-      {required this.cantidad, required this.producto, required this.index});
+      {required this.cantidad,
+      required this.producto,
+      required this.index,
+      this.envase = false});
 }

@@ -55,7 +55,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       emit(PedidoBuilding(lineas: lineas, totales: totales));
       if (producto?.rel != null) {
         Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
-        if (producto_rel != null) {
+        if (producto_rel != null && producto.envase != true) {
           addRel(producto.rel!, event.cantidad);
         }
       }
@@ -72,7 +72,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
 
         emit(PedidoBuilding(lineas: lineas, totales: estado.totales));
         Producto? producto = GlobalConstants.findProducto(codart);
-        if (producto?.rel != null) {
+        if (producto?.rel != null && producto?.envase != true) {
           Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
           if (producto_rel != null) {
             addRel(producto.rel!, -canped);
@@ -128,6 +128,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
         lineas = estado.lineas;
         emit(PedidoLoading());
         int mount = (event.cantidad - lineas[event.index].cantidad);
+        print('cantidad: ${event.cantidad}, linea:${event.producto.des}');
         lineas[event.index] = (PedidoLinea(
             codart: event.producto.codart,
             cantidad: event.cantidad,
@@ -140,7 +141,10 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
         emit(PedidoBuilding(lineas: lineas, totales: estado.totales));
         Producto? producto =
             GlobalConstants.findProducto(event.producto.codart);
-        if (producto?.rel != null) {
+        print('linea ${producto?.des} ');
+        if (producto?.rel != null &&
+            producto?.envase != true &&
+            !event.envase) {
           Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
           if (producto_rel != null) {
             addRel(producto.rel!, mount);
@@ -175,13 +179,19 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       });
 
       if (index < 0) {
-        add(PedidosAddLinea(cantidad: amount, codart: rel));
+        print('menor que 0: $amount');
+        print(amount);
+        add(PedidosAddLinea(
+          cantidad: amount,
+          codart: rel,
+        ));
       } else {
         PedidoLinea linea = lineas[index];
 
         if ((linea.cantidad + amount) <= 0) {
           add(DeleteLinea(index: index));
         } else {
+          print('mayor que 0');
           Producto? producto = GlobalConstants.findProducto(rel);
           add(PedidosUpdateLinea(
               index: index,
