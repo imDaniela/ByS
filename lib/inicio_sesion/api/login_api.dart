@@ -19,7 +19,8 @@ class LoginApi {
 
   static Future<http.Response> Users() async {
     http.Response result = await customHttpGet(
-        Uri.parse('${GlobalConstants.apiEndPoint}get-users'));
+        Uri.parse('${GlobalConstants.apiEndPoint}get-users'),
+        timeout: Duration(seconds: 5));
     print(result.body);
     return result;
   }

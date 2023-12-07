@@ -39,103 +39,123 @@ class _CobrosScreen extends State<CobrosScreen> {
                     fontSize: 16.0);
               }
             },
-            builder: (context, state) => Column(
-                  children: <Widget>[
-                    Container(
-                        width: 1000000,
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
+            builder: (context, state) => state is ClientesdiaLoading
+                ? Expanded(
+                    flex: 5, child: Center(child: CircularProgressIndicator()))
+                : Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                            width: 1000000,
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: DataTable(
-                                  showCheckboxColumn: false,
-                                  headingRowColor: MaterialStateProperty
-                                      .resolveWith<Color>((states) =>
-                                          const Color.fromRGBO(142, 11, 44, 1)),
-                                  columns: const <DataColumn>[
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Nº Factura',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                scrollDirection: Axis.horizontal,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: DataTable(
+                                      showCheckboxColumn: false,
+                                      headingRowColor: MaterialStateProperty
+                                          .resolveWith<Color>((states) =>
+                                              const Color.fromRGBO(
+                                                  142, 11, 44, 1)),
+                                      columns: const <DataColumn>[
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Nº Factura',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'F. Factura',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'F. Factura',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'F. Venc',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'F. Venc',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Importe',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Importe',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'Pendiente',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'Pendiente',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: SizedBox(
-                                        child: Text(
-                                          'C. Hoy',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: SizedBox(
+                                            child: Text(
+                                              'C. Hoy',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    DataColumn(
-                                      label: Expanded(
-                                        child: Text(
-                                          'FP',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.white),
+                                        DataColumn(
+                                          label: Expanded(
+                                            child: Text(
+                                              'FP',
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                  rows: state is CobrosPendientes ||
-                                          state is CobrosPendientesRealizados
-                                      ? listado((state).deuda)
-                                      : []),
-                            ))),
-                    state is ClientesdiaLoading
-                        ? Expanded(
-                            flex: 5,
-                            child: Center(child: CircularProgressIndicator()))
-                        : Container(),
-                  ],
-                )));
+                                      ],
+                                      rows: state is CobrosPendientes ||
+                                              state
+                                                  is CobrosPendientesRealizados
+                                          ? listado((state).deuda)
+                                          : []),
+                                ))),
+                      ),
+                      Container(
+                        color: Color.fromRGBO(142, 11, 44, 1),
+                        height: 50,
+                        padding: EdgeInsets.only(left: 20, right: 100),
+                        child: state is CobrosPendientes
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                    Flexible(
+                                        child: Text(
+                                      'Total: ${(state as CobrosPendientes).deuda.deuda}',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                                  ])
+                            : Container(),
+                      )
+                    ],
+                  )));
   }
 
   List<DataRow> listado(ClienteSaldoPendiente? clientes) {
@@ -150,13 +170,13 @@ class _CobrosScreen extends State<CobrosScreen> {
             DataCell(Text(saldo.numfac.toString())),
             DataCell(Text(GlobalConstants.format.format(saldo.fecfac!))),
             DataCell(Text(GlobalConstants.format.format(saldo.fecven!))),
-            DataCell(Text(saldo.imprec.toString())),
-            DataCell(Text(saldo.restofactura.toString())),
-            DataCell(Text(saldo.cobrohoy.toString())),
+            DataCell(Text(saldo.imprec?.toStringAsFixed(2) ?? '0.00')),
+            DataCell(Text(saldo.restofactura?.toStringAsFixed(2) ?? '0.00')),
+            DataCell(Text(saldo.cobrohoy?.toStringAsFixed(2) ?? '0.00')),
             DataCell(Text('PV'))
           ],
           onSelectChanged: (bool? selected) {
-            CobroDialog.openDialogWithData(context, saldo.restofactura ?? 0,
+            CobroDialog().openDialogWithData(context, saldo.restofactura ?? 0,
                 saldo.numfac!, saldo.albfaclis ?? []);
             /*if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));

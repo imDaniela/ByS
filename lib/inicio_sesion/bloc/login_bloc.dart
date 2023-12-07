@@ -60,17 +60,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
     on<getUsersList>((event, emit) async {
       List<User>? usuarios = null;
-      http.Response? resp = await LoginApi.Users();
-      if (resp != null) {
-        if (resp.statusCode == 200) {
-          usuarios = await User.fromJsonList(resp.body);
+      try {
+        http.Response? resp = await LoginApi.Users();
+        if (resp != null) {
+          if (resp.statusCode == 200) {
+            usuarios = await User.fromJsonList(resp.body);
+          }
         }
-      }
-      print(usuarios);
-      if (state is LogedIn) {
-        emit(LogedIn(usuarios: usuarios));
-      } else {
-        emit(LoginInitial(usuarios: usuarios));
+        print(usuarios);
+        if (state is LogedIn) {
+          emit(LogedIn(usuarios: usuarios));
+        } else {
+          emit(LoginInitial(usuarios: usuarios));
+        }
+      } catch (ex) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        print('a');
+        add(getUsersList());
       }
     });
   }

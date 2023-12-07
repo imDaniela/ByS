@@ -17,24 +17,33 @@ class ClientesdiaBloc extends Bloc<ClientesdiaEvent, ClientesdiaState> {
       add(LoadClientesDia());
     });
     on<LoadClientesDia>((event, emit) async {
-      if (event.dia != null) {
-        emit(ClientesdiaLoading());
-        http.Response? resp;
+      try {
+        if (event.dia != null) {
+          emit(ClientesdiaLoading());
+          http.Response? resp;
 
-        resp = await ClientesDiaApi.GetClientesDia(event.dia!);
-
-        if (resp != null) {
-          if (resp.statusCode == 200) {
-            List<ClientesDia>? clientes = ClientesDia.fromJsonList(resp.body);
-            if (clientes != null) {
-              emit(ClientesdiaLoaded(
-                  clientes: clientes, clientes_all: clientes));
-              if (event.search != null && event.search != '') {
-                add(SearchCliente(event.search!));
+          resp = await ClientesDiaApi.GetClientesDia(event.dia!);
+          print(resp);
+          if (resp != null) {
+            if (resp.statusCode == 200) {
+              List<ClientesDia>? clientes = ClientesDia.fromJsonList(resp.body);
+              if (clientes != null) {
+                emit(ClientesdiaLoaded(
+                    clientes: clientes, clientes_all: clientes));
+                if (event.search != null && event.search != '') {
+                  add(SearchCliente(event.search!));
+                }
               }
             }
+          } else {
+            add(LoadClientesDia(
+                codrep: event.codrep, search: event.search, dia: event.dia));
           }
         }
+      } catch (ex) {
+        print('cargando clientes');
+        add(LoadClientesDia(
+            codrep: event.codrep, search: event.search, dia: event.dia));
       }
     });
     on<SelectClienteDia>((event, emit) {

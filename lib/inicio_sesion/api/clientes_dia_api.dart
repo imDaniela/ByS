@@ -10,7 +10,8 @@ class ClientesDiaApi {
     try {
       http.Response result = await customHttpGet(
           Uri.parse('${GlobalConstants.apiEndPoint}get-clientes-dia/${dia}'),
-          headers: GlobalConstants.header());
+          headers: GlobalConstants.header(),
+          timeout: Duration(seconds: 5));
 
       return result;
     } catch (ex) {}

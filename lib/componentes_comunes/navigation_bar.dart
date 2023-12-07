@@ -41,18 +41,22 @@ class _AppNavigationBar extends State<AppNavigationBar> {
           label: 'Clientes',
         ),
         BottomNavigationBarItem(
+          backgroundColor: Color.fromRGBO(142, 11, 44, 1),
           icon: Icon(Icons.rectangle_outlined),
           label: 'Pedidos',
         ),
         BottomNavigationBarItem(
+          backgroundColor: Color.fromRGBO(142, 11, 44, 1),
           icon: Icon(Icons.euro),
           label: 'Cobros',
         ),
         BottomNavigationBarItem(
+          backgroundColor: Color.fromRGBO(142, 11, 44, 1),
           icon: Icon(Icons.file_open),
           label: 'Archivos',
         ),
         BottomNavigationBarItem(
+          backgroundColor: Color.fromRGBO(142, 11, 44, 1),
           icon: Icon(Icons.person_2),
           label: 'Perfil',
         ),

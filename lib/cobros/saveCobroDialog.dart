@@ -13,16 +13,16 @@ import 'package:bys_app/pedidos/models/FacturaAlbaran.dart';
 enum PaymentMethod { contado, datafono, cheque, transferencia }
 
 class CobroDialog {
-  static void openDialogWithData(BuildContext context, double pendiente,
-      int numfac, List<FacturaAlbaran> albaranes) {
-    TextEditingController _controller = TextEditingController();
-    TextEditingController _datecontroller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
+  TextEditingController _datecontroller = TextEditingController();
+  void openDialogWithData(BuildContext context, double pendiente, int numfac,
+      List<FacturaAlbaran> albaranes) {
     String metodo = 'PV';
+    _controller.text = pendiente.toString();
+    _datecontroller.text = GlobalConstants.getHoyString();
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        _controller.text = pendiente.toString();
-        _datecontroller.text = GlobalConstants.getHoyString();
         return AlertDialog(
           title:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

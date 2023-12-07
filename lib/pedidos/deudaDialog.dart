@@ -13,9 +13,9 @@ class DialogHelper {
             DataCell(Text(element.numfac.toString())),
             DataCell(Text(GlobalConstants.format.format(element.fecfac!))),
             DataCell(Text(GlobalConstants.format.format(element.fecven!))),
-            DataCell(Text(element.imprec.toString())),
-            DataCell(Text(element.restofactura.toString())),
-            DataCell(Text(element.cobrohoy.toString())),
+            DataCell(Text(element.imprec?.toStringAsFixed(2) ?? '0.00')),
+            DataCell(Text(element.restofactura?.toStringAsFixed(2) ?? '0.00')),
+            DataCell(Text(element.cobrohoy?.toStringAsFixed(2) ?? '0.00')),
           ]));
         }
       });
@@ -77,7 +77,16 @@ class DialogHelper {
                       ],
                       rows: elementos(detalles),
                     ),
-                  ))
+                  )),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                width: double.infinity,
+                child: Text(
+                  'Total: ${number.toStringAsFixed(2)}',
+                  textAlign: TextAlign.end,
+                  style: TextStyle(),
+                ),
+              )
             ],
           ),
           actions: [

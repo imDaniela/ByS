@@ -37,18 +37,15 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
             linea_found = element;
           }
         });
-        if (linea_found != null) {
-          linea_found!.cantidad += event.cantidad;
-        } else {
-          lineas.add(PedidoLinea(
-              codart: event.codart,
-              cantidad: event.cantidad,
-              nombre: producto.des,
-              precio: producto.prevena,
-              sto: producto.sto,
-              descuento: producto.desc,
-              envase: producto.envase));
-        }
+
+        lineas.add(PedidoLinea(
+            codart: event.codart,
+            cantidad: event.cantidad,
+            nombre: producto.des,
+            precio: producto.prevena,
+            sto: producto.sto,
+            descuento: producto.desc,
+            envase: producto.envase));
       }
       lineas = sortLineas(lineas);
 
@@ -56,7 +53,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
       if (producto?.rel != null) {
         Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
         if (producto_rel != null && producto.envase != true) {
-          addRel(producto.rel!, event.cantidad);
+          add(CalculateRel());
         }
       }
     });
@@ -75,7 +72,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
         if (producto?.rel != null && producto?.envase != true) {
           Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
           if (producto_rel != null) {
-            addRel(producto.rel!, -canped);
+            add(CalculateRel());
           }
         }
       }
@@ -147,9 +144,47 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
             !event.envase) {
           Producto? producto_rel = GlobalConstants.findProducto(producto!.rel!);
           if (producto_rel != null) {
-            addRel(producto.rel!, mount);
+            add(CalculateRel());
           }
         }
+      }
+    });
+    on<CalculateRel>((event, emit) {
+      if (state is PedidoBuilding) {
+        PedidoBuilding estado = state as PedidoBuilding;
+        List<PedidoLinea> lineas = estado.lineas;
+        lineas.removeWhere((element) => element.envase);
+        List<PedidoLinea?> envases = [];
+        lineas.forEach((linea) {
+          Producto? producto = GlobalConstants.findProducto(linea.codart);
+          if (producto?.rel != null) {
+            Producto? _rel = GlobalConstants.findProducto(producto?.rel ?? '');
+            PedidoLinea? _found = envases.firstWhere(
+                (elemento) => elemento?.codart == _rel?.codart,
+                orElse: () => null);
+            if (_found != null) {
+              envases.remove(_found);
+              _found.cantidad += linea.cantidad;
+            } else {
+              _found = PedidoLinea(
+                  codart: _rel!.codart,
+                  cantidad: linea.cantidad,
+                  nombre: _rel.des,
+                  precio: _rel.prevena,
+                  sto: _rel.sto,
+                  descuento: _rel.desc,
+                  envase: _rel.envase);
+            }
+            envases.add(_found);
+          }
+        });
+        envases.forEach((element) {
+          if (element != null) {
+            lineas.add(element);
+          }
+        });
+
+        emit(PedidoBuilding(totales: estado.totales, lineas: lineas));
       }
     });
   }

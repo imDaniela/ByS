@@ -47,24 +47,30 @@ class _ZonaClienteState extends State<ZonaCliente>
               : 'TabBar Sample'),
         ),
         actions: [
-          BlocBuilder<PedidosBloc, PedidosState>(
-              builder: (context, state) => (state is PedidoBuilding)
-                  ? (state.totales?.numped != null
-                      ? Container(
-                          margin: EdgeInsets.only(right: 40),
-                          child: InkWell(
-                            onTap: () async {
-                              File file = await PedidosApi.getPedidoPdf(
-                                  state.totales?.numped ?? 0);
-                              await WhatsappShare.shareFile(
-                                phone: '',
-                                filePath: [file.path],
-                              );
-                            },
-                            child: Icon(Icons.message),
-                          ))
-                      : Container())
-                  : Container()),
+          BlocBuilder<ClientesdiaBloc, ClientesdiaState>(
+              builder: (context, state_cliente) =>
+                  BlocBuilder<PedidosBloc, PedidosState>(
+                      builder: (context, state) => (state is PedidoBuilding)
+                          ? (state_cliente is ClientesdiaLoaded)
+                              ? (state.totales?.numped != null
+                                  ? Container(
+                                      margin: EdgeInsets.only(right: 40),
+                                      child: InkWell(
+                                        onTap: () async {
+                                          File file =
+                                              await PedidosApi.getPedidoPdf(
+                                                  state.totales?.numped ?? 0);
+                                          await WhatsappShare.shareFile(
+                                              phone: '5',
+                                              filePath: [file.path],
+                                              package:
+                                                  Package.businessWhatsapp);
+                                        },
+                                        child: Icon(Icons.message),
+                                      ))
+                                  : Container())
+                              : Container()
+                          : Container())),
           Container(
               margin: EdgeInsets.only(right: 40),
               child: BlocBuilder<PedidosBloc, PedidosState>(

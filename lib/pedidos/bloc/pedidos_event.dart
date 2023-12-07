@@ -15,6 +15,8 @@ class PedidosAddLinea extends PedidosEvent {
   const PedidosAddLinea({required this.cantidad, required this.codart});
 }
 
+class CalculateRel extends PedidosEvent {}
+
 class SavePedidoEvent extends PedidosEvent {
   final int codcli;
   final String observaciones, intobs;

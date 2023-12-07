@@ -272,8 +272,8 @@ class _PedidosScreenState extends State<_PedidosScreen> {
             DataCell(Text(linea.codart.toString())),
             DataCell(Text(linea.nombre ?? '')),
             DataCell(Text(linea.cantidad.toString())),
-            DataCell(Text(linea.precio.toString())),
-            DataCell(Text(linea.descuento.toString())),
+            DataCell(Text(linea.precio.toStringAsFixed(2))),
+            DataCell(Text(linea.descuento?.toStringAsFixed(2) ?? '0')),
             DataCell(Text(subtotal.toStringAsFixed(2))),
             DataCell(
                 Center(

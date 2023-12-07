@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 Future<http.Response> customHttpGet(Uri url,
-    {Map<String, String>? headers}) async {
-  final response = await http.get(url, headers: GlobalConstants.header());
+    {Map<String, String>? headers, Duration? timeout}) async {
+  final response = await http
+      .get(url, headers: GlobalConstants.header())
+      .timeout(timeout ?? Duration(minutes: 1));
 
   if (response.statusCode == 503) {
     GlobalConstants.scaffoldState.currentState?.showSnackBar(
