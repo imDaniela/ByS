@@ -148,7 +148,7 @@ class _CobrosScreen extends State<CobrosScreen> {
                                 children: [
                                     Flexible(
                                         child: Text(
-                                      'Total: ${(state as CobrosPendientes).deuda.deuda}',
+                                      'Total: ${(state as CobrosPendientes).deuda.deuda.toStringAsFixed(2)}',
                                       style: TextStyle(color: Colors.white),
                                     )),
                                   ])
@@ -177,7 +177,7 @@ class _CobrosScreen extends State<CobrosScreen> {
           ],
           onSelectChanged: (bool? selected) {
             CobroDialog().openDialogWithData(context, saldo.restofactura ?? 0,
-                saldo.numfac!, saldo.albfaclis ?? []);
+                saldo.numfac!, saldo.imprec ?? 0, saldo.albfaclis ?? []);
             /*if (selected != null && selected) {
               context.read<ClientesdiaBloc>().add(SelectClienteDia(cliente));
               context.read<CobrosBloc>().add(CheckDeudaEvent(cliente.codcli));

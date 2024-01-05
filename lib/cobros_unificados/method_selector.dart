@@ -31,31 +31,33 @@ class _MethodSelectorState extends State<MethodSelector> {
     return Container(
         color: Color.fromRGBO(142, 11, 44, 1),
         padding: EdgeInsets.only(top: 50, bottom: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _customButton(
-                onPressed: ChangeIndex,
-                texto: 'Contado (PV)',
-                value: 'PV',
-                selected_index: selected_index),
-            _customButton(
-                onPressed: ChangeIndex,
-                texto: 'Datáfono (TC)',
-                value: 'TC',
-                selected_index: selected_index),
-            _customButton(
-                onPressed: ChangeIndex,
-                texto: 'Cheque (CH)',
-                value: 'CH',
-                selected_index: selected_index),
-            _customButton(
-                onPressed: ChangeIndex,
-                texto: 'Transferencia (TF)',
-                value: 'TF',
-                selected_index: selected_index),
-          ],
-        ));
+        child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _customButton(
+                    onPressed: ChangeIndex,
+                    texto: 'Contado (PV)',
+                    value: 'PV',
+                    selected_index: selected_index),
+                _customButton(
+                    onPressed: ChangeIndex,
+                    texto: 'Datáfono (TC)',
+                    value: 'TC',
+                    selected_index: selected_index),
+                _customButton(
+                    onPressed: ChangeIndex,
+                    texto: 'Cheque (CH)',
+                    value: 'CH',
+                    selected_index: selected_index),
+                _customButton(
+                    onPressed: ChangeIndex,
+                    texto: 'Transferencia (TF)',
+                    value: 'TF',
+                    selected_index: selected_index),
+              ],
+            )));
   }
 
   Widget _customButton(

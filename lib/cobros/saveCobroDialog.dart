@@ -16,9 +16,9 @@ class CobroDialog {
   TextEditingController _controller = TextEditingController();
   TextEditingController _datecontroller = TextEditingController();
   void openDialogWithData(BuildContext context, double pendiente, int numfac,
-      List<FacturaAlbaran> albaranes) {
+      double importe, List<FacturaAlbaran> albaranes) {
     String metodo = 'PV';
-    _controller.text = pendiente.toString();
+    _controller.text = pendiente.toStringAsFixed(2);
     _datecontroller.text = GlobalConstants.getHoyString();
     showDialog(
       context: context,
@@ -43,15 +43,16 @@ class CobroDialog {
               children: [
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Text('Pendiente: ${pendiente}')),
+                    child: Text('Pendiente: ${pendiente.toStringAsFixed(2)}')),
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Text('Importe:')),
+                    child: Text('Importe: ${importe.toStringAsFixed(2)}')),
                 Container(
                     width: 10000000,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.numberWithOptions(
+                            decimal: true, signed: true),
                         controller: _controller,
                         cursorColor: const Color.fromRGBO(142, 11, 44, 1),
                         decoration: InputDecoration(

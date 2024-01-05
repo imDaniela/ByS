@@ -152,7 +152,7 @@ class _CobrosScreen extends State<CobrosRealizadosScreen> {
     cobros.forEach((element) {
       result += element.importe ?? 0;
     });
-    return result.toString();
+    return result.toStringAsFixed(2);
   }
 
   List<DataRow> listado(CobrosRealizadosBuilding state, String metodo) {
